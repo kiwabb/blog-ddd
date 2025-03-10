@@ -4,6 +4,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-brightgreen)](https://spring.io/projects/spring-boot)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 一个遵循领域驱动设计（DDD）原则构建的博客系统核心框架，提供文章管理、分类体系和标签系统的标准化实现。
 
 ## 🚀 已实现功能
