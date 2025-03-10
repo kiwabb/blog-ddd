@@ -1,0 +1,28 @@
+server:
+  port: 9801
+
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=order&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: postgres
+    password: 12345678
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+springdoc:
+  show-actuator: true
+  model-and-view-allowed: true
+  default-produces-media-type: application/json
+  api-docs:
+    groups:
+      enabled: true
+  packagesToScan: com.jackmouse.system.blog
