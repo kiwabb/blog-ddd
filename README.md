@@ -97,17 +97,16 @@ mvn spring-boot:run -pl blog-container
 ## 🧬 领域模型
 ~~~ mermaid
 classDiagram
-class Article 
-{ 
-<<Aggregate Root>> 
--UUID id 
--String title 
--String content 
--Category category 
--List<Tag> tags 
--LocalDateTime publishTime 
-+publish() 
-+updateContent() 
+class Article{
+<<Aggregate Root>>
+-UUID id
+-String title
+-String content
+-Category category
+-List<Tag> tags
+-LocalDateTime publishTime
++publish()
++updateContent()
 }
 class Category {
     <<Entity>>
