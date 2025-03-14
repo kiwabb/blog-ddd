@@ -1,7 +1,7 @@
 package com.jackmouse.system.blog.dataaccess.article.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
  **/
 @Data
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tag", schema = "blog")
 public class TagEntity {
     @Id

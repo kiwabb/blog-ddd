@@ -1,5 +1,7 @@
 package com.jackmouse.system.blog.application.ports.input.service;
 
+import com.jackmouse.system.blog.application.dto.create.CreateArticleCommand;
+import com.jackmouse.system.blog.application.dto.create.CreateArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.ArticleIdQuery;
 import com.jackmouse.system.blog.application.dto.query.ArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.QueryMainSortCategoryArticlesResponse;
@@ -18,4 +20,6 @@ public interface ArticleApplicationService {
     List<QueryMainSortCategoryArticlesResponse> queryMainSortCategoryArticles();
 
     ArticleResponse queryArticleById(ArticleIdQuery articleIdQuery);
+
+    CreateArticleResponse createArticle(CreateArticleCommand createArticleCommand);
 }

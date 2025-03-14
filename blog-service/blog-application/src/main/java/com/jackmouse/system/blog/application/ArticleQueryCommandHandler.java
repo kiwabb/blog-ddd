@@ -49,6 +49,7 @@ public class ArticleQueryCommandHandler {
             log.warn("Article not found id = {}.", articleIdQuery.getArticleId());
             throw new BlogNotFoundException("Article not found id = " + articleIdQuery.getArticleId() + ".");
         }
+        article.generateHotScore();
         return articleDataMapper.articleToArticleResponse(article);
     }
 }

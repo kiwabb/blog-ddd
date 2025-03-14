@@ -2,7 +2,7 @@ package com.jackmouse.system.blog.dataaccess.article.entity;
 
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleStatus;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,10 +17,14 @@ import java.util.UUID;
  **/
 @Data
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "article", schema = "blog")
 public class ArticleEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
     @Column(columnDefinition = "UUID")
     private UUID id;
 
@@ -38,7 +42,7 @@ public class ArticleEntity {
     private CategoryEntity categoryEntity;
 
     @Column(name = "author_id", nullable = false, length = 32)
-    private String authorId;
+    private Long authorId;
 
     @Column(name = "author_name", nullable = false, length = 64)
     private String authorName;
@@ -64,6 +68,9 @@ public class ArticleEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Version
+    private Long version;
 
     @ManyToMany
     @JoinTable(

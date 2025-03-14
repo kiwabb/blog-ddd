@@ -1,3 +1,89 @@
+DROP SCHEMA IF EXISTS "blog" CASCADE;
+
+CREATE SCHEMA "blog";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+DROP TYPE IF EXISTS article_status;
+create type article_status as enum ('DRAFT', 'PUBLISHED', 'PENDING_APPROVAL', 'DELETED', 'TAKEN_DOWN');
+
+-- Drop table
+
+-- DROP TABLE article;
+
+CREATE TABLE article (
+                         id uuid NOT NULL,
+                         title varchar(255) NOT NULL,
+                         "content" text NOT NULL,
+                         cover_url varchar(512) NULL,
+                         category_id int8 NOT NULL,
+                         author_id varchar(32) NOT NULL,
+                         author_name varchar(64) NOT NULL,
+                         view_count int4 DEFAULT 0 NOT NULL,
+                         like_count int4 DEFAULT 0 NOT NULL,
+                         status public."article_status" NOT NULL,
+                         publish_time timestamptz NULL,
+                         is_top bool DEFAULT false NULL,
+                         created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                         updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                         "version" int8 DEFAULT 0 NULL,
+                         CONSTRAINT article_like_count_check CHECK ((like_count >= 0)),
+                         CONSTRAINT article_pkey PRIMARY KEY (id),
+                         CONSTRAINT article_view_count_check CHECK ((view_count >= 0))
+);
+CREATE INDEX idx_article_category ON blog.article USING btree (category_id);
+CREATE INDEX idx_article_status ON blog.article USING btree (status);
+CREATE INDEX idx_publish_time ON blog.article USING btree (publish_time);
+
+
+-- blog.article_tag definition
+
+-- Drop table
+
+-- DROP TABLE article_tag;
+
+CREATE TABLE article_tag (
+                             article_id uuid NOT NULL,
+                             tag_id int8 NOT NULL,
+                             created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                             CONSTRAINT article_tag_pkey PRIMARY KEY (article_id, tag_id)
+);
+CREATE INDEX idx_article_tag ON blog.article_tag USING btree (tag_id);
+
+
+-- blog.category definition
+
+-- Drop table
+
+-- DROP TABLE category;
+
+CREATE TABLE category (
+                          id bigserial NOT NULL,
+                          "name" varchar(50) NOT NULL,
+                          sort int4 DEFAULT 0 NOT NULL,
+                          created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                          updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                          is_deleted bool DEFAULT false NULL,
+                          CONSTRAINT category_name_key UNIQUE (name),
+                          CONSTRAINT category_pkey PRIMARY KEY (id),
+                          CONSTRAINT category_sort_check CHECK ((sort >= 0))
+);
+
+
+-- blog.tag definition
+
+-- Drop table
+
+-- DROP TABLE tag;
+
+CREATE TABLE tag (
+                     id bigserial NOT NULL,
+                     "name" varchar(50) NOT NULL,
+                     created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                     updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
+                     is_deleted bool DEFAULT false NULL,
+                     CONSTRAINT tag_name_key UNIQUE (name),
+                     CONSTRAINT tag_pkey PRIMARY KEY (id)
+);
 -- 插入20条文章数据
 INSERT INTO "blog".category (name, sort, is_deleted) VALUES
                                                          ('技术', 1, false),

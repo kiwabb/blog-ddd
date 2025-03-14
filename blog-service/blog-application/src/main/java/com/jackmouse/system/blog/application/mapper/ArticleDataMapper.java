@@ -1,8 +1,16 @@
 package com.jackmouse.system.blog.application.mapper;
 
+import com.jackmouse.system.blog.application.dto.create.CreateArticleCommand;
+import com.jackmouse.system.blog.application.dto.create.CreateArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.*;
 import com.jackmouse.system.blog.domain.article.entity.Article;
+import com.jackmouse.system.blog.domain.article.entity.Category;
+import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
+import com.jackmouse.system.blog.domain.article.valueobject.ArticleContent;
+import com.jackmouse.system.blog.domain.article.valueobject.ArticleStatus;
+import com.jackmouse.system.blog.domain.article.valueobject.ArticleTitle;
+import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -79,6 +87,30 @@ public class ArticleDataMapper {
                 .tags(article.getTags().stream().map(tag ->
                                 TagResponse.builder().tagId(tag.getId()).tagName(tag.getName().value()).build())
                         .toList())
+                .hotScore(article.getHotScore().value())
+                .build();
+    }
+
+    public Article createArticleCommandToArticle(CreateArticleCommand createArticleCommand) {
+        return Article.builder()
+                .title(new ArticleTitle(createArticleCommand.getTitle()))
+                .content(new ArticleContent(createArticleCommand.getContent()))
+                .cover(new ImageUrl(createArticleCommand.getCover()))
+                .category(Category.builder()
+                        .id(createArticleCommand.getCategoryId()).build())
+                .tags(createArticleCommand.getTagIds().stream().map(tagId -> Tag.builder()
+                        .id(tagId)
+                        .build()).toList())
+                .status(createArticleCommand.isDraft() ? ArticleStatus.DRAFT : ArticleStatus.PENDING_APPROVAL)
+                .build()
+                ;
+    }
+
+    public CreateArticleResponse articleToCreateArticleResponse(Article article) {
+        return CreateArticleResponse.builder()
+                .articleId(article.getId().getValue())
+                .status(article.getStatus())
+                .message("Article created successfully")
                 .build();
     }
 }

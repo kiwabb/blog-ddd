@@ -60,4 +60,10 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         ArticleEntity articleEntity = articleJpaRepository.findById(id.getValue()).orElse(null);
         return articleEntity == null ? null : articleDataAccessMapper.articleEntityToArticle(articleEntity);
     }
+
+    @Override
+    public Article save(Article article) {
+        ArticleEntity saveArticle = articleJpaRepository.save(articleDataAccessMapper.articleToArticleEntity(article));
+        return articleDataAccessMapper.articleEntityToArticle(saveArticle);
+    }
 }

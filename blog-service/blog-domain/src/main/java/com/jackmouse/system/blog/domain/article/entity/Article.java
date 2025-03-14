@@ -3,10 +3,12 @@ package com.jackmouse.system.blog.domain.article.entity;
 import com.jackmouse.system.blog.domain.article.valueobject.*;
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleStats;
+import com.jackmouse.system.blog.domain.exception.BlogDomainException;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName Article
@@ -17,16 +19,15 @@ import java.util.List;
  **/
 public class Article extends AggregateRoot<ArticleId> {
 
-    private final AuthorInfo author;
+    private AuthorInfo author;
     private final ArticleTitle title;
     private final ArticleContent content;
     private final ImageUrl cover;
     private final Category category;
     private final List<Tag> tags;
-    private final ArticleStats stats;
     private final LocalDateTime publishTime;
+    private ArticleStats stats;
     private HotScore hotScore;
-
 
     private ArticleStatus status;
 
@@ -84,6 +85,25 @@ public class Article extends AggregateRoot<ArticleId> {
 
     public ArticleStatus getStatus() {
         return status;
+    }
+    public HotScore getHotScore() {
+        return hotScore;
+    }
+
+    public void validateArticle() {
+        validateInitialArticle();
+    }
+
+    private void validateInitialArticle() {
+        if (getId() != null || (status != ArticleStatus.PENDING_APPROVAL  && status != ArticleStatus.DRAFT)) {
+            throw new BlogDomainException("Article is not in correct state for initialization!");
+        }
+    }
+
+    public void initializeArticle() {
+        setId(new ArticleId(UUID.randomUUID()));
+        stats = ArticleStats.initializeStats();
+        author = new AuthorInfo(1L, "admin");
     }
 
     public static final class Builder {

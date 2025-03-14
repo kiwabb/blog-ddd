@@ -1,5 +1,7 @@
 package com.jackmouse.system.blog.interfaces.rest;
 
+import com.jackmouse.system.blog.application.dto.create.CreateArticleCommand;
+import com.jackmouse.system.blog.application.dto.create.CreateArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.ArticleIdQuery;
 import com.jackmouse.system.blog.application.dto.query.ArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.QueryMainSortCategoryArticlesResponse;
@@ -12,11 +14,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -203,5 +203,15 @@ public class ArticleController {
     @GetMapping("/{id}")
     public Result<ArticleResponse> queryArticleById(@PathVariable("id") UUID id) {
         return Result.succeed(articleApplicationService.queryArticleById(ArticleIdQuery.builder().articleId(id).build()));
+    }
+
+    @Operation(
+            summary = "创建文章",
+            description = "创建一篇新的文章",
+            method = "POST"
+    )
+    @PostMapping()
+    public Result<CreateArticleResponse> createArticle(@Valid @RequestBody CreateArticleCommand createArticleCommand) {
+        return Result.succeed(articleApplicationService.createArticle(createArticleCommand));
     }
 }

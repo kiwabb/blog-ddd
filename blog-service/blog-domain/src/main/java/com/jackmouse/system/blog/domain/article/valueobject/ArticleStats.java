@@ -30,6 +30,11 @@ public record ArticleStats(
             throw new BlogDomainException("阅读数不能小于0");
         }
     }
+
+    public static ArticleStats initializeStats() {
+        return new ArticleStats(0, 0, 0, 0);
+    }
+
     public ArticleStats incrementLikes() {
         return new ArticleStats(likes + 1, favorites, commentCount, readCount);
     }

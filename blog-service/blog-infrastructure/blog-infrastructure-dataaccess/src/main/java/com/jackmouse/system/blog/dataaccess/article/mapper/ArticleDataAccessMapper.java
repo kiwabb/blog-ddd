@@ -1,6 +1,8 @@
 package com.jackmouse.system.blog.dataaccess.article.mapper;
 
 import com.jackmouse.system.blog.dataaccess.article.entity.ArticleEntity;
+import com.jackmouse.system.blog.dataaccess.article.entity.CategoryEntity;
+import com.jackmouse.system.blog.dataaccess.article.entity.TagEntity;
 import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
@@ -66,6 +68,27 @@ public class ArticleDataAccessMapper {
                                         .build()
                         )
                         .toList())
+                .build();
+    }
+
+    public ArticleEntity articleToArticleEntity(Article article) {
+        return ArticleEntity.builder()
+                .id(article.getId().getValue())
+                .title(article.getTitle().value())
+                .content(article.getContent().value())
+                .coverUrl(article.getCover().value())
+                .categoryEntity(CategoryEntity.builder()
+                        .id(article.getCategory().getId())
+                        .build())
+                .authorId(article.getAuthor().authorId())
+                .authorName(article.getAuthor().authorName())
+                .viewCount(article.getStats().readCount())
+                .likeCount(article.getStats().likes())
+                .status(article.getStatus())
+                .tagEntities(article.getTags().stream().map(tag ->
+                        TagEntity.builder()
+                                .id(tag.getId())
+                                .build()).toList())
                 .build();
     }
 }

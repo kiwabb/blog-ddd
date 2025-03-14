@@ -18,4 +18,6 @@ public interface ArticleRepository {
     List<ArticleSummary> findPublishSortCategoryArticles();
 
     Article findById(ArticleId id);
+
+    Article save(Article article);
 }

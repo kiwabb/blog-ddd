@@ -1,7 +1,7 @@
 package com.jackmouse.system.blog.config;
 
-import com.jackmouse.system.blog.domain.article.ArticleQueryService;
-import com.jackmouse.system.blog.domain.article.ArticleQueryServiceImpl;
+import com.jackmouse.system.blog.domain.article.ArticleDomainService;
+import com.jackmouse.system.blog.domain.article.ArticleDomainServiceImpl;
 import com.jackmouse.system.blog.domain.article.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,13 +16,9 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class BeanConfiguration {
-
-    @Autowired
-    private ArticleRepository articleRepository;
-
     @Bean
-    public ArticleQueryService articleQueryService(){
-        return new ArticleQueryServiceImpl(articleRepository);
+    public ArticleDomainService articleQueryService(){
+        return new ArticleDomainServiceImpl();
     }
 
 }
