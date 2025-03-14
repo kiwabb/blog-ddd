@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.valueobject.*;
+import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import org.springframework.stereotype.Component;
 
 /**

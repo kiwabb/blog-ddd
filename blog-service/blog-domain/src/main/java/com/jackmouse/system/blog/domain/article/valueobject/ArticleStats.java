@@ -1,7 +1,7 @@
 package com.jackmouse.system.blog.domain.article.valueobject;
 
 
-import com.jackmouse.system.blog.domain.article.exception.BlogDomainException;
+import com.jackmouse.system.blog.domain.exception.BlogDomainException;
 
 /**
  * @ClassName ArticleStats

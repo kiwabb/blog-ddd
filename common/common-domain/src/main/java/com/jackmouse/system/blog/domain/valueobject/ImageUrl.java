@@ -1,4 +1,4 @@
-package com.jackmouse.system.blog.domain.article.valueobject;
+package com.jackmouse.system.blog.domain.valueobject;
 
 /**
  * @ClassName ArticleCover

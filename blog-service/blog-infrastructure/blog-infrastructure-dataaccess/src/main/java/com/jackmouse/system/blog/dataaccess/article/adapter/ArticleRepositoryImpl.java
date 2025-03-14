@@ -47,6 +47,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
                     articleJpaRepository.findTop6ByCategoryEntityAndStatusOrderByPublishTimeDesc(categoryEntity, ArticleStatus.PUBLISHED);
             articleEntities.addAll(articles);
         });
+
         return articleEntities.stream()
                 .map(articleDataAccessMapper::articleEntityToArticleSummary)
                 .toList();

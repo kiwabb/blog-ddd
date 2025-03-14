@@ -1,4 +1,4 @@
-package com.jackmouse.system.blog.domain.article.exception;
+package com.jackmouse.system.blog.domain.exception;
 
 /**
  * @ClassName BlogDomainException
