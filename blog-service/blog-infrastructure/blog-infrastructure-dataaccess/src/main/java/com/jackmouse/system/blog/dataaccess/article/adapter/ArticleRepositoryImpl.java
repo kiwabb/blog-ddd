@@ -5,8 +5,10 @@ import com.jackmouse.system.blog.dataaccess.article.entity.CategoryEntity;
 import com.jackmouse.system.blog.dataaccess.article.mapper.ArticleDataAccessMapper;
 import com.jackmouse.system.blog.dataaccess.article.repoository.ArticleJpaRepository;
 import com.jackmouse.system.blog.dataaccess.article.repoository.CategoryJpaRepository;
+import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.repository.ArticleRepository;
+import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleStatus;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,5 +53,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         return articleEntities.stream()
                 .map(articleDataAccessMapper::articleEntityToArticleSummary)
                 .toList();
+    }
+
+    @Override
+    public Article findById(ArticleId id) {
+        ArticleEntity articleEntity = articleJpaRepository.findById(id.getValue()).orElse(null);
+        return articleEntity == null ? null : articleDataAccessMapper.articleEntityToArticle(articleEntity);
     }
 }

@@ -1,7 +1,9 @@
 package com.jackmouse.system.blog.interfaces.rest;
 
+import com.jackmouse.system.blog.application.dto.query.ArticleIdQuery;
+import com.jackmouse.system.blog.application.dto.query.ArticleResponse;
 import com.jackmouse.system.blog.application.dto.query.QueryMainSortCategoryArticlesResponse;
-import com.jackmouse.system.blog.application.ports.input.service.ArticleQueryApplicationService;
+import com.jackmouse.system.blog.application.ports.input.service.ArticleApplicationService;
 import com.jackmouse.system.blog.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,10 +14,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @ClassName ArticleController
@@ -29,10 +33,10 @@ import java.util.List;
 @RestController
 @RequestMapping( value = "/article", produces = "application/json")
 public class ArticleController {
-    private final ArticleQueryApplicationService articleQueryApplicationService;
+    private final ArticleApplicationService articleApplicationService;
 
-    public ArticleController(ArticleQueryApplicationService articleQueryApplicationService) {
-        this.articleQueryApplicationService = articleQueryApplicationService;
+    public ArticleController(ArticleApplicationService articleApplicationService) {
+        this.articleApplicationService = articleApplicationService;
     }
 
     @Operation(
@@ -104,6 +108,100 @@ public class ArticleController {
     })
     @GetMapping("/main")
     public Result<List<QueryMainSortCategoryArticlesResponse>> queryMainSortCategoryArticles() {
-        return Result.succeed(articleQueryApplicationService.queryMainSortCategoryArticles());
+        return Result.succeed(articleApplicationService.queryMainSortCategoryArticles());
+    }
+
+    @Operation(
+            summary = "获取文章详情",
+            description = "根据文章ID查询文章详情",
+            method = "GET"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "查询成功",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Result.class),
+                            examples = @ExampleObject(
+                                    name = "ArticleDetailExample",
+                                    value = """
+                {
+                  "code": 200,
+                  "message": "操作成功",
+                  "data": {
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "title": "深入理解DDD架构",
+                    "content": "领域驱动设计（DDD）是一种软件设计方法论...",
+                    "status": "PUBLISHED",
+                    "category": {
+                      "id": 1,
+                      "name": "技术文章"
+                    },
+                    "tags": [
+                      {"name": "架构设计"},
+                      {"name": "DDD"}
+                    ],
+                    "author": {
+                      "id": "user-123",
+                      "name": "张三",
+                      "avatar": "/avatars/user123.jpg"
+                    },
+                    "stats": {
+                      "likeCount": 256,
+                      "favoriteCount": 89,
+                      "commentCount": 34,
+                      "readCount": 1024,
+                      "hotScore": 8.5
+                    },
+                    "publishTime": "2025-03-07T10:00:00",
+                    "lastModifiedTime": "2025-03-07T11:30:00",
+                    "attachments": [
+                      {
+                        "name": "架构图.png",
+                        "url": "/attachments/arch.png",
+                        "type": "IMAGE"
+                      }
+                    ]
+                  }
+                }
+                """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "文章不存在",
+                    content = @Content(
+                            schema = @Schema(implementation = Result.class),
+                            examples = @ExampleObject(
+                                    value = """
+                {
+                  "code": 404,
+                  "message": "指定文章不存在"
+                }
+                """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "服务器内部错误",
+                    content = @Content(
+                            schema = @Schema(implementation = Result.class),
+                            examples = @ExampleObject(
+                                    value = """
+                {
+                  "code": 500,
+                  "message": "系统繁忙，请稍后再试"
+                }
+                """
+                            )
+                    )
+            )
+    })
+    @GetMapping("/{id}")
+    public Result<ArticleResponse> queryArticleById(@PathVariable("id") UUID id) {
+        return Result.succeed(articleApplicationService.queryArticleById(ArticleIdQuery.builder().articleId(id).build()));
     }
 }

@@ -1,9 +1,7 @@
 package com.jackmouse.system.blog.application.mapper;
 
-import com.jackmouse.system.blog.application.dto.query.ArticleSummaryResponse;
-import com.jackmouse.system.blog.application.dto.query.CategoryResponse;
-import com.jackmouse.system.blog.application.dto.query.QueryMainSortCategoryArticlesResponse;
-import com.jackmouse.system.blog.application.dto.query.TagResponse;
+import com.jackmouse.system.blog.application.dto.query.*;
+import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import org.springframework.stereotype.Component;
 
@@ -64,5 +62,23 @@ public class ArticleDataMapper {
                                 TagResponse.builder().tagId(tag.getId()).tagName(tag.getName().value()).build())
                         .toList())
                 .build()).toList();
+    }
+
+    public ArticleResponse articleToArticleResponse(Article article) {
+        return ArticleResponse.builder()
+                .id(article.getId().getValue())
+                .title(article.getTitle().value())
+                .content(article.getContent().value())
+                .cover(article.getCover().value())
+                .author(article.getAuthor().authorName())
+                .publishTime(article.getPublishTime())
+                .category(CategoryResponse.builder()
+                        .categoryId(article.getCategory().getId())
+                        .categoryName(article.getCategory().getName().value())
+                        .build())
+                .tags(article.getTags().stream().map(tag ->
+                                TagResponse.builder().tagId(tag.getId()).tagName(tag.getName().value()).build())
+                        .toList())
+                .build();
     }
 }

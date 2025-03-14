@@ -25,6 +25,7 @@ public class Article extends AggregateRoot<ArticleId> {
     private final List<Tag> tags;
     private final ArticleStats stats;
     private final LocalDateTime publishTime;
+    private HotScore hotScore;
 
 
     private ArticleStatus status;
@@ -42,7 +43,9 @@ public class Article extends AggregateRoot<ArticleId> {
         publishTime = builder.publishTime;
     }
 
-
+    public void generateHotScore() {
+        hotScore = HotScore.calculate(stats, publishTime);
+    }
     public static Builder builder() {
         return new Builder();
     }
