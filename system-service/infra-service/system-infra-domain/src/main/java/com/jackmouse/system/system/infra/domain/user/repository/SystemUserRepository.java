@@ -3,6 +3,10 @@ package com.jackmouse.system.system.infra.domain.user.repository;
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
+import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName SystemUserRepository
@@ -14,4 +18,12 @@ import com.jackmouse.system.system.infra.domain.user.specification.query.UserPag
 public interface SystemUserRepository {
 
     PageResult<User> findPage(UserPageQuerySpec query);
+
+    Optional<User> findById(UserId userId);
+
+    void save(User user);
+
+    void remove(List<User> user);
+
+
 }

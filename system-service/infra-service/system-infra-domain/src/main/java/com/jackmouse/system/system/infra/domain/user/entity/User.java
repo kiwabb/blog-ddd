@@ -1,9 +1,7 @@
 package com.jackmouse.system.system.infra.domain.user.entity;
 
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
-import com.jackmouse.system.blog.domain.valueobject.Email;
-import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
-import com.jackmouse.system.blog.domain.valueobject.Mobile;
+import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
@@ -19,13 +17,15 @@ import java.util.List;
  * @Version 1.0
  **/
 public class User extends AggregateRoot<UserId> {
-    private final String password;
+    private final Password password;
     private final UserType userType;
     private final Email email;
     private final Mobile mobile;
     private final UserStatus status;
     private final ImageUrl avatar;
     private final Username username;
+    private final Version version;
+    private final Sex sex;
 
     private List<Long> roleIds;
     private List<Long> deptIds;
@@ -39,16 +39,26 @@ public class User extends AggregateRoot<UserId> {
         status = builder.status;
         avatar = builder.avatar;
         username = builder.username;
+        sex = builder.sex;
         roleIds = builder.roleIds;
         deptIds = builder.deptIds;
+        version = builder.version;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public String getPassword() {
+    public Password getPassword() {
         return password;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public Sex getSex() {
+        return sex;
     }
 
     public UserType getUserType() {
@@ -84,16 +94,19 @@ public class User extends AggregateRoot<UserId> {
     }
 
     public static final class Builder {
+        public Version version;
         private UserId userId;
-        private String password;
+        private Password password;
         private UserType userType;
         private Email email;
         private Mobile mobile;
         private UserStatus status;
         private ImageUrl avatar;
         private Username username;
+        private Sex sex;
         private List<Long> roleIds;
         private List<Long> deptIds;
+        private UserId id;
 
         private Builder() {
         }
@@ -103,7 +116,7 @@ public class User extends AggregateRoot<UserId> {
             return this;
         }
 
-        public Builder password(String val) {
+        public Builder password(Password val) {
             password = val;
             return this;
         }
@@ -138,6 +151,11 @@ public class User extends AggregateRoot<UserId> {
             return this;
         }
 
+        public Builder sex(Sex val) {
+            sex = val;
+            return this;
+        }
+
         public Builder roleIds(List<Long> val) {
             roleIds = val;
             return this;
@@ -148,8 +166,14 @@ public class User extends AggregateRoot<UserId> {
             return this;
         }
 
+        public Builder version(Version val) {
+            version = val;
+            return this;
+        }
+
         public User build() {
             return new User(this);
         }
+
     }
 }

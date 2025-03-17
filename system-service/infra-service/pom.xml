@@ -13,6 +13,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>system-infra-domain</module>
+        <module>system-infra-infrastructure</module>
+        <module>system-infra-application</module>
+        <module>system-infra-container</module>
+        <module>system-infra-interface</module>
     </modules>
 
     <properties>

@@ -10,7 +10,7 @@ import com.jackmouse.system.blog.domain.valueobject.BaseId;
  * @Version 1.0
  **/
 public class UserId extends BaseId<Long> {
-    protected UserId(Long value) {
+    public UserId(Long value) {
         super(value);
     }
 }

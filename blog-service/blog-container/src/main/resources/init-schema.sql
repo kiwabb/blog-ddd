@@ -2,88 +2,83 @@ DROP SCHEMA IF EXISTS "blog" CASCADE;
 
 CREATE SCHEMA "blog";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 DROP TYPE IF EXISTS article_status;
-create type article_status as enum ('DRAFT', 'PUBLISHED', 'PENDING_APPROVAL', 'DELETED', 'TAKEN_DOWN');
+CREATE TYPE article_status AS ENUM ('DRAFT', 'PUBLISHED', 'PENDING_APPROVAL', 'DELETED', 'TAKEN_DOWN');
 
--- Drop table
-
--- DROP TABLE article;
-
-CREATE TABLE article (
-                         id uuid NOT NULL,
-                         title varchar(255) NOT NULL,
-                         "content" text NOT NULL,
-                         cover_url varchar(512) NULL,
-                         category_id int8 NOT NULL,
-                         author_id varchar(32) NOT NULL,
-                         author_name varchar(64) NOT NULL,
-                         view_count int4 DEFAULT 0 NOT NULL,
-                         like_count int4 DEFAULT 0 NOT NULL,
-                         status public."article_status" NOT NULL,
-                         publish_time timestamptz NULL,
-                         is_top bool DEFAULT false NULL,
-                         created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                         updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                         "version" int8 DEFAULT 0 NULL,
-                         CONSTRAINT article_like_count_check CHECK ((like_count >= 0)),
-                         CONSTRAINT article_pkey PRIMARY KEY (id),
-                         CONSTRAINT article_view_count_check CHECK ((view_count >= 0))
+--------------------------
+-- 分类表（核心基础数据）
+--------------------------
+DROP TABLE IF EXISTS "blog".category CASCADE;
+CREATE TABLE "blog".category (
+                                 id BIGSERIAL PRIMARY KEY,
+                                 name VARCHAR(50) NOT NULL UNIQUE,
+                                 sort INT NOT NULL DEFAULT 0 CHECK (sort >= 0),
+                                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                 updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                 is_deleted BOOLEAN DEFAULT false
 );
-CREATE INDEX idx_article_category ON blog.article USING btree (category_id);
-CREATE INDEX idx_article_status ON blog.article USING btree (status);
-CREATE INDEX idx_publish_time ON blog.article USING btree (publish_time);
+COMMENT ON TABLE "blog".category IS '文章分类表';
+COMMENT ON COLUMN "blog".category.name IS '分类名称（唯一）';
 
 
--- blog.article_tag definition
-
--- Drop table
-
--- DROP TABLE article_tag;
-
-CREATE TABLE article_tag (
-                             article_id uuid NOT NULL,
-                             tag_id int8 NOT NULL,
-                             created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                             CONSTRAINT article_tag_pkey PRIMARY KEY (article_id, tag_id)
+DROP TABLE IF EXISTS "blog".tag CASCADE;
+--------------------------
+-- 标签表（核心基础数据）
+--------------------------
+CREATE TABLE "blog".tag (
+                            id BIGSERIAL PRIMARY KEY,
+                            name VARCHAR(50) NOT NULL UNIQUE,
+                            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                            is_deleted BOOLEAN DEFAULT false
 );
-CREATE INDEX idx_article_tag ON blog.article_tag USING btree (tag_id);
+COMMENT ON TABLE "blog".tag IS '文章标签表';
+COMMENT ON COLUMN "blog".tag.name IS '标签名称（唯一）';
+
+--------------------------
+-- 文章主表（核心业务表）
+--------------------------
+DROP TABLE IF EXISTS "blog".article CASCADE;
+CREATE TABLE "blog".article (
+                                id UUID PRIMARY KEY,
+                                title VARCHAR(255) NOT NULL,
+                                content TEXT NOT NULL,
+                                cover_url VARCHAR(512),
+                                category_id BIGINT NOT NULL,
+                                version BIGINT DEFAULT 0,
+                                author_id VARCHAR(32) NOT NULL,
+                                author_name VARCHAR(64) NOT NULL,
+                                view_count INT NOT NULL DEFAULT 0 CHECK (view_count >= 0),
+                                like_count INT NOT NULL DEFAULT 0 CHECK (like_count >= 0),
+                                status article_status NOT NULL,
+                                publish_time TIMESTAMP WITH TIME ZONE,
+                                is_top BOOLEAN DEFAULT false,
+                                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 
 
--- blog.category definition
-
--- Drop table
-
--- DROP TABLE category;
-
-CREATE TABLE category (
-                          id bigserial NOT NULL,
-                          "name" varchar(50) NOT NULL,
-                          sort int4 DEFAULT 0 NOT NULL,
-                          created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                          updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                          is_deleted bool DEFAULT false NULL,
-                          CONSTRAINT category_name_key UNIQUE (name),
-                          CONSTRAINT category_pkey PRIMARY KEY (id),
-                          CONSTRAINT category_sort_check CHECK ((sort >= 0))
 );
+CREATE INDEX idx_article_category ON "blog".article (category_id);
+CREATE INDEX idx_article_status ON "blog".article (status);
+CREATE INDEX idx_publish_time ON "blog".article (publish_time);
+COMMENT ON TABLE "blog".article IS '文章主表';
+COMMENT ON COLUMN "blog".article.status IS '状态: DRAFT-草稿, PUBLISHED-已发布, DELETED-已删除';
 
-
--- blog.tag definition
-
--- Drop table
-
--- DROP TABLE tag;
-
-CREATE TABLE tag (
-                     id bigserial NOT NULL,
-                     "name" varchar(50) NOT NULL,
-                     created_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                     updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NULL,
-                     is_deleted bool DEFAULT false NULL,
-                     CONSTRAINT tag_name_key UNIQUE (name),
-                     CONSTRAINT tag_pkey PRIMARY KEY (id)
+--------------------------
+-- 文章-标签关系表（多对多）
+--------------------------
+DROP TABLE IF EXISTS "blog".article_tag CASCADE;
+CREATE TABLE "blog".article_tag (
+                                    article_id uuid NOT NULL,
+                                    tag_id BIGINT NOT NULL,
+                                    PRIMARY KEY (article_id, tag_id),
+                                    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+COMMENT ON TABLE "blog".article_tag IS '文章-标签多对多关系表';
+CREATE INDEX idx_article_tag ON "blog".article_tag(tag_id);
+
+
+
 -- 插入20条文章数据
 INSERT INTO "blog".category (name, sort, is_deleted) VALUES
                                                          ('技术', 1, false),

@@ -28,6 +28,30 @@ public class UserPageQuerySpec implements PageSpec<User> {
     private final UserType userType;
     private final PageParam pageParam;
 
+    public Username getUsername() {
+        return username;
+    }
+
+    public Mobile getMobile() {
+        return mobile;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public PageParam getPageParam() {
+        return pageParam;
+    }
+
     private UserPageQuerySpec(Builder builder) {
         username = builder.username;
         mobile = builder.mobile;

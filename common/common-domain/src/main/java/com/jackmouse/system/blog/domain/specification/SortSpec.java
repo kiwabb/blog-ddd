@@ -11,7 +11,7 @@ public interface SortSpec {
     String getSortField();
     Direction getDirection();
 
-    enum Direction {
+    public enum Direction {
         ASC, DESC
     }
 }

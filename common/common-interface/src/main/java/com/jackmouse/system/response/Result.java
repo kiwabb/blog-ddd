@@ -1,4 +1,4 @@
-package com.jackmouse.system.blog.response;
+package com.jackmouse.system.response;
 
 
 import com.jackmouse.system.blog.enums.CodeEnum;
