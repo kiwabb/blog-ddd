@@ -2,9 +2,7 @@ package com.jackmouse.system.system.application.user.mapper;
 
 import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand;
-import com.jackmouse.system.system.application.user.dto.query.UserDetailResponse;
 import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
-import com.jackmouse.system.system.application.user.dto.query.UserResponse;
 import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
 import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
@@ -34,23 +32,6 @@ public class SystemInfraUserDataMapper {
                 .status(query.getStatus() == null ? null : UserStatus.valueOf(query.getStatus()))
                 .userType(query.getUserType() == null ? null : UserType.valueOf(query.getUserType()))
                 .pageParam(new PageParam(query.getPage(), query.getSize(), query))
-                .build();
-    }
-
-    public List<UserResponse> userListToUserResponseList(List<User> users) {
-        return users.stream().map(this::userToUserResponse).toList();
-    }
-
-    private UserResponse userToUserResponse(User user) {
-        return UserResponse.builder()
-                .id(user.getId().getValue())
-                .avatar(user.getAvatar().value())
-                .username(user.getUsername().value())
-                .email(user.getEmail().value())
-                .mobile(user.getMobile().value())
-                .status(user.getStatus().name())
-                .userType(user.getUserType().name())
-                .sex(user.getSex().name())
                 .build();
     }
 
@@ -86,16 +67,4 @@ public class SystemInfraUserDataMapper {
                 .id(new UserId(command)).build()).toList();
     }
 
-    public UserDetailResponse userToUserDetailResponse(User user) {
-        return UserDetailResponse.builder()
-                .id(user.getId().getValue())
-                .avatar(user.getAvatar().value())
-                .username(user.getUsername().value())
-                .email(user.getEmail().value())
-                .mobile(user.getMobile().value())
-                .status(user.getStatus().name())
-                .userType(user.getUserType().name())
-                .sex(user.getSex().name())
-                .build();
-    }
 }

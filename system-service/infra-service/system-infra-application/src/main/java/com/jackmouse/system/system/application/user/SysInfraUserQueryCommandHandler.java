@@ -35,8 +35,8 @@ public class SysInfraUserQueryCommandHandler {
     @Transactional(readOnly = true)
     public com.jackmouse.system.response.PageResult<UserResponse> queryUserPage(UserPageQuery query) {
         PageResult<User> page = systemUserRepository.findPage(systemInfraUserDataMapper.queryUserPageToUserPageQuerySpec(query));
-        List<UserResponse> userResponses = systemInfraUserDataMapper.userListToUserResponseList(page.data());
-        return new com.jackmouse.system.response.PageResult<>(page.totalPages(), page.currentPage(), userResponses);
+        return new com.jackmouse.system.response.PageResult<>(page.totalPages(), page.currentPage(),
+                UserResponse.fromUserList(page.data()));
     }
 
     public UserDetailResponse queryUserById(Long id) {
@@ -44,6 +44,6 @@ public class SysInfraUserQueryCommandHandler {
         if (user.isEmpty()) {
             throw new SysNotfoundException("Could not find user with id: " + id + "!");
         }
-        return systemInfraUserDataMapper.userToUserDetailResponse(user.get());
+        return UserDetailResponse.fromUser(user.get());
     }
 }
