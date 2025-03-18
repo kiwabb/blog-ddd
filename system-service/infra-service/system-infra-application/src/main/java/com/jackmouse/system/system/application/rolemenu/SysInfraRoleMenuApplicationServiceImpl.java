@@ -61,17 +61,17 @@ public class SysInfraRoleMenuApplicationServiceImpl implements SysInfraRoleMenuA
     }
 
     @Override
-    public void createRole(MenuCreateCommand command) {
+    public void createMenu(MenuCreateCommand command) {
         sysInfraRoleMenuModifyCommandHandler.createMenu(command);
     }
 
     @Override
-    public void updateRole(MenuUpdateCommand command) {
+    public void updateMenu(MenuUpdateCommand command) {
         sysInfraRoleMenuModifyCommandHandler.updateMenu(command);
     }
 
     @Override
-    public void removeRole(MenuRemoveCommand commands) {
+    public void removeMenu(MenuRemoveCommand commands) {
         sysInfraRoleMenuModifyCommandHandler.removeMenu(commands);
     }
 

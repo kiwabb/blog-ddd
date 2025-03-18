@@ -35,11 +35,11 @@ public interface SysInfraRoleMenuApplicationService {
 
     PageResult<MenuResponse> queryMenuPage(MenuPageQuery query);
 
-    void createRole(MenuCreateCommand command);
+    void createMenu(MenuCreateCommand command);
 
-    void updateRole(MenuUpdateCommand command);
+    void updateMenu(MenuUpdateCommand command);
 
-    void removeRole(MenuRemoveCommand commands);
+    void removeMenu(MenuRemoveCommand commands);
 
     MenuDetailResponse queryMenuById(Long id);
 }
