@@ -2,13 +2,13 @@ package com.jackmouse.system.system.interfaces.rest;
 
 import com.jackmouse.system.response.Result;
 import com.jackmouse.system.response.PageResult;
-import com.jackmouse.system.system.application.dto.create.UserCreateCommand;
-import com.jackmouse.system.system.application.dto.query.UserDetailResponse;
-import com.jackmouse.system.system.application.dto.query.UserPageQuery;
-import com.jackmouse.system.system.application.dto.query.UserResponse;
-import com.jackmouse.system.system.application.dto.remove.UserRemoveCommand;
-import com.jackmouse.system.system.application.dto.update.UserUpdateCommand;
-import com.jackmouse.system.system.application.ports.input.service.SysInfraApplicationService;
+import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand;
+import com.jackmouse.system.system.application.user.dto.query.UserDetailResponse;
+import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
+import com.jackmouse.system.system.application.user.dto.query.UserResponse;
+import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
+import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
+import com.jackmouse.system.system.application.user.ports.input.service.SysInfraUserApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping( value = "/admin/user", produces = "application/json")
 public class SysUserController {
 
-    private final SysInfraApplicationService sysInfraApplicationService;
+    private final SysInfraUserApplicationService sysInfraUserApplicationService;
 
-    public SysUserController(SysInfraApplicationService sysInfraApplicationService) {
-        this.sysInfraApplicationService = sysInfraApplicationService;
+    public SysUserController(SysInfraUserApplicationService sysInfraUserApplicationService) {
+        this.sysInfraUserApplicationService = sysInfraUserApplicationService;
     }
 
     @Operation(
@@ -41,7 +41,7 @@ public class SysUserController {
     )
     @GetMapping("/page")
     public PageResult<UserResponse> queryUserPage(UserPageQuery query) {
-        return sysInfraApplicationService.queryUserPage(query);
+        return sysInfraUserApplicationService.queryUserPage(query);
     }
 
     @Operation(
@@ -51,7 +51,7 @@ public class SysUserController {
     )
     @GetMapping("/{id}")
     public Result<UserDetailResponse> queryUserById(@PathVariable("id") Long id) {
-        return Result.succeed(sysInfraApplicationService.queryUserById(id));
+        return Result.succeed(sysInfraUserApplicationService.queryUserById(id));
     }
 
     @Operation(
@@ -61,7 +61,7 @@ public class SysUserController {
     )
     @PostMapping
     public Result<Void> createUser(@RequestBody @Valid UserCreateCommand command) {
-        sysInfraApplicationService.createUser(command);
+        sysInfraUserApplicationService.createUser(command);
         return Result.succeed(null);
     }
 
@@ -72,7 +72,7 @@ public class SysUserController {
     )
     @PutMapping
     public Result<Void> updateUser(@RequestBody @Valid UserUpdateCommand command) {
-        sysInfraApplicationService.updateUser(command);
+        sysInfraUserApplicationService.updateUser(command);
         return Result.succeed(null);
     }
 
@@ -83,7 +83,7 @@ public class SysUserController {
     )
     @DeleteMapping
     public Result<Void> removeUser(@RequestBody @Valid UserRemoveCommand command) {
-        sysInfraApplicationService.removeUser(command);
+        sysInfraUserApplicationService.removeUser(command);
         return Result.succeed(null);
     }
 }

@@ -2,17 +2,12 @@ package com.jackmouse.system.system.infra.domain.rolemenu.specification.query;
 
 import com.jackmouse.system.blog.domain.specification.PageSpec;
 import com.jackmouse.system.blog.domain.specification.SortSpec;
-import com.jackmouse.system.blog.domain.valueobject.Email;
-import com.jackmouse.system.blog.domain.valueobject.Mobile;
 import com.jackmouse.system.blog.domain.valueobject.PageParam;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.Enabled;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleCode;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleName;
-import com.jackmouse.system.system.infra.domain.user.entity.User;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
-import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
-import jdk.jfr.Enabled;
+
 
 import java.util.function.Predicate;
 

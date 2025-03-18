@@ -1,24 +1,21 @@
-package com.jackmouse.system.system.application.mapper;
+package com.jackmouse.system.system.application.user.mapper;
 
-import com.jackmouse.system.blog.domain.specification.SortSpec;
 import com.jackmouse.system.blog.domain.valueobject.*;
-import com.jackmouse.system.system.application.dto.create.UserCreateCommand;
-import com.jackmouse.system.system.application.dto.query.UserDetailResponse;
-import com.jackmouse.system.system.application.dto.query.UserPageQuery;
-import com.jackmouse.system.system.application.dto.query.UserResponse;
-import com.jackmouse.system.system.application.dto.remove.UserRemoveCommand;
-import com.jackmouse.system.system.application.dto.update.UserUpdateCommand;
+import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand;
+import com.jackmouse.system.system.application.user.dto.query.UserDetailResponse;
+import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
+import com.jackmouse.system.system.application.user.dto.query.UserResponse;
+import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
+import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
-import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName SystemInfraDataMapper
@@ -28,7 +25,7 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 @Component
-public class SystemInfraDataMapper {
+public class SystemInfraUserDataMapper {
     public UserPageQuerySpec queryUserPageToUserPageQuerySpec(UserPageQuery query) {
         return UserPageQuerySpec.builder()
                 .username(new Username(query.getUsername()))

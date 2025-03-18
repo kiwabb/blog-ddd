@@ -1,10 +1,10 @@
-package com.jackmouse.system.system.application;
+package com.jackmouse.system.system.application.user;
 
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
-import com.jackmouse.system.system.application.dto.query.UserDetailResponse;
-import com.jackmouse.system.system.application.dto.query.UserPageQuery;
-import com.jackmouse.system.system.application.dto.query.UserResponse;
-import com.jackmouse.system.system.application.mapper.SystemInfraDataMapper;
+import com.jackmouse.system.system.application.user.dto.query.UserDetailResponse;
+import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
+import com.jackmouse.system.system.application.user.dto.query.UserResponse;
+import com.jackmouse.system.system.application.user.mapper.SystemInfraUserDataMapper;
 import com.jackmouse.system.system.infra.domain.exception.SysNotfoundException;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
@@ -23,19 +23,19 @@ import java.util.Optional;
  * @Version 1.0
  **/
 @Component
-public class SysInfraQueryCommandHandler {
-    private final SystemInfraDataMapper systemInfraDataMapper;
+public class SysInfraUserQueryCommandHandler {
+    private final SystemInfraUserDataMapper systemInfraUserDataMapper;
     private final SystemUserRepository systemUserRepository;
 
-    public SysInfraQueryCommandHandler(SystemInfraDataMapper systemInfraDataMapper, SystemUserRepository systemUserRepository) {
-        this.systemInfraDataMapper = systemInfraDataMapper;
+    public SysInfraUserQueryCommandHandler(SystemInfraUserDataMapper systemInfraUserDataMapper, SystemUserRepository systemUserRepository) {
+        this.systemInfraUserDataMapper = systemInfraUserDataMapper;
         this.systemUserRepository = systemUserRepository;
     }
 
     @Transactional(readOnly = true)
     public com.jackmouse.system.response.PageResult<UserResponse> queryUserPage(UserPageQuery query) {
-        PageResult<User> page = systemUserRepository.findPage(systemInfraDataMapper.queryUserPageToUserPageQuerySpec(query));
-        List<UserResponse> userResponses = systemInfraDataMapper.userListToUserResponseList(page.data());
+        PageResult<User> page = systemUserRepository.findPage(systemInfraUserDataMapper.queryUserPageToUserPageQuerySpec(query));
+        List<UserResponse> userResponses = systemInfraUserDataMapper.userListToUserResponseList(page.data());
         return new com.jackmouse.system.response.PageResult<>(page.totalPages(), page.currentPage(), userResponses);
     }
 
@@ -44,6 +44,6 @@ public class SysInfraQueryCommandHandler {
         if (user.isEmpty()) {
             throw new SysNotfoundException("Could not find user with id: " + id + "!");
         }
-        return systemInfraDataMapper.userToUserDetailResponse(user.get());
+        return systemInfraUserDataMapper.userToUserDetailResponse(user.get());
     }
 }

@@ -1,4 +1,4 @@
-package com.jackmouse.system.system.application.dto.query;
+package com.jackmouse.system.system.application.user.dto.query;
 
 import com.jackmouse.system.blog.domain.valueobject.Email;
 import com.jackmouse.system.blog.domain.valueobject.Mobile;

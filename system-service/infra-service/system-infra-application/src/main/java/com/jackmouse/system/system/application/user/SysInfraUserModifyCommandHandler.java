@@ -1,9 +1,9 @@
-package com.jackmouse.system.system.application;
+package com.jackmouse.system.system.application.user;
 
-import com.jackmouse.system.system.application.dto.create.UserCreateCommand;
-import com.jackmouse.system.system.application.dto.remove.UserRemoveCommand;
-import com.jackmouse.system.system.application.dto.update.UserUpdateCommand;
-import com.jackmouse.system.system.application.mapper.SystemInfraDataMapper;
+import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand;
+import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
+import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
+import com.jackmouse.system.system.application.user.mapper.SystemInfraUserDataMapper;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -19,34 +19,34 @@ import org.springframework.transaction.annotation.Transactional;
  **/
 @Slf4j
 @Component
-public class SysInfraModifyCommandHandler {
+public class SysInfraUserModifyCommandHandler {
 
     private final SystemUserRepository systemUserRepository;
-    private final SystemInfraDataMapper systemInfraDataMapper;
+    private final SystemInfraUserDataMapper systemInfraUserDataMapper;
 
-    public SysInfraModifyCommandHandler(SystemUserRepository systemUserRepository, SystemInfraDataMapper systemInfraDataMapper) {
+    public SysInfraUserModifyCommandHandler(SystemUserRepository systemUserRepository, SystemInfraUserDataMapper systemInfraUserDataMapper) {
         this.systemUserRepository = systemUserRepository;
-        this.systemInfraDataMapper = systemInfraDataMapper;
+        this.systemInfraUserDataMapper = systemInfraUserDataMapper;
     }
 
 
     @Transactional
     public void createUser(UserCreateCommand command) {
         log.info("Received CreateUserCommand: {}", command);
-        User user = systemInfraDataMapper.userCreateCommandToUser(command);
+        User user = systemInfraUserDataMapper.userCreateCommandToUser(command);
         systemUserRepository.save(user);
     }
 
     @Transactional
     public void updateUser(UserUpdateCommand command) {
         log.info("Received UpdateUserCommand: {}", command);
-        User user = systemInfraDataMapper.userUpdateCommandToUser(command);
+        User user = systemInfraUserDataMapper.userUpdateCommandToUser(command);
         systemUserRepository.save(user);
     }
 
     @Transactional
     public void removeUser(UserRemoveCommand commands) {
         log.info("Received RemoveUserCommand: {}", commands);
-        systemUserRepository.remove(systemInfraDataMapper.userRemoveCommandToUser(commands));
+        systemUserRepository.remove(systemInfraUserDataMapper.userRemoveCommandToUser(commands));
     }
 }
