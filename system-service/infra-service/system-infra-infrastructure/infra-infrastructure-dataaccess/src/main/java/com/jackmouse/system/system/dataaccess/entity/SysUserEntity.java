@@ -1,16 +1,13 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
 import com.jackmouse.system.blog.domain.valueobject.Sex;
+import com.jackmouse.system.entity.BaseEntity;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
 import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @ClassName User

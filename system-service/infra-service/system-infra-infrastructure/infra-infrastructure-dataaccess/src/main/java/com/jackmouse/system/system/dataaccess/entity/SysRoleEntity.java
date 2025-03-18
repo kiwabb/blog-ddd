@@ -1,5 +1,6 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
+import com.jackmouse.system.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;

@@ -1,4 +1,4 @@
-package com.jackmouse.system.system.dataaccess.entity;
+package com.jackmouse.system.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

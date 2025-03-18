@@ -27,6 +27,11 @@ public class User extends AggregateRoot<UserId> {
     private final Version version;
     private final Sex sex;
 
+    private final CreatedAt createdAt;
+    private final CreatedBy createdBy;
+    private final UpdatedAt updatedAt;
+    private final UpdatedBy updatedBy;
+
     private List<Long> roleIds;
     private List<Long> deptIds;
 
@@ -39,14 +44,34 @@ public class User extends AggregateRoot<UserId> {
         status = builder.status;
         avatar = builder.avatar;
         username = builder.username;
+        version = builder.version;
         sex = builder.sex;
+        createdAt = builder.createdAt;
+        createdBy = builder.createdBy;
+        updatedAt = builder.updatedAt;
+        updatedBy = builder.updatedBy;
         roleIds = builder.roleIds;
         deptIds = builder.deptIds;
-        version = builder.version;
     }
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public CreatedAt getCreatedAt() {
+        return createdAt;
+    }
+
+    public CreatedBy getCreatedBy() {
+        return createdBy;
+    }
+
+    public UpdatedAt getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public UpdatedBy getUpdatedBy() {
+        return updatedBy;
     }
 
     public Password getPassword() {
@@ -104,9 +129,12 @@ public class User extends AggregateRoot<UserId> {
         private ImageUrl avatar;
         private Username username;
         private Sex sex;
+        private CreatedAt createdAt;
+        private CreatedBy createdBy;
+        private UpdatedAt updatedAt;
+        private UpdatedBy updatedBy;
         private List<Long> roleIds;
         private List<Long> deptIds;
-        private UserId id;
 
         private Builder() {
         }
@@ -153,6 +181,26 @@ public class User extends AggregateRoot<UserId> {
 
         public Builder sex(Sex val) {
             sex = val;
+            return this;
+        }
+
+        public Builder createdAt(CreatedAt val) {
+            createdAt = val;
+            return this;
+        }
+
+        public Builder createdBy(CreatedBy val) {
+            createdBy = val;
+            return this;
+        }
+
+        public Builder updatedAt(UpdatedAt val) {
+            updatedAt = val;
+            return this;
+        }
+
+        public Builder updatedBy(UpdatedBy val) {
+            updatedBy = val;
             return this;
         }
 

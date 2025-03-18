@@ -1,13 +1,11 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
-import com.jackmouse.system.system.infra.domain.menu.valueobject.MenuCategory;
+import com.jackmouse.system.entity.BaseEntity;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @ClassName SysMenu
@@ -39,7 +37,7 @@ public class SysMenuEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MenuCategory type;
+    private MenuType type;
 
     @Column(nullable = false)
     private Boolean hidden = false;
