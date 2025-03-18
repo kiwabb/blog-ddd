@@ -1,6 +1,6 @@
 package com.jackmouse.system.system.dataaccess.repositooy;
 
-import com.jackmouse.system.system.dataaccess.entity.UserEntity;
+import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
  * @Version 1.0
  **/
 @Repository
-public interface UserJpaRepository extends JpaRepository<UserEntity, Long>, JpaSpecificationExecutor<UserEntity> {
+public interface UserJpaRepository extends JpaRepository<SysUserEntity, Long>, JpaSpecificationExecutor<SysUserEntity> {
 }

@@ -2,7 +2,7 @@ package com.jackmouse.system.system.dataaccess.adapter;
 
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
 import com.jackmouse.system.system.dataaccess.mapper.UserDataAccessMapper;
-import com.jackmouse.system.system.dataaccess.entity.UserEntity;
+import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import com.jackmouse.system.system.dataaccess.repositooy.UserJpaRepository;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName UserRepositoryImpl
@@ -41,7 +40,7 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
     @Override
     public PageResult<User> findPage(UserPageQuerySpec query) {
         Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
-        Specification<UserEntity> specification = (root, cq, cb) -> {
+        Specification<SysUserEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(query.getUsername().value())) {
                 predicates.add(cb.like(root.get("username"), "%" + query.getUsername().value() + "%"));
@@ -60,7 +59,7 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        Page<UserEntity> userPage = userJpaRepository.findAll(specification, pageable);
+        Page<SysUserEntity> userPage = userJpaRepository.findAll(specification, pageable);
 
         return new PageResult<>(userPage.getContent().stream().map(userDataAccessMapper::userEntityToUser).toList(),
                 userPage.getTotalElements(),
@@ -75,11 +74,11 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
 
     @Override
     public void save(User user) {
-        UserEntity entity;
+        SysUserEntity entity;
         if (user.getId() != null) {
             entity = userDataAccessMapper.userToUpdateUserEntity(user);
-            userJpaRepository.findById(user.getId().getValue()).ifPresent(userEntity -> {
-                entity.setPassword(userEntity.getPassword());
+            userJpaRepository.findById(user.getId().getValue()).ifPresent(sysUserEntity -> {
+                entity.setPassword(sysUserEntity.getPassword());
             });
         } else {
             entity = userDataAccessMapper.userToCreateUserEntity(user);

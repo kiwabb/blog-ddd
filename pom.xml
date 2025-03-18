@@ -62,6 +62,11 @@
             </dependency>
             <dependency>
                 <groupId>com.jackmouse.system.blog</groupId>
+                <artifactId>common-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.blog</groupId>
                 <artifactId>blog-infrastructure-dataaccess</artifactId>
                 <version>${project.version}</version>
             </dependency>

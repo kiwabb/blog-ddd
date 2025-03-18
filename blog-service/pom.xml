@@ -14,7 +14,6 @@
     <modules>
         <module>blog-domain</module>
         <module>blog-infrastructure</module>
-        <module>blog-infrastructure/blog-infrastructure-messaging</module>
         <module>blog-application</module>
         <module>blog-interfaces</module>
         <module>blog-container</module>

@@ -3,7 +3,7 @@ package com.jackmouse.system.system.dataaccess.mapper;
 import com.jackmouse.system.blog.domain.valueobject.Email;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import com.jackmouse.system.blog.domain.valueobject.Mobile;
-import com.jackmouse.system.system.dataaccess.entity.UserEntity;
+import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
@@ -20,21 +20,21 @@ import java.util.List;
  **/
 @Component
 public class UserDataAccessMapper {
-    public User userEntityToUser(UserEntity userEntity) {
+    public User userEntityToUser(SysUserEntity sysUserEntity) {
         return User.builder()
-                .id(new UserId(userEntity.getId()))
-                .username(new Username(userEntity.getUsername()))
-                .userType(userEntity.getUserType())
-                .status(userEntity.getStatus())
-                .avatar(new ImageUrl(userEntity.getAvatar()))
-                .email(new Email(userEntity.getEmail()))
-                .mobile(new Mobile(userEntity.getPhone()))
-                .sex(userEntity.getSex())
+                .id(new UserId(sysUserEntity.getId()))
+                .username(new Username(sysUserEntity.getUsername()))
+                .userType(sysUserEntity.getUserType())
+                .status(sysUserEntity.getStatus())
+                .avatar(new ImageUrl(sysUserEntity.getAvatar()))
+                .email(new Email(sysUserEntity.getEmail()))
+                .mobile(new Mobile(sysUserEntity.getPhone()))
+                .sex(sysUserEntity.getSex())
                 .build();
     }
 
-    public UserEntity userToUpdateUserEntity(User user) {
-        UserEntity.UserEntityBuilder builder = UserEntity.builder()
+    public SysUserEntity userToUpdateUserEntity(User user) {
+        SysUserEntity.SysUserEntityBuilder builder = SysUserEntity.builder()
                 .id(user.getId().getValue())
                 .username(user.getUsername().value())
                 .phone(user.getMobile().value())
@@ -44,12 +44,13 @@ public class UserDataAccessMapper {
                 .avatar(user.getAvatar().value())
                 .status(user.getStatus())
                 .userType(user.getUserType())
+                .tenantId(1L)
                 .version(user.getVersion().getValue());
         return builder.build();
     }
 
-    public UserEntity userToCreateUserEntity(User user) {
-        UserEntity.UserEntityBuilder builder = UserEntity.builder()
+    public SysUserEntity userToCreateUserEntity(User user) {
+        SysUserEntity.SysUserEntityBuilder builder = SysUserEntity.builder()
                 .username(user.getUsername().value())
                 .password(user.getPassword().getPassword())
                 .phone(user.getMobile().value())
@@ -58,13 +59,14 @@ public class UserDataAccessMapper {
                 .sex(user.getSex())
                 .avatar(user.getAvatar().value())
                 .status(user.getStatus())
+                .tenantId(1L)
                 .userType(user.getUserType());
         return builder.build();
     }
 
-    public List<UserEntity> userListIdToUserEntityList(List<User> users) {
+    public List<SysUserEntity> userListIdToUserEntityList(List<User> users) {
         return users.stream().map(user ->
-                UserEntity.builder()
+                SysUserEntity.builder()
                         .id(user.getId().getValue())
                         .build()).toList();
     }

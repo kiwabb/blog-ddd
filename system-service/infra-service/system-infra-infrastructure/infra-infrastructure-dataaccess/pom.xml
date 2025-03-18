@@ -24,6 +24,10 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jackmouse.system.blog</groupId>
+            <artifactId>common-infrastructure</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

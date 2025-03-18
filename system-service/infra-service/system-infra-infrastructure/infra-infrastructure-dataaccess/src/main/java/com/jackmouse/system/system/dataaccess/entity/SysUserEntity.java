@@ -4,10 +4,13 @@ import com.jackmouse.system.blog.domain.valueobject.Sex;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.*;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @ClassName User
@@ -16,16 +19,17 @@ import java.time.LocalDateTime;
  * @Date 2025/3/14 16:28
  * @Version 1.0
  **/
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@Getter
-@Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@SQLDelete(sql = "UPDATE system.sys_user SET is_deleted = true WHERE id = ?  AND version = ?")
+@Where(clause = "is_deleted = false")
 @DynamicUpdate
 @Table(name = "sys_user", schema = "system")
-public class UserEntity {
+public class SysUserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,36 +53,24 @@ public class UserEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "sex")
+    @Column(nullable = false)
     private Sex sex;
 
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "user_type")
+    @Column(nullable = false)
     private UserType userType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "user_status")
+    @Column(nullable = false)
     private UserStatus status = UserStatus.NORMAL;
 
-    private LocalDateTime createdAt;
-    private Long createBy;
-    private LocalDateTime updatedAt;
-    private Long updateBy;
+    @Column(name = "tenant_id", nullable = false)
+    private Long tenantId = 1L;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Set<SysRoleUserEntity> roles = new HashSet<>();
+
     @Version
     private Long version;
-
-    private Long tenantId;
-
-    private Boolean isDeleted;
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }
