@@ -10,7 +10,7 @@ import com.jackmouse.system.blog.domain.valueobject.BaseId;
  * @Version 1.0
  **/
 public class MenuId extends BaseId<Long> {
-    protected MenuId(Long value) {
+    public MenuId(Long value) {
         super(value);
     }
 }

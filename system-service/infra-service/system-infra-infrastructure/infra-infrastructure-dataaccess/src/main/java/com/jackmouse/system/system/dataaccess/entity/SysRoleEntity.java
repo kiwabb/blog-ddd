@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
+import java.util.List;
+
 /**
  * @ClassName SysRoleEntity
  * @Description
@@ -52,4 +54,13 @@ public class SysRoleEntity extends BaseEntity {
 
     @Column(name = "tenant_id", nullable = false)
     private Long tenantId;
+
+    @ManyToMany
+    @JoinTable(
+            name = "sys_role_menu",
+            schema = "system",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "menu_id")
+    )
+    private List<SysMenuEntity> menuEntities;
 }

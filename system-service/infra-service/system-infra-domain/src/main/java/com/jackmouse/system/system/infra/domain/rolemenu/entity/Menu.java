@@ -3,8 +3,10 @@ package com.jackmouse.system.system.infra.domain.rolemenu.entity;
 import com.jackmouse.system.blog.domain.entity.BaseEntity;
 import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.*;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuComponent;
 
 import java.awt.*;
+
 
 /**
  * @ClassName Menu
@@ -21,7 +23,6 @@ public class Menu extends BaseEntity<MenuId> {
     private final MenuType type;
     private final MenuIcon icon;
     private final MenuSort sort;
-    private final MenuComponentName componentName;
     private final Version version;
     private final CreatedAt createdAt;
     private final CreatedBy createdBy;
@@ -39,7 +40,6 @@ public class Menu extends BaseEntity<MenuId> {
         type = builder.type;
         icon = builder.icon;
         sort = builder.sort;
-        componentName = builder.componentName;
         version = builder.version;
         createdAt = builder.createdAt;
         createdBy = builder.createdBy;
@@ -80,9 +80,6 @@ public class Menu extends BaseEntity<MenuId> {
         return sort;
     }
 
-    public MenuComponentName getComponentName() {
-        return componentName;
-    }
 
     public Version getVersion() {
         return version;
@@ -117,7 +114,6 @@ public class Menu extends BaseEntity<MenuId> {
         private MenuType type;
         private MenuIcon icon;
         private MenuSort sort;
-        private MenuComponentName componentName;
         private Version version;
         private CreatedAt createdAt;
         private CreatedBy createdBy;
@@ -168,10 +164,6 @@ public class Menu extends BaseEntity<MenuId> {
             return this;
         }
 
-        public Builder componentName(MenuComponentName val) {
-            componentName = val;
-            return this;
-        }
 
         public Builder version(Version val) {
             version = val;

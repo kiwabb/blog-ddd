@@ -2,11 +2,10 @@ package com.jackmouse.system.system.infra.domain.rolemenu.entity;
 
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.valueobject.*;
-import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleCode;
-import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleDataScope;
-import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
-import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleName;
-import jdk.jfr.Enabled;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.*;
+
+import java.util.List;
+
 
 /**
  * @ClassName Role
@@ -25,6 +24,7 @@ public class Role extends AggregateRoot<RoleId> {
     private final CreatedBy createdBy;
     private final UpdatedAt updatedAt;
     private final UpdatedBy updatedBy;
+    private final List<Menu> menus;
 
     private Role(Builder builder) {
         setId(builder.roleId);
@@ -37,12 +37,16 @@ public class Role extends AggregateRoot<RoleId> {
         createdBy = builder.createdBy;
         updatedAt = builder.updatedAt;
         updatedBy = builder.updatedBy;
+        menus = builder.menus;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
+    public List<Menu> getMenus() {
+        return menus;
+    }
 
     public RoleCode getCode() {
         return code;
@@ -91,6 +95,7 @@ public class Role extends AggregateRoot<RoleId> {
         private CreatedBy createdBy;
         private UpdatedAt updatedAt;
         private UpdatedBy updatedBy;
+        private List<Menu> menus;
 
         private Builder() {
         }
@@ -145,8 +150,14 @@ public class Role extends AggregateRoot<RoleId> {
             return this;
         }
 
+        public Builder menus(List<Menu> val) {
+            menus = val;
+            return this;
+        }
+
         public Role build() {
             return new Role(this);
         }
+
     }
 }

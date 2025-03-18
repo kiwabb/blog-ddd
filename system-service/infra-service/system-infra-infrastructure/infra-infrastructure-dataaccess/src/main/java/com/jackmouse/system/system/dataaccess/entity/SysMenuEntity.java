@@ -3,8 +3,7 @@ package com.jackmouse.system.system.dataaccess.entity;
 import com.jackmouse.system.entity.BaseEntity;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.Where;
 
 /**
@@ -18,6 +17,9 @@ import org.hibernate.annotations.Where;
 @Table(name = "sys_menu", schema = "system")
 @Where(clause = "is_deleted = false")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SysMenuEntity extends BaseEntity {
     @Id
