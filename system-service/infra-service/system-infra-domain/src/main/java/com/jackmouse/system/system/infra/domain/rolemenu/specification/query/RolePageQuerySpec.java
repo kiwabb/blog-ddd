@@ -6,10 +6,13 @@ import com.jackmouse.system.blog.domain.valueobject.Email;
 import com.jackmouse.system.blog.domain.valueobject.Mobile;
 import com.jackmouse.system.blog.domain.valueobject.PageParam;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleCode;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleName;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
+import jdk.jfr.Enabled;
 
 import java.util.function.Predicate;
 
@@ -22,31 +25,21 @@ import java.util.function.Predicate;
  **/
 public class RolePageQuerySpec implements PageSpec<Role> {
 
-    private final Username username;
-    private final Mobile mobile;
-    private final Email email;
-    private final UserStatus status;
-    private final UserType userType;
+    private final RoleCode code;
+    private final RoleName name;
+    private final Enabled enabled;
     private final PageParam pageParam;
 
-    public Username getUsername() {
-        return username;
+    public RoleCode getCode() {
+        return code;
     }
 
-    public Mobile getMobile() {
-        return mobile;
+    public RoleName getName() {
+        return name;
     }
 
-    public Email getEmail() {
-        return email;
-    }
-
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public UserType getUserType() {
-        return userType;
+    public Enabled getEnabled() {
+        return enabled;
     }
 
     public PageParam getPageParam() {
@@ -54,11 +47,9 @@ public class RolePageQuerySpec implements PageSpec<Role> {
     }
 
     private RolePageQuerySpec(Builder builder) {
-        username = builder.username;
-        mobile = builder.mobile;
-        email = builder.email;
-        status = builder.status;
-        userType = builder.userType;
+        code = builder.code;
+        name = builder.name;
+        enabled = builder.enabled;
         pageParam = builder.pageParam;
     }
 
@@ -89,39 +80,13 @@ public class RolePageQuerySpec implements PageSpec<Role> {
     }
 
     public static final class Builder {
-        private Username username;
-        private Mobile mobile;
-        private Email email;
-        private UserStatus status;
-        private UserType userType;
+
         private PageParam pageParam;
+        private RoleCode code;
+        private RoleName name;
+        private Enabled enabled;
 
         private Builder() {
-        }
-
-        public Builder username(Username val) {
-            username = val;
-            return this;
-        }
-
-        public Builder mobile(Mobile val) {
-            mobile = val;
-            return this;
-        }
-
-        public Builder email(Email val) {
-            email = val;
-            return this;
-        }
-
-        public Builder status(UserStatus val) {
-            status = val;
-            return this;
-        }
-
-        public Builder userType(UserType val) {
-            userType = val;
-            return this;
         }
 
         public Builder pageParam(PageParam val) {
@@ -131,6 +96,21 @@ public class RolePageQuerySpec implements PageSpec<Role> {
 
         public RolePageQuerySpec build() {
             return new RolePageQuerySpec(this);
+        }
+
+        public Builder code(RoleCode val) {
+            code = val;
+            return this;
+        }
+
+        public Builder name(RoleName val) {
+            name = val;
+            return this;
+        }
+
+        public Builder enabled(Enabled val) {
+            enabled = val;
+            return this;
         }
     }
 }
