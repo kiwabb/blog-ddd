@@ -27,6 +27,7 @@ public class MenuCreateCommand {
     private final MenuType type;
     private final String icon;
     private final Integer sort;
+    private final Boolean hidden;
 
     public Menu toMenu() {
         return Menu.builder()
@@ -37,6 +38,7 @@ public class MenuCreateCommand {
                 .type(type)
                 .icon(new MenuIcon(icon))
                 .sort(new MenuSort(sort))
+                .hidden(new MenuHidden(hidden))
                 .build();
     }
 }

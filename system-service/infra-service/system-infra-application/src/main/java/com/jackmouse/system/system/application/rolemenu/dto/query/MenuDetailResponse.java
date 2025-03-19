@@ -2,6 +2,7 @@ package com.jackmouse.system.system.application.rolemenu.dto.query;
 
 import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Menu;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuHidden;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -39,6 +40,8 @@ public class MenuDetailResponse {
     private final String icon;
     @Schema(description = "菜单排序", requiredMode = Schema.RequiredMode.REQUIRED, example = "菜单排序")
     private final Integer sort;
+    @Schema(description = "是否隐藏", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    private final Boolean hidden;
     @Schema(description = "版本号", requiredMode = Schema.RequiredMode.REQUIRED, example = "版本号")
     private final Long version;
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "创建时间")
@@ -61,6 +64,7 @@ public class MenuDetailResponse {
                 .type(menu.getType().name())
                 .icon(menu.getIcon().value())
                 .sort(menu.getSort().value())
+                .hidden(menu.getHidden().value())
                 .version(menu.getVersion().getValue())
                 .createdAt(menu.getCreatedAt().value())
                 .createdBy(menu.getCreatedBy().value())

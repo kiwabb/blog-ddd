@@ -1,5 +1,6 @@
 package com.jackmouse.system.system.application.rolemenu.dto.update;
 
+import com.jackmouse.system.blog.domain.valueobject.Version;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Menu;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.*;
 import lombok.Builder;
@@ -26,6 +27,8 @@ public class MenuUpdateCommand {
     private final MenuType type;
     private final String icon;
     private final Integer sort;
+    private final Boolean hidden;
+    private final Long version;
 
     public Menu toMenu() {
         return Menu.builder()
@@ -37,6 +40,8 @@ public class MenuUpdateCommand {
                 .type(type)
                 .icon(new MenuIcon(icon))
                 .sort(new MenuSort(sort))
+                .hidden(new MenuHidden(hidden))
+                .version(new Version(version))
                 .build();
     }
 }

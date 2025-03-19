@@ -33,7 +33,7 @@ public class MenuPageQuery extends PageQuery {
         this.setSize(Integer.MAX_VALUE);
         return MenuPageQuerySpec.builder()
                 .menuName(new MenuName(menuName))
-                .menuType(MenuType.valueOf(menuType))
+                .menuType(menuType == null ? null : MenuType.valueOf(menuType))
                 .pageParam(new PageParam(getPage(), getSize(), this))
                 .build();
     }

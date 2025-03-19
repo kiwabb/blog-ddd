@@ -9,7 +9,10 @@ import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCom
 import com.jackmouse.system.system.application.rolemenu.dto.update.MenuUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.ports.input.service.SysInfraRoleMenuApplicationService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @ClassName SysInfraRoleMenuApplicationServiceImpl
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
  * @Date 2025/3/18 13:30
  * @Version 1.0
  **/
+@Valid
 @Service
 public class SysInfraRoleMenuApplicationServiceImpl implements SysInfraRoleMenuApplicationService {
 
@@ -78,5 +82,10 @@ public class SysInfraRoleMenuApplicationServiceImpl implements SysInfraRoleMenuA
     @Override
     public MenuDetailResponse queryMenuById(Long id) {
         return sysInfraRoleMenuQueryCommandHandler.queryMenuById(id);
+    }
+
+    @Override
+    public List<MenuResponse> queryMenuByType(String type) {
+        return sysInfraRoleMenuQueryCommandHandler.queryMenuByType(type);
     }
 }

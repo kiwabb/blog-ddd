@@ -42,7 +42,8 @@ public class RoleMenuDataAccessMapper {
                 .name(role.getName().value())
                 .dataScope(role.getDataScope().value())
                 .enabled(role.getEnabled().value())
-                .version(role.getVersion().getValue())
+                .version(role.getVersion() == null ? null : role.getVersion().getValue())
+                .tenantId(1L)
                 .build();
     }
 
@@ -56,6 +57,7 @@ public class RoleMenuDataAccessMapper {
                 .hidden(new MenuHidden(sysMenuEntity.getHidden()))
                 .icon(new MenuIcon(sysMenuEntity.getIcon()))
                 .sort(new MenuSort(sysMenuEntity.getSort()))
+                .hidden(new MenuHidden(sysMenuEntity.getHidden()))
                 .version(new Version(sysMenuEntity.getVersion()))
                 .createdAt(new CreatedAt(sysMenuEntity.getCreatedAt()))
                 .createdBy(new CreatedBy(sysMenuEntity.getCreatedBy()))
@@ -76,7 +78,8 @@ public class RoleMenuDataAccessMapper {
                 .hidden(menu.getHidden().value())
                 .icon(menu.getIcon().value())
                 .sort(menu.getSort().value())
-                .version(menu.getVersion().getValue())
+                .version(menu.getVersion() == null ? null : menu.getVersion().getValue())
+                .tenantId(1L)
                 .type(menu.getType())
                 .build();
     }

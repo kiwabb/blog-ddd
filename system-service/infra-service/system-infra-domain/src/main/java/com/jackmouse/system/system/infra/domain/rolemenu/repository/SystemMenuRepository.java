@@ -5,6 +5,7 @@ import com.jackmouse.system.system.infra.domain.rolemenu.entity.Menu;
 import com.jackmouse.system.system.infra.domain.rolemenu.specification.query.MenuPageQuerySpec;
 import com.jackmouse.system.system.infra.domain.rolemenu.specification.query.RolePageQuerySpec;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuId;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
 
 import javax.management.relation.Role;
@@ -27,4 +28,6 @@ public interface SystemMenuRepository {
     void save(Menu menu);
 
     void remove(List<Menu> menu);
+
+    List<Menu> findByType(MenuType menuType);
 }

@@ -1,15 +1,11 @@
 package com.jackmouse.system.system.dataaccess.mapper;
 
-import com.jackmouse.system.blog.domain.valueobject.Email;
-import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
-import com.jackmouse.system.blog.domain.valueobject.Mobile;
+import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @ClassName UserDataAccessMapper
@@ -30,6 +26,11 @@ public class UserDataAccessMapper {
                 .email(new Email(sysUserEntity.getEmail()))
                 .mobile(new Mobile(sysUserEntity.getPhone()))
                 .sex(sysUserEntity.getSex())
+                .version(new Version(sysUserEntity.getVersion()))
+                .createdBy(new CreatedBy(sysUserEntity.getCreatedBy()))
+                .updatedBy(new UpdatedBy(sysUserEntity.getUpdatedBy()))
+                .createdAt(new CreatedAt(sysUserEntity.getCreatedAt()))
+                .updatedAt(new UpdatedAt(sysUserEntity.getUpdatedAt()))
                 .build();
     }
 
@@ -64,10 +65,4 @@ public class UserDataAccessMapper {
         return builder.build();
     }
 
-    public List<SysUserEntity> userListIdToUserEntityList(List<User> users) {
-        return users.stream().map(user ->
-                SysUserEntity.builder()
-                        .id(user.getId().getValue())
-                        .build()).toList();
-    }
 }

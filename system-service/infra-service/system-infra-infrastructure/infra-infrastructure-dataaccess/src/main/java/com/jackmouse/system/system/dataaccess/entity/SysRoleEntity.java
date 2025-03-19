@@ -46,7 +46,6 @@ public class SysRoleEntity extends BaseEntity {
     private String dataScope;
 
     @Column(name = "is_enabled", nullable = false)
-    @Builder.Default
     private Boolean enabled = true;
 
     @Version

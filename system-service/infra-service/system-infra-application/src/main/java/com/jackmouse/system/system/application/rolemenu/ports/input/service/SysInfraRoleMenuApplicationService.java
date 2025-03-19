@@ -15,6 +15,8 @@ import com.jackmouse.system.system.application.user.dto.query.UserResponse;
 import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
 import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
 
+import java.util.List;
+
 /**
  * @ClassName SysInfraRoleMenuApplicationService
  * @Description
@@ -42,4 +44,6 @@ public interface SysInfraRoleMenuApplicationService {
     void removeMenu(MenuRemoveCommand commands);
 
     MenuDetailResponse queryMenuById(Long id);
+
+    List<MenuResponse> queryMenuByType(String type);
 }

@@ -27,7 +27,6 @@ public class UserCreateCommand {
     @NotNull
     private final String mobile;
     @Schema(description = "头像", example = "https://example.com/avatar.jpg")
-    @NotNull
     private final String avatar;
     @Schema(description = "用户名", example = "jackmouse")
     @NotNull

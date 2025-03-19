@@ -50,8 +50,8 @@ public class SystemRoleRepositoryImpl implements SystemRoleRepository {
             if (StringUtils.hasText(query.getCode().value())) {
                 predicates.add(cb.like(root.get("code"), "%" + query.getCode().value() + "%"));
             }
-            if (query.getEnabled() != null) {
-                predicates.add(cb.equal(root.get("enabled"), query.getEnabled()));
+            if (query.getEnabled().value() != null) {
+                predicates.add(cb.equal(root.get("enabled"), query.getEnabled().value()));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

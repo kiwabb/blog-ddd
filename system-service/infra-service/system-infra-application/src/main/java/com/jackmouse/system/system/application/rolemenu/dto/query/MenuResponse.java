@@ -34,11 +34,13 @@ public class MenuResponse {
     @Schema(description = "组件名称", example = "组件名称")
     private final String componentName;
     @Schema(description = "菜单类型", example = "菜单类型")
-    private final MenuType type;
+    private final String type;
     @Schema(description = "菜单图标", example = "菜单图标")
     private final String icon;
     @Schema(description = "菜单排序", example = "菜单排序")
     private final Integer sort;
+    @Schema(description = "是否隐藏", example = "true")
+    private final Boolean hidden;
     @Schema(description = "创建时间", example = "2025-03-18 13:34:00")
     private final OffsetDateTime createdAt;
     @Schema(description = "创建人")
@@ -56,9 +58,10 @@ public class MenuResponse {
                 .path(menu.getPath().value())
                 .component(menu.getComponent().component())
                 .componentName(menu.getComponent().componentName())
-                .type(menu.getType())
+                .type(menu.getType().name())
                 .icon(menu.getIcon().value())
                 .sort(menu.getSort().value())
+                .hidden(menu.getHidden().value())
                 .createdAt(menu.getCreatedAt().value())
                 .createdBy(menu.getCreatedBy().value())
                 .updatedAt(menu.getUpdatedAt().value())

@@ -12,7 +12,10 @@ import com.jackmouse.system.system.application.rolemenu.ports.input.service.SysI
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ClassName SysMenuController
@@ -49,6 +52,16 @@ public class SysMenuController {
     @GetMapping("/{id}")
     public Result<MenuDetailResponse> queryMenuById(@PathVariable("id") Long id) {
         return Result.succeed(sysInfraRoleMenuApplicationService.queryMenuById(id));
+    }
+
+    @Operation(
+            summary = "根据菜单类型查询菜单",
+            description = "根据菜单类型查询菜单",
+            method = "GET"
+    )
+    @GetMapping("/type")
+    public Result<List<MenuResponse>> queryMenuByType(@RequestParam("type") @NotNull String type) {
+        return Result.succeed(sysInfraRoleMenuApplicationService.queryMenuByType(type));
     }
 
     @Operation(
