@@ -1,5 +1,8 @@
 package com.jackmouse.system.blog.dataaccess.article.entity;
 
+import com.jackmouse.system.blog.domain.article.entity.Category;
+import com.jackmouse.system.blog.domain.article.valueobject.CategoryId;
+import com.jackmouse.system.blog.domain.article.valueobject.CategoryName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -51,6 +54,14 @@ public class CategoryEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public Category toCategory() {
+        return Category.builder()
+                .id(new CategoryId(id))
+                .name(new CategoryName(name))
+                .sort(new com.jackmouse.system.blog.domain.article.valueobject.Sort(sort))
+                .build();
     }
 }
 

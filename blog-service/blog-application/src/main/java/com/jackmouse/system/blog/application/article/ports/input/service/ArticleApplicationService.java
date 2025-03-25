@@ -2,9 +2,7 @@ package com.jackmouse.system.blog.application.article.ports.input.service;
 
 import com.jackmouse.system.blog.application.article.dto.create.CreateArticleCommand;
 import com.jackmouse.system.blog.application.article.dto.create.CreateArticleResponse;
-import com.jackmouse.system.blog.application.article.dto.query.ArticleIdQuery;
-import com.jackmouse.system.blog.application.article.dto.query.ArticleResponse;
-import com.jackmouse.system.blog.application.article.dto.query.QueryMainSortCategoryArticlesResponse;
+import com.jackmouse.system.blog.application.article.dto.query.*;
 
 import java.util.List;
 
@@ -21,4 +19,8 @@ public interface ArticleApplicationService {
     ArticleResponse queryArticleById(ArticleIdQuery articleIdQuery);
 
     CreateArticleResponse createArticle(CreateArticleCommand createArticleCommand);
+
+    List<CategoryResponse> queryCategories();
+
+    List<TagResponse> queryTags();
 }

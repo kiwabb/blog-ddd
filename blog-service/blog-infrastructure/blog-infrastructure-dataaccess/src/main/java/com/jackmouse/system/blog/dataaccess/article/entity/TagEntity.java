@@ -1,5 +1,8 @@
 package com.jackmouse.system.blog.dataaccess.article.entity;
 
+import com.jackmouse.system.blog.domain.article.entity.Tag;
+import com.jackmouse.system.blog.domain.article.valueobject.TagId;
+import com.jackmouse.system.blog.domain.article.valueobject.TagName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,5 +49,12 @@ public class TagEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public Tag toTag() {
+        return Tag.builder()
+                .id(new TagId(id))
+                .name(new TagName(name))
+                .build();
     }
 }

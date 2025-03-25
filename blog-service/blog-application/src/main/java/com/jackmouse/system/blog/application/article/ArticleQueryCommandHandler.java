@@ -1,8 +1,6 @@
 package com.jackmouse.system.blog.application.article;
 
-import com.jackmouse.system.blog.application.article.dto.query.ArticleIdQuery;
-import com.jackmouse.system.blog.application.article.dto.query.ArticleResponse;
-import com.jackmouse.system.blog.application.article.dto.query.QueryMainSortCategoryArticlesResponse;
+import com.jackmouse.system.blog.application.article.dto.query.*;
 import com.jackmouse.system.blog.application.article.mapper.ArticleDataMapper;
 import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
@@ -14,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.jackmouse.system.blog.application.article.dto.query.CategoryResponse.*;
 
 /**
  * @ClassName ArticleQueryCommandHandler
@@ -50,5 +50,14 @@ public class ArticleQueryCommandHandler {
         }
         article.generateHotScore();
         return articleDataMapper.articleToArticleResponse(article);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryResponse> queryCategories() {
+        return CategoryResponse.fromCategoryList(articleRepository.findCategories());
+    }
+    @Transactional(readOnly = true)
+    public List<TagResponse> queryTags() {
+        return TagResponse.fromTagList(articleRepository.findTags());
     }
 }

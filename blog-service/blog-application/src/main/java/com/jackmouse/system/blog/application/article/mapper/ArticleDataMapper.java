@@ -7,9 +7,7 @@ import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
-import com.jackmouse.system.blog.domain.article.valueobject.ArticleContent;
-import com.jackmouse.system.blog.domain.article.valueobject.ArticleStatus;
-import com.jackmouse.system.blog.domain.article.valueobject.ArticleTitle;
+import com.jackmouse.system.blog.domain.article.valueobject.*;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import org.springframework.stereotype.Component;
 
@@ -63,11 +61,11 @@ public class ArticleDataMapper {
                 .commentCount(articleSummary.getStats().commentCount())
                 .readCount(articleSummary.getStats().readCount())
                 .category(CategoryResponse.builder()
-                        .categoryId(articleSummary.getCategory().getId())
+                        .categoryId(articleSummary.getCategory().getId().getValue())
                         .categoryName(articleSummary.getCategory().getName().value())
                         .build())
                 .tags(articleSummary.getTags().stream().map(tag ->
-                                TagResponse.builder().tagId(tag.getId()).tagName(tag.getName().value()).build())
+                                TagResponse.builder().tagId(tag.getId().getValue()).tagName(tag.getName().value()).build())
                         .toList())
                 .build()).toList();
     }
@@ -81,11 +79,11 @@ public class ArticleDataMapper {
                 .author(article.getAuthor().authorName())
                 .publishTime(article.getPublishTime())
                 .category(CategoryResponse.builder()
-                        .categoryId(article.getCategory().getId())
+                        .categoryId(article.getCategory().getId().getValue())
                         .categoryName(article.getCategory().getName().value())
                         .build())
                 .tags(article.getTags().stream().map(tag ->
-                                TagResponse.builder().tagId(tag.getId()).tagName(tag.getName().value()).build())
+                                TagResponse.builder().tagId(tag.getId().getValue()).tagName(tag.getName().value()).build())
                         .toList())
                 .hotScore(article.getHotScore().value())
                 .build();
@@ -97,9 +95,9 @@ public class ArticleDataMapper {
                 .content(new ArticleContent(createArticleCommand.getContent()))
                 .cover(new ImageUrl(createArticleCommand.getCover()))
                 .category(Category.builder()
-                        .id(createArticleCommand.getCategoryId()).build())
+                        .id(new CategoryId(createArticleCommand.getCategoryId())).build())
                 .tags(createArticleCommand.getTagIds().stream().map(tagId -> Tag.builder()
-                        .id(tagId)
+                        .id(new TagId(tagId))
                         .build()).toList())
                 .status(createArticleCommand.isDraft() ? ArticleStatus.DRAFT : ArticleStatus.PENDING_APPROVAL)
                 .build()

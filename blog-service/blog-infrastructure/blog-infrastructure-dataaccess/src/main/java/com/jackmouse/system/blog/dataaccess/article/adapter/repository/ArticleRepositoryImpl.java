@@ -2,10 +2,14 @@ package com.jackmouse.system.blog.dataaccess.article.adapter.repository;
 
 import com.jackmouse.system.blog.dataaccess.article.entity.ArticleEntity;
 import com.jackmouse.system.blog.dataaccess.article.entity.CategoryEntity;
+import com.jackmouse.system.blog.dataaccess.article.entity.TagEntity;
 import com.jackmouse.system.blog.dataaccess.article.mapper.ArticleDataAccessMapper;
 import com.jackmouse.system.blog.dataaccess.article.repoository.ArticleJpaRepository;
 import com.jackmouse.system.blog.dataaccess.article.repoository.CategoryJpaRepository;
+import com.jackmouse.system.blog.dataaccess.article.repoository.TagJpaRepository;
 import com.jackmouse.system.blog.domain.article.entity.Article;
+import com.jackmouse.system.blog.domain.article.entity.Category;
+import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.repository.ArticleRepository;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
@@ -28,12 +32,14 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
     private final ArticleJpaRepository articleJpaRepository;
     private final CategoryJpaRepository categoryJpaRepository;
+    private final TagJpaRepository tagJpaRepository;
     private final ArticleDataAccessMapper articleDataAccessMapper;
 
     public ArticleRepositoryImpl(ArticleJpaRepository articleJpaRepository,
-                                 CategoryJpaRepository categoryJpaRepository, ArticleDataAccessMapper articleDataAccessMapper) {
+                                 CategoryJpaRepository categoryJpaRepository, TagJpaRepository tagJpaRepository, ArticleDataAccessMapper articleDataAccessMapper) {
         this.articleJpaRepository = articleJpaRepository;
         this.categoryJpaRepository = categoryJpaRepository;
+        this.tagJpaRepository = tagJpaRepository;
         this.articleDataAccessMapper = articleDataAccessMapper;
     }
 
@@ -63,5 +69,15 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     public Article save(Article article) {
         ArticleEntity saveArticle = articleJpaRepository.save(articleDataAccessMapper.articleToArticleEntity(article));
         return articleDataAccessMapper.articleEntityToArticle(saveArticle);
+    }
+
+    @Override
+    public List<Category> findCategories() {
+        return categoryJpaRepository.findAll().stream().map(CategoryEntity::toCategory).toList();
+    }
+
+    @Override
+    public List<Tag> findTags() {
+        return tagJpaRepository.findAll().stream().map(TagEntity::toTag).toList();
     }
 }

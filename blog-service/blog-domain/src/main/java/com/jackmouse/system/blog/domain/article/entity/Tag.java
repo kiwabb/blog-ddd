@@ -1,5 +1,6 @@
 package com.jackmouse.system.blog.domain.article.entity;
 
+import com.jackmouse.system.blog.domain.article.valueobject.TagId;
 import com.jackmouse.system.blog.domain.article.valueobject.TagName;
 import com.jackmouse.system.blog.domain.entity.BaseEntity;
 
@@ -10,15 +11,9 @@ import com.jackmouse.system.blog.domain.entity.BaseEntity;
  * @Date 2025/3/7 11:28
  * @Version 1.0
  **/
-public class Tag extends BaseEntity<Long> {
-    private TagName name;
+public class Tag extends BaseEntity<TagId> {
+    private final TagName name;
 
-
-
-    public Tag(Long id, TagName name) {
-        setId(id);
-        this.name = name;
-    }
 
     private Tag(Builder builder) {
         setId(builder.tagId);
@@ -34,13 +29,13 @@ public class Tag extends BaseEntity<Long> {
     }
 
     public static final class Builder {
-        private Long tagId;
+        private TagId tagId;
         private TagName name;
 
         private Builder() {
         }
 
-        public Builder id(Long val) {
+        public Builder id(TagId val) {
             tagId = val;
             return this;
         }

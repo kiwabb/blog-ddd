@@ -28,7 +28,7 @@ public class ArticleDataAccessMapper {
                 .cover(new ImageUrl(articleEntity.getCoverUrl()))
                 .author(new AuthorInfo(articleEntity.getAuthorId(), articleEntity.getAuthorName()))
                 .category(Category.builder()
-                        .id(articleEntity.getCategoryEntity().getId())
+                        .id(new CategoryId(articleEntity.getCategoryEntity().getId()))
                         .name(new CategoryName(articleEntity.getCategoryEntity().getName()))
                         .build()
                 )
@@ -37,7 +37,7 @@ public class ArticleDataAccessMapper {
                         0, 0, articleEntity.getViewCount()))
                 .tags(articleEntity.getTagEntities().stream().map(tagEntity ->
                                 Tag.builder()
-                                        .id(tagEntity.getId())
+                                        .id(new TagId(tagEntity.getId()))
                                         .name(new TagName(tagEntity.getName()))
                                         .build()
                         )
@@ -55,7 +55,7 @@ public class ArticleDataAccessMapper {
                 .content(new ArticleContent(articleEntity.getContent()))
                 .cover(new ImageUrl(articleEntity.getCoverUrl()))
                 .category(Category.builder()
-                        .id(articleEntity.getCategoryEntity().getId())
+                        .id(new CategoryId(articleEntity.getCategoryEntity().getId()))
                         .name(new CategoryName(articleEntity.getCategoryEntity().getName()))
                         .build()
                 )                .publishTime(articleEntity.getPublishTime())
@@ -63,7 +63,7 @@ public class ArticleDataAccessMapper {
                         0, 0, articleEntity.getViewCount()))
                 .tags(articleEntity.getTagEntities().stream().map(tagEntity ->
                                 Tag.builder()
-                                        .id(tagEntity.getId())
+                                        .id(new TagId(tagEntity.getId()))
                                         .name(new TagName(tagEntity.getName()))
                                         .build()
                         )
@@ -78,7 +78,7 @@ public class ArticleDataAccessMapper {
                 .content(article.getContent().value())
                 .coverUrl(article.getCover().value())
                 .categoryEntity(CategoryEntity.builder()
-                        .id(article.getCategory().getId())
+                        .id(article.getCategory().getId().getValue())
                         .build())
                 .authorId(article.getAuthor().authorId())
                 .authorName(article.getAuthor().authorName())
@@ -87,7 +87,7 @@ public class ArticleDataAccessMapper {
                 .status(article.getStatus())
                 .tagEntities(article.getTags().stream().map(tag ->
                         TagEntity.builder()
-                                .id(tag.getId())
+                                .id(tag.getId().getValue())
                                 .build()).toList())
                 .build();
     }

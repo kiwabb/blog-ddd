@@ -1,6 +1,8 @@
 package com.jackmouse.system.blog.domain.article.repository;
 
 import com.jackmouse.system.blog.domain.article.entity.Article;
+import com.jackmouse.system.blog.domain.article.entity.Category;
+import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
 
@@ -20,4 +22,8 @@ public interface ArticleRepository {
     Article findById(ArticleId id);
 
     Article save(Article article);
+
+    List<Category> findCategories();
+
+    List<Tag> findTags();
 }

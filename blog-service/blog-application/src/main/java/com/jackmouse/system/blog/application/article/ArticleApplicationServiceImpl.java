@@ -2,9 +2,7 @@ package com.jackmouse.system.blog.application.article;
 
 import com.jackmouse.system.blog.application.article.dto.create.CreateArticleCommand;
 import com.jackmouse.system.blog.application.article.dto.create.CreateArticleResponse;
-import com.jackmouse.system.blog.application.article.dto.query.ArticleIdQuery;
-import com.jackmouse.system.blog.application.article.dto.query.ArticleResponse;
-import com.jackmouse.system.blog.application.article.dto.query.QueryMainSortCategoryArticlesResponse;
+import com.jackmouse.system.blog.application.article.dto.query.*;
 import com.jackmouse.system.blog.application.article.mapper.ArticleDataMapper;
 import com.jackmouse.system.blog.application.article.ports.input.service.ArticleApplicationService;
 import lombok.extern.slf4j.Slf4j;
@@ -48,5 +46,15 @@ public class ArticleApplicationServiceImpl implements ArticleApplicationService 
     @Override
     public CreateArticleResponse createArticle(CreateArticleCommand createArticleCommand) {
         return articleCreateCommandHandler.createArticle(createArticleCommand);
+    }
+
+    @Override
+    public List<CategoryResponse> queryCategories() {
+        return articleQueryCommandHandler.queryCategories();
+    }
+
+    @Override
+    public List<TagResponse> queryTags() {
+        return articleQueryCommandHandler.queryTags();
     }
 }
