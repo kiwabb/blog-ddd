@@ -9,6 +9,7 @@ import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCom
 import com.jackmouse.system.system.application.rolemenu.dto.update.MenuUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
 import com.jackmouse.system.system.infra.domain.exception.SysNotfoundException;
+import com.jackmouse.system.system.infra.domain.rolemenu.RoleMenuDomainService;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Menu;
 import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
 import com.jackmouse.system.system.infra.domain.rolemenu.repository.SystemMenuRepository;
@@ -32,10 +33,12 @@ import java.util.Optional;
 @Component
 public class SysInfraRoleMenuQueryCommandHandler {
 
+    private final RoleMenuDomainService roleMenuDomainService;
     private final SystemMenuRepository systemMenuRepository;
     private final SystemRoleRepository systemRoleRepository;
 
-    public SysInfraRoleMenuQueryCommandHandler(SystemMenuRepository systemMenuRepository, SystemRoleRepository systemRoleRepository) {
+    public SysInfraRoleMenuQueryCommandHandler(RoleMenuDomainService roleMenuDomainService, SystemMenuRepository systemMenuRepository, SystemRoleRepository systemRoleRepository) {
+        this.roleMenuDomainService = roleMenuDomainService;
         this.systemMenuRepository = systemMenuRepository;
         this.systemRoleRepository = systemRoleRepository;
     }
@@ -73,5 +76,12 @@ public class SysInfraRoleMenuQueryCommandHandler {
     @Transactional(readOnly = true)
     public List<MenuResponse> queryMenuByType(String type) {
         return MenuResponse.fromMenuList(systemMenuRepository.findByType(MenuType.valueOf(type)));
+    }
+    @Transactional(readOnly = true)
+    public List<MenuBindRoleResponse> queryMenuBindRole(Long roleId) {
+        List<Menu> checkMenus = systemMenuRepository.findByRoleId(new RoleId(roleId));
+        List<Menu> allMenus = systemMenuRepository.findAll();
+        return MenuBindRoleResponse.fromMenuList(
+                roleMenuDomainService.generateMenuCheckList(allMenus, checkMenus));
     }
 }

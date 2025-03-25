@@ -16,6 +16,8 @@
         <module>common-interface</module>
         <module>common-application</module>
         <module>common-infrastructure</module>
+        <module>jackmouse-common-redis</module>
+        <module>jackmouse-common-utils</module>
     </modules>
 
 

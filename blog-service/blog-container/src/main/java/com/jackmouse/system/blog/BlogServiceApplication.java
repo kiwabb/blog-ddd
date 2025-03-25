@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @Version 1.0
  **/
 @EnableJpaRepositories
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.jackmouse.system"})
 public class BlogServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(BlogServiceApplication.class, args);

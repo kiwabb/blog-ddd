@@ -88,4 +88,9 @@ public class SysInfraRoleMenuApplicationServiceImpl implements SysInfraRoleMenuA
     public List<MenuResponse> queryMenuByType(String type) {
         return sysInfraRoleMenuQueryCommandHandler.queryMenuByType(type);
     }
+
+    @Override
+    public List<MenuBindRoleResponse> queryMenuBindRole(Long roleId) {
+        return sysInfraRoleMenuQueryCommandHandler.queryMenuBindRole(roleId);
+    }
 }

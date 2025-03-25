@@ -7,7 +7,7 @@ import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand
 import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
+import com.jackmouse.system.blog.domain.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;

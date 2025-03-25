@@ -46,4 +46,6 @@ public interface SysInfraRoleMenuApplicationService {
     MenuDetailResponse queryMenuById(Long id);
 
     List<MenuResponse> queryMenuByType(String type);
+
+    List<MenuBindRoleResponse> queryMenuBindRole(Long roleId);
 }

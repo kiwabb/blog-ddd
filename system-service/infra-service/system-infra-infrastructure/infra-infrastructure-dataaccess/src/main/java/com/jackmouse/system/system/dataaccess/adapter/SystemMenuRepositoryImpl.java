@@ -9,6 +9,7 @@ import com.jackmouse.system.system.infra.domain.rolemenu.repository.SystemMenuRe
 import com.jackmouse.system.system.infra.domain.rolemenu.specification.query.MenuPageQuerySpec;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuId;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -78,5 +79,15 @@ public class SystemMenuRepositoryImpl implements SystemMenuRepository {
     @Override
     public List<Menu> findByType(MenuType menuType) {
         return menuJpaRepository.findByType(menuType).stream().map(roleDataAccessMapper::menuEntityToMenu).toList();
+    }
+
+    @Override
+    public List<Menu> findByRoleId(RoleId roleId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Menu> findAll() {
+        return List.of();
     }
 }

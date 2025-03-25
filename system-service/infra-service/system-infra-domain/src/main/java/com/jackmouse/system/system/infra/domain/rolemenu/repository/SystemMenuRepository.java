@@ -30,4 +30,8 @@ public interface SystemMenuRepository {
     void remove(List<Menu> menu);
 
     List<Menu> findByType(MenuType menuType);
+
+    List<Menu> findByRoleId(RoleId roleId);
+
+    List<Menu> findAll();
 }

@@ -28,30 +28,33 @@ public class Menu extends BaseEntity<MenuId> {
     private final CreatedBy createdBy;
     private final UpdatedAt updatedAt;
     private final UpdatedBy updatedBy;
-
+    private Checked menuChecked;
     private MenuHidden hidden;
 
     private Menu(Builder builder) {
         setId(builder.menuId);
-        parentId = builder.parentId;
-        name = builder.name;
-        path = builder.path;
-        component = builder.component;
-        type = builder.type;
-        icon = builder.icon;
-        sort = builder.sort;
-        version = builder.version;
-        createdAt = builder.createdAt;
-        createdBy = builder.createdBy;
-        updatedAt = builder.updatedAt;
-        updatedBy = builder.updatedBy;
         hidden = builder.hidden;
+        menuChecked = builder.menuChecked;
+        updatedBy = builder.updatedBy;
+        updatedAt = builder.updatedAt;
+        createdBy = builder.createdBy;
+        createdAt = builder.createdAt;
+        version = builder.version;
+        sort = builder.sort;
+        icon = builder.icon;
+        type = builder.type;
+        component = builder.component;
+        path = builder.path;
+        name = builder.name;
+        parentId = builder.parentId;
     }
 
     public static Builder builder() {
         return new Builder();
     }
-
+    public Checked getMenuChecked() {
+        return menuChecked;
+    }
     public MenuId getParentId() {
         return parentId;
     }
@@ -120,6 +123,7 @@ public class Menu extends BaseEntity<MenuId> {
         private UpdatedAt updatedAt;
         private UpdatedBy updatedBy;
         private MenuHidden hidden;
+        private Checked menuChecked;
 
         private Builder() {
         }
@@ -192,6 +196,11 @@ public class Menu extends BaseEntity<MenuId> {
 
         public Builder hidden(MenuHidden val) {
             hidden = val;
+            return this;
+        }
+
+        public Builder menuChecked(Checked val) {
+            menuChecked = val;
             return this;
         }
 

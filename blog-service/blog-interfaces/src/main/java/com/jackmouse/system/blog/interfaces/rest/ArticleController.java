@@ -1,11 +1,11 @@
 package com.jackmouse.system.blog.interfaces.rest;
 
-import com.jackmouse.system.blog.application.dto.create.CreateArticleCommand;
-import com.jackmouse.system.blog.application.dto.create.CreateArticleResponse;
-import com.jackmouse.system.blog.application.dto.query.ArticleIdQuery;
-import com.jackmouse.system.blog.application.dto.query.ArticleResponse;
-import com.jackmouse.system.blog.application.dto.query.QueryMainSortCategoryArticlesResponse;
-import com.jackmouse.system.blog.application.ports.input.service.ArticleApplicationService;
+import com.jackmouse.system.blog.application.article.dto.create.CreateArticleCommand;
+import com.jackmouse.system.blog.application.article.dto.create.CreateArticleResponse;
+import com.jackmouse.system.blog.application.article.dto.query.ArticleIdQuery;
+import com.jackmouse.system.blog.application.article.dto.query.ArticleResponse;
+import com.jackmouse.system.blog.application.article.dto.query.QueryMainSortCategoryArticlesResponse;
+import com.jackmouse.system.blog.application.article.ports.input.service.ArticleApplicationService;
 import com.jackmouse.system.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

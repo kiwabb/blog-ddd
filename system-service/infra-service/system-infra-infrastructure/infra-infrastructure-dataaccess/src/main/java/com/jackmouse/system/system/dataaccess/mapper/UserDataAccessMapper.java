@@ -3,7 +3,7 @@ package com.jackmouse.system.system.dataaccess.mapper;
 import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
+import com.jackmouse.system.blog.domain.valueobject.UserId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
 import org.springframework.stereotype.Component;
 

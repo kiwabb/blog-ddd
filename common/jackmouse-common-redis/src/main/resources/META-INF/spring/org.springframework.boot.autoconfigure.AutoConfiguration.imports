@@ -1,0 +1,2 @@
+com.jackmouse.system.redis.config.RedisAutoConfig
+com.jackmouse.system.redis.config.RedissonAutoConfig

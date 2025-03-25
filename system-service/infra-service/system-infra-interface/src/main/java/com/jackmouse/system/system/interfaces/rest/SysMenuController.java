@@ -3,6 +3,7 @@ package com.jackmouse.system.system.interfaces.rest;
 import com.jackmouse.system.response.PageResult;
 import com.jackmouse.system.response.Result;
 import com.jackmouse.system.system.application.rolemenu.dto.create.MenuCreateCommand;
+import com.jackmouse.system.system.application.rolemenu.dto.query.MenuBindRoleResponse;
 import com.jackmouse.system.system.application.rolemenu.dto.query.MenuDetailResponse;
 import com.jackmouse.system.system.application.rolemenu.dto.query.MenuPageQuery;
 import com.jackmouse.system.system.application.rolemenu.dto.query.MenuResponse;
@@ -62,6 +63,16 @@ public class SysMenuController {
     @GetMapping("/type")
     public Result<List<MenuResponse>> queryMenuByType(@RequestParam("type") @NotNull String type) {
         return Result.succeed(sysInfraRoleMenuApplicationService.queryMenuByType(type));
+    }
+
+    @Operation(
+            summary = "查询菜单树",
+            description = "查询菜单树对应角色id的绑定菜单",
+            method = "GET"
+    )
+    @GetMapping("/bindRole/{roleId}")
+    public Result<List<MenuBindRoleResponse>> queryMenuBindRole(@PathVariable("roleId") @NotNull Long roleId) {
+        return Result.succeed(sysInfraRoleMenuApplicationService.queryMenuBindRole(roleId));
     }
 
     @Operation(

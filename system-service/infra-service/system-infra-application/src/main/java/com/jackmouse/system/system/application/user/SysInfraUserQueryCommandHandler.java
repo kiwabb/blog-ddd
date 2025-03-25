@@ -8,11 +8,10 @@ import com.jackmouse.system.system.application.user.mapper.SystemInfraUserDataMa
 import com.jackmouse.system.system.infra.domain.exception.SysNotfoundException;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
+import com.jackmouse.system.blog.domain.valueobject.UserId;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

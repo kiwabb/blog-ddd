@@ -77,6 +77,40 @@ CREATE TABLE "blog".article_tag (
 COMMENT ON TABLE "blog".article_tag IS '文章-标签多对多关系表';
 CREATE INDEX idx_article_tag ON "blog".article_tag(tag_id);
 
+DROP TYPE IF EXISTS target_type;
+CREATE TYPE target_type AS ENUM ('ARTICLE', 'COMMENT');
+DROP TABLE IF EXISTS "blog".like CASCADE;
+CREATE TABLE "blog".like (
+                                id UUID PRIMARY KEY,
+                                target_id UUID NOT NULL,
+                                user_id BIGINT NOT NULL,
+                                target_type target_type NOT NULL,
+                                active BOOLEAN,
+                                last_modified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                version BIGINT DEFAULT 0,
+                                is_deleted BOOLEAN DEFAULT false
+);
+CREATE INDEX idx_like_user_id_target_id ON "blog".like(user_id, target_id) where is_deleted = false;
+
+DROP TYPE IF EXISTS "blog".favorite_type;
+CREATE TYPE "blog".favorite_type AS ENUM ('ARTICLE');
+DROP TABLE IF EXISTS "blog".favorite CASCADE;
+CREATE TABLE "blog".favorite (
+                             id UUID PRIMARY KEY,
+                             target_id UUID NOT NULL,
+                             user_id BIGINT NOT NULL,
+                             favorite_type favorite_type NOT NULL,
+                             active BOOLEAN,
+                             last_modified TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                             version BIGINT DEFAULT 0,
+                             is_deleted BOOLEAN DEFAULT false
+);
+CREATE INDEX idx_favorite_user_id_target_id ON "blog".like(user_id, target_id) where is_deleted = false;
+
 
 
 -- 插入20条文章数据

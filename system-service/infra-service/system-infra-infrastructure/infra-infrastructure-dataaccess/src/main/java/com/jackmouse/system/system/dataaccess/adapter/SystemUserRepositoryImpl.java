@@ -7,7 +7,7 @@ import com.jackmouse.system.system.dataaccess.repositooy.UserJpaRepository;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
-import com.jackmouse.system.system.infra.domain.user.valueobject.UserId;
+import com.jackmouse.system.blog.domain.valueobject.UserId;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
