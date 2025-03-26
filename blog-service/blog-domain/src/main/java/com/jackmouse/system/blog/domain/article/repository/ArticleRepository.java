@@ -21,6 +21,8 @@ public interface ArticleRepository {
 
     Article findById(ArticleId id);
 
+    Boolean existById(ArticleId id);
+
     Article save(Article article);
 
     List<Category> findCategories();

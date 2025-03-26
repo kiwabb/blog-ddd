@@ -66,6 +66,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
+    public Boolean existById(ArticleId id) {
+        return articleJpaRepository.existsById(id.getValue());
+    }
+
+    @Override
     public Article save(Article article) {
         ArticleEntity saveArticle = articleJpaRepository.save(articleDataAccessMapper.articleToArticleEntity(article));
         return articleDataAccessMapper.articleEntityToArticle(saveArticle);

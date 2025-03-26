@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.application.interaction.ports.output.message.pu
 import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.repository.ArticleRepository;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
+import com.jackmouse.system.blog.domain.exception.ArticleNotFoundException;
 import com.jackmouse.system.blog.domain.exception.BlogDomainException;
 import com.jackmouse.system.blog.domain.exception.BlogNotFoundException;
 import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheService;
@@ -96,9 +97,8 @@ public class ArticleInteractionCommandHandler {
     }
 
     private void validateArticleExist(InteractionCommand interactionCommand) {
-        Article articleRepositoryById = articleRepository.findById(new ArticleId(interactionCommand.getTargetId()));
-        if (articleRepositoryById == null) {
-            throw new BlogNotFoundException("文章不存在!");
+        if (!articleRepository.existById(new ArticleId(interactionCommand.getTargetId()))) {
+            throw new ArticleNotFoundException(interactionCommand.getTargetId());
         }
     }
 
