@@ -1,7 +1,13 @@
 package com.jackmouse.system.blog.domain.interaction.cache;
 
+import com.jackmouse.system.blog.domain.comment.entity.Comment;
+import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
 import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
+import com.jackmouse.system.blog.domain.interaction.valueobject.CommentInteraction;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName InteractionCacheService
@@ -14,4 +20,10 @@ public interface InteractionCacheService {
     void updateLikeCount(Like like);
 
     void updateFavoriteCount(Favorite favorite);
+
+    Map<CommentId, CommentInteraction> batchGetCommentInteractions(Set<CommentId> rootIds);
+
+    void addReplyCount(Comment comment);
+
+    void subReplyCount(Comment comment);
 }

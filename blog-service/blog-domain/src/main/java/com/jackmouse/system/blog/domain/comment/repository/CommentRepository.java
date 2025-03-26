@@ -1,9 +1,14 @@
 package com.jackmouse.system.blog.domain.comment.repository;
 
 import com.jackmouse.system.blog.domain.comment.entity.Comment;
+import com.jackmouse.system.blog.domain.comment.specification.query.CommentPageQuerySpec;
 import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
+import com.jackmouse.system.blog.domain.valueobject.PageResult;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @ClassName CommentRepository
@@ -13,7 +18,15 @@ import java.util.Optional;
  * @Version 1.0
  **/
 public interface CommentRepository {
-    void save(Comment comment);
+    Comment save(Comment comment);
 
     Optional<Comment> findById(CommentId commentId);
+
+    PageResult<Comment> findByTargetId(CommentPageQuerySpec commentQuerySpec);
+
+    Map<CommentId, List<Comment>> findSecondLevelComments(Set<CommentId> rootIds, int previewReplyCount);
+
+    boolean existById(CommentId commentId);
+
+    void deleteComment(Comment comment);
 }

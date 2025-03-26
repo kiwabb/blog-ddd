@@ -16,4 +16,8 @@ public class RedisConstants {
     public static final String ARTICLE_FAVORITE_COUNT_KEY = "article:favorite:count:";
     public static final String ARTICLE_HOT_KEY = "article:hot:";
 
+
+    static final String COMMENT_LIKE_COUNT_KEY = "blog:comment:like:count:";
+    static final String COMMENT_COUNT_KEY = "blog:comment:count";
+
 }

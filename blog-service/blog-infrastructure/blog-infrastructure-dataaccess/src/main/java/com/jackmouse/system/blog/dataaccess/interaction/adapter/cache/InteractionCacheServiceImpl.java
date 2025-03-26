@@ -1,11 +1,16 @@
 package com.jackmouse.system.blog.dataaccess.interaction.adapter.cache;
 
+import com.jackmouse.system.blog.domain.comment.entity.Comment;
+import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
 import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheService;
 import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
+import com.jackmouse.system.blog.domain.interaction.valueobject.CommentInteraction;
 import com.jackmouse.system.redis.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 import static com.jackmouse.system.blog.dataaccess.interaction.adapter.cache.RedisConstants.*;
 
@@ -65,5 +70,68 @@ public class InteractionCacheServiceImpl implements InteractionCacheService {
         }
         log.info("更新文章收藏数，文章ID：{}，点赞数：{}，点赞状态：{}，用户ID：{}，增加：{}，分数：{}",
                 favorite.getTargetId(), likeCount, favorite.getInteractionStatus(), favorite.getUserId(), add, score);
+    }
+
+    @Override
+    public Map<CommentId, CommentInteraction> batchGetCommentInteractions(Set<CommentId> rootIds) {
+        Map<CommentId, CommentInteraction> result = new HashMap<>();
+
+        // 批量构造Redis键
+        List<String> allKeys = new ArrayList<>(rootIds.size() * 2);
+        Map<CommentId, Integer> keyIndexMap = new HashMap<>();
+
+        int index = 0;
+        for (CommentId commentId : rootIds) {
+            String likeKey = COMMENT_LIKE_COUNT_KEY + commentId.getValue();
+            String commentCountKey = COMMENT_COUNT_KEY + commentId.getValue();
+
+            allKeys.add(likeKey);
+            allKeys.add(commentCountKey);
+            keyIndexMap.put(commentId, index);
+            index += 2;
+        }
+
+        // 批量获取Redis值
+        List<String> values = redisUtil.multiGet(allKeys);
+
+        // 解析结果
+        for (Map.Entry<CommentId, Integer> entry : keyIndexMap.entrySet()) {
+            CommentId commentId = entry.getKey();
+            int baseIndex = entry.getValue();
+
+            Integer likeCount = parseRedisValue(values.get(baseIndex));
+            Integer favoriteCount = parseRedisValue(values.get(baseIndex + 1));
+
+            result.put(commentId, new CommentInteraction(
+                    likeCount,
+                    favoriteCount
+            ));
+        }
+
+        return result;
+    }
+
+    @Override
+    public void addReplyCount(Comment comment) {
+        String commentCountKey = COMMENT_COUNT_KEY + comment.getTargetId().value();
+        long commentCount = redisUtil.incr(commentCountKey, 1);
+        log.info("增加评论回复数，评论ID：{}，回复数：{}", comment.getId(), commentCount);
+    }
+
+    @Override
+    public void subReplyCount(Comment comment) {
+        String commentCountKey = COMMENT_COUNT_KEY + comment.getTargetId().value();
+        long commentCount = redisUtil.decr(commentCountKey, 1);
+        log.info("减少评论回复数，评论ID：{}，回复数：{}", comment.getId(), commentCount);
+    }
+
+    private Integer parseRedisValue(Object value) {
+        if (value == null) return 0;
+        try {
+            return Integer.parseInt(value.toString());
+        } catch (NumberFormatException e) {
+            log.warn("Redis值解析失败: {}", value);
+            return 0;
+        }
     }
 }

@@ -319,4 +319,8 @@ public class RedisUtil {
     public double zDecrementScore(String hotScoreKey, double i, UUID value) {
         return redissonClient.getScoredSortedSet(hotScoreKey).addScore(value, -i);
     }
+
+    public List<String> multiGet(List<String> allKeys) {
+        return redisTemplate.opsForValue().multiGet(allKeys);
+    }
 }

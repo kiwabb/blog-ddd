@@ -5,10 +5,11 @@ import com.jackmouse.system.blog.domain.comment.valueobject.CommentTargetType;
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.blog.domain.valueobject.Content;
+import com.jackmouse.system.blog.domain.valueobject.Depth;
 import com.jackmouse.system.blog.domain.valueobject.Path;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
 
-import java.util.Optional;
+import java.time.ZonedDateTime;
 
 
 /**
@@ -24,7 +25,9 @@ public class Comment extends AggregateRoot<CommentId> {
     private final UserId userId;
     private final Content content;
     private final CommentId parentCommentId;
+    private Depth depth;
     private Path path;
+    private final ZonedDateTime createdAt;
 
     private Comment(Builder builder) {
         setId(builder.id);
@@ -33,7 +36,17 @@ public class Comment extends AggregateRoot<CommentId> {
         userId = builder.userId;
         content = builder.content;
         parentCommentId = builder.parentCommentId;
+        depth = builder.depth;
         path = builder.path;
+        createdAt = builder.createdAt;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public Depth getDepth() {
+        return depth;
     }
 
     public CommentId getParentCommentId() {
@@ -67,7 +80,8 @@ public class Comment extends AggregateRoot<CommentId> {
     public void generatePath(Comment parentComment) {
         path = parentComment == null ?
                 Path.createRootPath()
-                : parentComment.getPath().createChildPath(getId().getValue());
+                : parentComment.getPath().createChildPath(targetId.value());
+        depth = parentComment == null ? Depth.ZERO : parentComment.getDepth().increase();
     }
 
     public static final class Builder {
@@ -77,7 +91,9 @@ public class Comment extends AggregateRoot<CommentId> {
         private UserId userId;
         private Content content;
         private CommentId parentCommentId;
+        private Depth depth;
         private Path path;
+        private ZonedDateTime createdAt;
 
         private Builder() {
         }
@@ -112,8 +128,18 @@ public class Comment extends AggregateRoot<CommentId> {
             return this;
         }
 
+        public Builder depth(Depth val) {
+            depth = val;
+            return this;
+        }
+
         public Builder path(Path val) {
             path = val;
+            return this;
+        }
+
+        public Builder createdAt(ZonedDateTime val) {
+            createdAt = val;
             return this;
         }
 

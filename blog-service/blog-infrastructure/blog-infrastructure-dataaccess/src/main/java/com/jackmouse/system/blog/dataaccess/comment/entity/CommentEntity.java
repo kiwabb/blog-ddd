@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
 import com.jackmouse.system.blog.domain.comment.valueobject.CommentTargetType;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.blog.domain.valueobject.Content;
+import com.jackmouse.system.blog.domain.valueobject.Depth;
 import com.jackmouse.system.blog.domain.valueobject.Path;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
@@ -29,6 +31,7 @@ import java.util.UUID;
  **/
 @Entity
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "is_deleted = false") // 软删除过滤
@@ -58,6 +61,9 @@ public class CommentEntity {
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "depth")
+    private Integer depth;
+
     @UpdateTimestamp
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
@@ -66,6 +72,7 @@ public class CommentEntity {
     private Long version;
 
     @Column(name = "is_deleted")
+    @Builder.Default
     private Boolean isDeleted = false;
 
     @Column(name = "path")
@@ -76,9 +83,10 @@ public class CommentEntity {
                 .targetId(comment.getTargetId().value())
                 .userId(comment.getUserId().getValue())
                 .targetType(comment.getTargetType())
-                .parentCommentId(comment.getParentCommentId().getValue())
+                .parentCommentId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getValue())
                 .content(comment.getContent().value())
                 .path(comment.getPath().getPath())
+                .depth(comment.getDepth().value())
                 .build();
     }
 
@@ -91,6 +99,7 @@ public class CommentEntity {
                 .parentCommentId(parentCommentId == null ? null : new CommentId(parentCommentId))
                 .content(new Content(content))
                 .path(new Path(path))
+                .depth(new Depth(depth))
                 .build();
     }
 }

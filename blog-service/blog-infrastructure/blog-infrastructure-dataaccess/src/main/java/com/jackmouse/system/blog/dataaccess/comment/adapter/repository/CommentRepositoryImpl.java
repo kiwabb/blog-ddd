@@ -4,10 +4,19 @@ import com.jackmouse.system.blog.dataaccess.comment.entity.CommentEntity;
 import com.jackmouse.system.blog.dataaccess.comment.repository.CommentJpaRepository;
 import com.jackmouse.system.blog.domain.comment.entity.Comment;
 import com.jackmouse.system.blog.domain.comment.repository.CommentRepository;
+import com.jackmouse.system.blog.domain.comment.specification.query.CommentPageQuerySpec;
 import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
+import com.jackmouse.system.blog.domain.valueobject.PageResult;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName CommentRepositoryImpl
@@ -26,13 +35,55 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public void save(Comment comment) {
-        commentJpaRepository.save(CommentEntity.from(comment));
+    public Comment save(Comment comment) {
+        return commentJpaRepository.save(CommentEntity.from(comment)).toComment();
     }
 
     @Override
     public Optional<Comment> findById(CommentId commentId) {
         return commentJpaRepository.findById(commentId.getValue())
                 .map(CommentEntity::toComment);
+    }
+
+    @Override
+    public PageResult<Comment> findByTargetId(CommentPageQuerySpec query) {
+        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Specification<CommentEntity> specification = (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("targetId"), query.getTargetId().value()));
+            predicates.add(cb.equal(root.get("depth"), query.getDepth().value()));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        Page<CommentEntity> commentEntityPage = commentJpaRepository.findAll(specification, pageable);
+        return new PageResult<>(
+                commentEntityPage.getContent().stream().map(CommentEntity::toComment).toList(),
+                commentEntityPage.getTotalElements(),
+                commentEntityPage.getNumber() + 1,
+                commentEntityPage.getTotalPages());
+    }
+
+    @Override
+    public Map<CommentId, List<Comment>> findSecondLevelComments(Set<CommentId> rootIds, int previewReplyCount) {
+
+        List<CommentEntity> commentEntities = commentJpaRepository.findLimitedByParentIds(
+                rootIds.stream().map(CommentId::getValue).collect(Collectors.toList()), previewReplyCount);
+        return commentEntities.stream()
+                .collect(Collectors.groupingBy(
+                        entity -> new CommentId(entity.getParentCommentId()),
+                        Collectors.mapping(CommentEntity::toComment, Collectors.toList())
+                ));
+    }
+
+    @Override
+    public boolean existById(CommentId commentId) {
+        return commentJpaRepository.existsById(commentId.getValue());
+    }
+
+    @Override
+    public void deleteComment(Comment comment) {
+        commentJpaRepository.findById(comment.getId().getValue()).ifPresent(commentEntity -> {
+            String path = commentEntity.getPath() + "." + commentEntity.getId();
+            commentJpaRepository.deleteAllChildren(path);
+        });
     }
 }

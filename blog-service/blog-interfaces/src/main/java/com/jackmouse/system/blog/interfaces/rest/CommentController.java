@@ -1,10 +1,12 @@
 package com.jackmouse.system.blog.interfaces.rest;
 
 import com.jackmouse.system.blog.application.comment.dto.create.CommentCreateCommand;
+import com.jackmouse.system.blog.application.comment.dto.query.CommentNodeResponse;
 import com.jackmouse.system.blog.application.comment.dto.query.CommentResponse;
 import com.jackmouse.system.blog.application.comment.dto.query.TargetIdQuery;
 import com.jackmouse.system.blog.application.comment.port.input.service.CommentApplicationService;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
+import com.jackmouse.system.response.PageResult;
 import com.jackmouse.system.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +39,7 @@ public class CommentController {
             method = "POST"
     )
     @PostMapping("")
-    public Result<Void> createComment(CommentCreateCommand commentCreateCommand) {
+    public Result<Void> createComment(@RequestBody CommentCreateCommand commentCreateCommand) {
         commentApplicationService.createComment(commentCreateCommand);
         return Result.succeed(null);
     }
@@ -59,7 +61,7 @@ public class CommentController {
             method = "GET"
     )
     @GetMapping("")
-    public Result<List<CommentResponse>> queryArticleComments(TargetIdQuery<UUID> idQuery) {
-        return Result.of(commentApplicationService.queryArticleComments(idQuery));
+    public PageResult<CommentNodeResponse> queryArticleComments(TargetIdQuery idQuery) {
+        return commentApplicationService.queryArticleComments(idQuery);
     }
 }
