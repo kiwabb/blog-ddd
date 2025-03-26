@@ -8,6 +8,7 @@ import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.valueobject.*;
+import com.jackmouse.system.blog.domain.valueobject.Content;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class ArticleDataAccessMapper {
         ArticleSummary summary = ArticleSummary.builder()
                 .id(new ArticleId(articleEntity.getId()))
                 .title(new ArticleTitle(articleEntity.getTitle()))
-                .summary(new ArticleContent(articleEntity.getContent()))
+                .summary(new Content(articleEntity.getContent()))
                 .cover(new ImageUrl(articleEntity.getCoverUrl()))
                 .author(new AuthorInfo(articleEntity.getAuthorId(), articleEntity.getAuthorName()))
                 .category(Category.builder()
@@ -52,7 +53,7 @@ public class ArticleDataAccessMapper {
                 .id(new ArticleId(articleEntity.getId()))
                 .author(new AuthorInfo(articleEntity.getAuthorId(), articleEntity.getAuthorName()))
                 .title(new ArticleTitle(articleEntity.getTitle()))
-                .content(new ArticleContent(articleEntity.getContent()))
+                .content(new Content(articleEntity.getContent()))
                 .cover(new ImageUrl(articleEntity.getCoverUrl()))
                 .category(Category.builder()
                         .id(new CategoryId(articleEntity.getCategoryEntity().getId()))

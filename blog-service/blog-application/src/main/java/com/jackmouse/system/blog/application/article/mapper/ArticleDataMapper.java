@@ -8,6 +8,7 @@ import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.query.ArticleSummary;
 import com.jackmouse.system.blog.domain.article.valueobject.*;
+import com.jackmouse.system.blog.domain.valueobject.Content;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 import org.springframework.stereotype.Component;
 
@@ -92,7 +93,7 @@ public class ArticleDataMapper {
     public Article createArticleCommandToArticle(CreateArticleCommand createArticleCommand) {
         return Article.builder()
                 .title(new ArticleTitle(createArticleCommand.getTitle()))
-                .content(new ArticleContent(createArticleCommand.getContent()))
+                .content(new Content(createArticleCommand.getContent()))
                 .cover(new ImageUrl(createArticleCommand.getCover()))
                 .category(Category.builder()
                         .id(new CategoryId(createArticleCommand.getCategoryId())).build())

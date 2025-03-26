@@ -2,8 +2,8 @@ package com.jackmouse.system.blog.dataaccess.interaction.adapter.repository;
 
 import com.jackmouse.system.blog.dataaccess.interaction.entity.FavoriteEntity;
 import com.jackmouse.system.blog.dataaccess.interaction.entity.LikeEntity;
-import com.jackmouse.system.blog.dataaccess.interaction.repository.FavoriteRepository;
-import com.jackmouse.system.blog.dataaccess.interaction.repository.LikeRepository;
+import com.jackmouse.system.blog.dataaccess.interaction.repository.FavoriteJpaRepository;
+import com.jackmouse.system.blog.dataaccess.interaction.repository.LikeJpaRepository;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
 import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
@@ -24,33 +24,33 @@ import java.util.Optional;
 @Component
 public class InteractionRepositoryImpl implements InteractionRepository {
 
-    private final LikeRepository likeRepository;
-    private final FavoriteRepository favoriteRepository;
+    private final LikeJpaRepository likeJpaRepository;
+    private final FavoriteJpaRepository favoriteJpaRepository;
 
-    public InteractionRepositoryImpl(LikeRepository likeRepository, FavoriteRepository favoriteRepository) {
-        this.likeRepository = likeRepository;
-        this.favoriteRepository = favoriteRepository;
+    public InteractionRepositoryImpl(LikeJpaRepository likeJpaRepository, FavoriteJpaRepository favoriteJpaRepository) {
+        this.likeJpaRepository = likeJpaRepository;
+        this.favoriteJpaRepository = favoriteJpaRepository;
     }
 
     @Override
     public Optional<Like> findLikeByArticleAndUserId(ArticleId articleId, UserId userId) {
-        Optional<LikeEntity> likeEntity = likeRepository.findByTargetIdAndUserId(articleId.getValue(), userId.getValue());
+        Optional<LikeEntity> likeEntity = likeJpaRepository.findByTargetIdAndUserId(articleId.getValue(), userId.getValue());
         return likeEntity.map(LikeEntity::toLike);
     }
 
     @Override
     public Like saveLike(Like like) {
-        return likeRepository.save(LikeEntity.from(like)).toLike();
+        return likeJpaRepository.save(LikeEntity.from(like)).toLike();
     }
 
     @Override
     public Optional<Favorite> findFavoriteByArticleAndUserId(FavoriteId favoriteId, UserId userId) {
-        Optional<FavoriteEntity> favorite = favoriteRepository.findByTargetIdAndUserId(favoriteId.getValue(), userId.getValue());
+        Optional<FavoriteEntity> favorite = favoriteJpaRepository.findByTargetIdAndUserId(favoriteId.getValue(), userId.getValue());
         return favorite.map(FavoriteEntity::toFavorite);
     }
 
     @Override
     public Favorite saveFavorite(Favorite favorite) {
-        return favoriteRepository.save(FavoriteEntity.from(favorite)).toFavorite();
+        return favoriteJpaRepository.save(FavoriteEntity.from(favorite)).toFavorite();
     }
 }

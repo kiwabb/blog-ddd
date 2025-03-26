@@ -4,6 +4,7 @@ import com.jackmouse.system.blog.domain.article.valueobject.*;
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleStats;
 import com.jackmouse.system.blog.domain.exception.BlogDomainException;
+import com.jackmouse.system.blog.domain.valueobject.Content;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class Article extends AggregateRoot<ArticleId> {
 
     private AuthorInfo author;
     private final ArticleTitle title;
-    private final ArticleContent content;
+    private final Content content;
     private final ImageUrl cover;
     private final Category category;
     private final List<Tag> tags;
@@ -63,7 +64,7 @@ public class Article extends AggregateRoot<ArticleId> {
         return title;
     }
 
-    public ArticleContent getContent() {
+    public Content getContent() {
         return content;
     }
 
@@ -110,7 +111,7 @@ public class Article extends AggregateRoot<ArticleId> {
         private ArticleId articleId;
         private AuthorInfo author;
         private ArticleTitle title;
-        private ArticleContent content;
+        private Content content;
         private ImageUrl cover;
         private Category category;
         private List<Tag> tags;
@@ -136,7 +137,7 @@ public class Article extends AggregateRoot<ArticleId> {
             return this;
         }
 
-        public Builder content(ArticleContent val) {
+        public Builder content(Content val) {
             content = val;
             return this;
         }

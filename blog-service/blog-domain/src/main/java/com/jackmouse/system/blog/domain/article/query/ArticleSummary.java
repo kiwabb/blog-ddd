@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.domain.article.entity.Category;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.valueobject.*;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleStats;
+import com.jackmouse.system.blog.domain.valueobject.Content;
 import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ArticleSummary {
     private final ArticleId id;
     private final ArticleTitle title;
-    private final ArticleContent summary;
+    private final Content summary;
     private final ImageUrl cover;
     private final AuthorInfo author;
     private HotScore hotScore;
@@ -48,7 +49,7 @@ public class ArticleSummary {
         return title;
     }
 
-    public ArticleContent getSummary() {
+    public Content getSummary() {
         return summary;
     }
 
@@ -80,7 +81,7 @@ public class ArticleSummary {
         return publishTime;
     }
 
-    public ArticleSummary(ArticleId id, ArticleTitle title, ArticleContent summary, ImageUrl cover, AuthorInfo author, HotScore hotScore, ArticleStats stats, Category category, List<Tag> tags, LocalDateTime publishTime) {
+    public ArticleSummary(ArticleId id, ArticleTitle title, Content summary, ImageUrl cover, AuthorInfo author, HotScore hotScore, ArticleStats stats, Category category, List<Tag> tags, LocalDateTime publishTime) {
         this.id = id;
         this.title = title;
         this.summary = summary;
@@ -115,7 +116,7 @@ public class ArticleSummary {
     public static final class Builder {
         private ArticleId id;
         private ArticleTitle title;
-        private ArticleContent summary;
+        private Content summary;
         private ImageUrl cover;
         private AuthorInfo author;
         private HotScore hotScore;
@@ -137,7 +138,7 @@ public class ArticleSummary {
             return this;
         }
 
-        public Builder summary(ArticleContent val) {
+        public Builder summary(Content val) {
             summary = val;
             return this;
         }

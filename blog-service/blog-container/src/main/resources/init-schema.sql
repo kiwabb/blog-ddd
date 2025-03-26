@@ -2,6 +2,7 @@ DROP SCHEMA IF EXISTS "blog" CASCADE;
 
 CREATE SCHEMA "blog";
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS ltree; -- 首次使用前需安装
 DROP TYPE IF EXISTS article_status;
 CREATE TYPE article_status AS ENUM ('DRAFT', 'PUBLISHED', 'PENDING_APPROVAL', 'DELETED', 'TAKEN_DOWN');
 
@@ -111,7 +112,28 @@ CREATE TABLE "blog".favorite (
 );
 CREATE INDEX idx_favorite_user_id_target_id ON "blog".like(user_id, target_id) where is_deleted = false;
 
-
+DROP TYPE IF EXISTS "blog".comment_target_type;
+CREATE TYPE "blog".comment_target_type AS ENUM ('ARTICLE', 'COMMENT');
+DROP TABLE IF EXISTS "blog".comment CASCADE;
+CREATE TABLE "blog".comment (
+                             id UUID PRIMARY KEY,
+                             target_id UUID NOT NULL,
+                             user_id BIGINT NOT NULL,
+                             comment_target_type comment_target_type NOT NULL,
+                             parent_comment_id UUID, -- 父评论（自关联）
+                             content TEXT NOT NULL CHECK (LENGTH(content) BETWEEN 1 AND 2000),
+                             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                             version BIGINT DEFAULT 0,
+                             is_deleted BOOLEAN DEFAULT false,
+                             path LTREE
+);
+-- 索引配置
+CREATE INDEX idx_target ON "blog".comment(target_id, comment_target_type)
+    WHERE is_deleted = false; -- 查询目标评论的索引
+CREATE INDEX idx_path_gist ON "blog".comment USING GIST (path); -- 快速查询子树
+CREATE INDEX idx_user_activity ON "blog".comment(user_id, created_at DESC)
+    WHERE is_deleted = false; -- 用户最近评论查询
 
 -- 插入20条文章数据
 INSERT INTO "blog".category (name, sort, is_deleted) VALUES
