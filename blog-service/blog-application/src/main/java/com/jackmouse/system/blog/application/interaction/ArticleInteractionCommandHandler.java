@@ -1,13 +1,12 @@
 package com.jackmouse.system.blog.application.interaction;
 
 import com.jackmouse.system.blog.application.interaction.dto.InteractionCommand;
+import com.jackmouse.system.blog.application.interaction.ports.input.service.BaseInteractionCommandHandler;
 import com.jackmouse.system.blog.application.interaction.ports.output.message.publisher.InteractionModifyMessageEventPublisher;
-import com.jackmouse.system.blog.domain.article.entity.Article;
 import com.jackmouse.system.blog.domain.article.repository.ArticleRepository;
 import com.jackmouse.system.blog.domain.article.valueobject.ArticleId;
 import com.jackmouse.system.blog.domain.exception.ArticleNotFoundException;
 import com.jackmouse.system.blog.domain.exception.BlogDomainException;
-import com.jackmouse.system.blog.domain.exception.BlogNotFoundException;
 import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheService;
 import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
@@ -31,43 +30,24 @@ import java.time.ZonedDateTime;
  **/
 @Slf4j
 @Component
-public class ArticleInteractionCommandHandler {
+public class ArticleInteractionCommandHandler extends BaseInteractionCommandHandler {
 
     private final ArticleRepository articleRepository;
-    private final InteractionRepository interactionRepository;
     private final InteractionCacheService interactionCacheService;
-    private final InteractionModifyMessageEventPublisher interactionModifyMessageEventPublisher;
 
     public ArticleInteractionCommandHandler(ArticleRepository articleRepository,
                                             InteractionRepository interactionRepository,
                                             InteractionCacheService interactionCacheService,
                                             InteractionModifyMessageEventPublisher interactionModifyMessageEventPublisher) {
+        super(interactionRepository, interactionModifyMessageEventPublisher);
         this.articleRepository = articleRepository;
-        this.interactionRepository = interactionRepository;
         this.interactionCacheService = interactionCacheService;
-        this.interactionModifyMessageEventPublisher = interactionModifyMessageEventPublisher;
     }
 
-    @Transactional
-    public void handleLike(InteractionCommand interactionCommand) {
-        validateArticleExist(interactionCommand);
-        Like like = interactionRepository
-                .findLikeByArticleAndUserId(new ArticleId(interactionCommand.getTargetId()),
-                        new UserId(interactionCommand.getUserId()))
-                .map(entity -> {
-                    validateAndChangeLikeInteraction(entity, interactionCommand);
-                    return entity;
-                })
-                .orElse(initLikeInteraction(interactionCommand));
-        Like savedLike = interactionRepository.saveLike(like);
-        interactionCacheService.updateLikeCount(like);
-        interactionModifyMessageEventPublisher.publish(
-                new ArticleInteractionModifyEvent(savedLike, ZonedDateTime.now()));
-    }
 
     @Transactional
     public void handleFavorite(InteractionCommand interactionCommand) {
-        validateArticleExist(interactionCommand);
+        validateTargetExists(interactionCommand);
         Favorite favorite = interactionRepository
                 .findFavoriteByArticleAndUserId(new FavoriteId(interactionCommand.getTargetId()),
                         new UserId(interactionCommand.getUserId()))
@@ -96,10 +76,17 @@ public class ArticleInteractionCommandHandler {
         favorite.changeInteractionStatus(interactionCommand.getIsActive());
     }
 
-    private void validateArticleExist(InteractionCommand interactionCommand) {
-        if (!articleRepository.existById(new ArticleId(interactionCommand.getTargetId()))) {
-            throw new ArticleNotFoundException(interactionCommand.getTargetId());
+
+    @Override
+    protected void validateTargetExists(InteractionCommand command) {
+        if (!articleRepository.existById(new ArticleId(command.getTargetId()))) {
+            throw new ArticleNotFoundException(command.getTargetId());
         }
+    }
+
+    @Override
+    protected void updateLikeCount(Like like) {
+        interactionCacheService.updateArticleLikeCount(like);
     }
 
     private void validateAndChangeLikeInteraction(Like like, InteractionCommand interactionCommand) {

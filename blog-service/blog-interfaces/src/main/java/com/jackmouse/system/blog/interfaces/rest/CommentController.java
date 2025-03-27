@@ -5,6 +5,8 @@ import com.jackmouse.system.blog.application.comment.dto.query.CommentNodeRespon
 import com.jackmouse.system.blog.application.comment.dto.query.CommentResponse;
 import com.jackmouse.system.blog.application.comment.dto.query.TargetIdQuery;
 import com.jackmouse.system.blog.application.comment.port.input.service.CommentApplicationService;
+import com.jackmouse.system.blog.application.interaction.ports.input.service.InteractionApplicationService;
+import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheService;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.response.PageResult;
 import com.jackmouse.system.response.Result;
@@ -28,9 +30,11 @@ import java.util.UUID;
 public class CommentController {
 
     private final CommentApplicationService commentApplicationService;
+    private final InteractionApplicationService interactionApplicationService;
 
-    public CommentController(CommentApplicationService commentApplicationService) {
+    public CommentController(CommentApplicationService commentApplicationService, InteractionApplicationService interactionApplicationService) {
         this.commentApplicationService = commentApplicationService;
+        this.interactionApplicationService = interactionApplicationService;
     }
 
     @Operation(

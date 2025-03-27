@@ -6,6 +6,7 @@ import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheServic
 import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
 import com.jackmouse.system.blog.domain.interaction.valueobject.CommentInteraction;
+import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.redis.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class InteractionCacheServiceImpl implements InteractionCacheService {
     }
 
     @Override
-    public void updateLikeCount(Like like) {
+    public void updateArticleLikeCount(Like like) {
         String articleLikeKey = ARTICLE_LIKE_COUNT_KEY + like.getTargetId();
         String userLikeKey = USER_LIKE_KEY + like.getUserId();
         boolean active = like.getInteractionStatus().isActive();
@@ -125,10 +126,24 @@ public class InteractionCacheServiceImpl implements InteractionCacheService {
         log.info("减少评论回复数，评论ID：{}，回复数：{}", comment.getId(), commentCount);
     }
 
-    private Integer parseRedisValue(Object value) {
+    @Override
+    public void updateCommentLikeCount(Like like) {
+        boolean active = like.getInteractionStatus().isActive();
+        TargetId targetId = like.getTargetId();
+        String commentLikeKey = COMMENT_LIKE_COUNT_KEY + targetId.value();
+        long commentLikeCount;
+        if (active) {
+            commentLikeCount = redisUtil.incr(commentLikeKey, 1);
+        } else {
+            commentLikeCount = redisUtil.decr(commentLikeKey, 1);
+        }
+        log.info("更新评论点赞数，评论ID：{}，点赞数：{}", targetId, commentLikeCount);
+    }
+
+    private Integer parseRedisValue(String value) {
         if (value == null) return 0;
         try {
-            return Integer.parseInt(value.toString());
+            return Integer.parseInt(value);
         } catch (NumberFormatException e) {
             log.warn("Redis值解析失败: {}", value);
             return 0;

@@ -9,7 +9,7 @@ import com.jackmouse.system.blog.application.interaction.dto.InteractionCommand;
  * @Date 2025/3/7 14:22
  * @Version 1.0
  **/
-public interface ArticleInteractionApplicationService {
+public interface InteractionApplicationService {
 
     void handleLike(InteractionCommand interactionCommand);
 

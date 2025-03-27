@@ -1,8 +1,10 @@
 package com.jackmouse.system.blog.application.interaction.dto;
 
+import com.jackmouse.system.blog.domain.interaction.valueobject.TargetType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -20,4 +22,6 @@ public class InteractionCommand {
     private UUID targetId;
     private Boolean isActive;
     private Long userId;
+    @Setter
+    private TargetType targetType;
 }

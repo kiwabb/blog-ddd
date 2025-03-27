@@ -9,6 +9,7 @@ import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
 import com.jackmouse.system.blog.domain.interaction.repository.InteractionRepository;
 import com.jackmouse.system.blog.domain.interaction.valueobject.FavoriteId;
+import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +34,8 @@ public class InteractionRepositoryImpl implements InteractionRepository {
     }
 
     @Override
-    public Optional<Like> findLikeByArticleAndUserId(ArticleId articleId, UserId userId) {
-        Optional<LikeEntity> likeEntity = likeJpaRepository.findByTargetIdAndUserId(articleId.getValue(), userId.getValue());
+    public Optional<Like> findLikeByTargetIdAndUserId(TargetId targetId, UserId userId) {
+        Optional<LikeEntity> likeEntity = likeJpaRepository.findByTargetIdAndUserId(targetId.value(), userId.getValue());
         return likeEntity.map(LikeEntity::toLike);
     }
 
