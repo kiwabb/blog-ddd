@@ -25,4 +25,8 @@ public interface SystemRoleRepository {
     void save(Role role);
 
     void remove(List<Role> roles);
+
+    void assignMenu(Role role);
+
+    void assignUser(Role role);
 }

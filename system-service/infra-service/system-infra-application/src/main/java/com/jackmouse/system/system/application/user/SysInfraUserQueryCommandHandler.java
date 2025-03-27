@@ -38,6 +38,12 @@ public class SysInfraUserQueryCommandHandler {
                 UserResponse.fromUserList(page.data()));
     }
 
+    public com.jackmouse.system.response.PageResult<UserResponse> queryRoleUser(UserPageQuery query) {
+        PageResult<User> page = systemUserRepository.findAssignPage(systemInfraUserDataMapper.queryUserPageToUserPageQuerySpec(query));
+        return new com.jackmouse.system.response.PageResult<>(page.totalPages(), page.currentPage(),
+                UserResponse.fromUserList(page.data()));
+    }
+
     public UserDetailResponse queryUserById(Long id) {
         Optional<User> user = systemUserRepository.findById(new UserId(id));
         if (user.isEmpty()) {
@@ -45,4 +51,6 @@ public class SysInfraUserQueryCommandHandler {
         }
         return UserDetailResponse.fromUser(user.get());
     }
+
+
 }

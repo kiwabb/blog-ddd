@@ -1,6 +1,7 @@
 package com.jackmouse.system.system.dataaccess.adapter;
 
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
+import com.jackmouse.system.system.dataaccess.entity.SysRoleUserEntity;
 import com.jackmouse.system.system.dataaccess.mapper.UserDataAccessMapper;
 import com.jackmouse.system.system.dataaccess.entity.SysUserEntity;
 import com.jackmouse.system.system.dataaccess.repositooy.UserJpaRepository;
@@ -8,6 +9,8 @@ import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,6 +59,28 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
             }
             if (query.getUserType() != null) {
                 predicates.add(cb.equal(root.get("userType"), query.getUserType()));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        Page<SysUserEntity> userPage = userJpaRepository.findAll(specification, pageable);
+
+        return new PageResult<>(userPage.getContent().stream().map(userDataAccessMapper::userEntityToUser).toList(),
+                userPage.getTotalElements(),
+                userPage.getNumber() + 1,
+                userPage.getTotalPages());
+    }
+
+    @Override
+    public PageResult<User> findAssignPage(UserPageQuerySpec query) {
+        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Specification<SysUserEntity> specification = (root, cq, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            // 关联用户角色中间表
+            Join<SysUserEntity, SysRoleUserEntity> roleJoin = root.join("userRoles", JoinType.LEFT);
+            if (query.getBindRole()) {
+                predicates.add(cb.equal(roleJoin.get("roleId"), query.getRoleId().getValue()));
+            } else {
+                predicates.add(cb.or(roleJoin.get("roleId").isNull(),cb.notEqual(roleJoin.get("roleId"), query.getRoleId().getValue())));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

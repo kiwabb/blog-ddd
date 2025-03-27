@@ -2,6 +2,7 @@ package com.jackmouse.system.system.interfaces.rest;
 
 import com.jackmouse.system.response.PageResult;
 import com.jackmouse.system.response.Result;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignMenuCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.RoleCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.query.RoleDetailResponse;
 import com.jackmouse.system.system.application.rolemenu.dto.query.RolePageQuery;
@@ -9,6 +10,7 @@ import com.jackmouse.system.system.application.rolemenu.dto.query.RoleResponse;
 import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.ports.input.service.SysInfraRoleMenuApplicationService;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignUserCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  **/
 @Tag(name = "角色管理接口", description = "提供角色相关的所有操作接口")
 @RestController
-@RequestMapping( value = "/admin/Role", produces = "application/json")
+@RequestMapping( value = "/admin/role", produces = "application/json")
 public class SysRoleController {
     private final SysInfraRoleMenuApplicationService sysInfraRoleMenuApplicationService;
 
@@ -59,6 +61,28 @@ public class SysRoleController {
     @PostMapping
     public Result<Void> createRole(@RequestBody @Valid RoleCreateCommand command) {
         sysInfraRoleMenuApplicationService.createRole(command);
+        return Result.succeed(null);
+    }
+
+    @Operation(
+            summary = "分配菜单",
+            description = "分配菜单",
+            method = "POST"
+    )
+    @PostMapping("/assignMenu")
+    public Result<Void> assignMenu(@RequestBody @Valid AssignMenuCommand command) {
+        sysInfraRoleMenuApplicationService.assignMenu(command);
+        return Result.succeed(null);
+    }
+
+    @Operation(
+            summary = "分配用户",
+            description = "分配用户",
+            method = "POST"
+    )
+    @PostMapping("/assignUser")
+    public Result<Void> assignUser(@RequestBody @Valid AssignUserCommand command) {
+        sysInfraRoleMenuApplicationService.assignUser(command);
         return Result.succeed(null);
     }
 

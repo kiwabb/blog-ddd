@@ -34,4 +34,8 @@ public class UserPageQuery extends PageQuery {
     private final String status;
     @Schema(description = "用户类型", example = "ADMIN")
     private final String userType;
+    @Schema(description = "角色ID", example = "1")
+    private final Long roleId;
+    @Schema(description = "是否绑定角色", example = "true")
+    private Boolean isBindRole;
 }

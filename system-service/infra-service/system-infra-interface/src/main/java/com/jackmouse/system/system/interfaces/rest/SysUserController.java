@@ -45,6 +45,28 @@ public class SysUserController {
     }
 
     @Operation(
+            summary = "查询已分配用户列表",
+            description = "查询已分配用户列表",
+            method = "GET"
+    )
+    @GetMapping("/getAssignUser")
+    public PageResult<UserResponse> getAssignUser(UserPageQuery query) {
+        query.setIsBindRole(true);
+        return sysInfraUserApplicationService.queryAssignUser(query);
+    }
+
+    @Operation(
+            summary = "查询未分配用户列表",
+            description = "查询未分配用户列表",
+            method = "GET"
+    )
+    @GetMapping("/getUnAssignUser")
+    public PageResult<UserResponse> getUnAssignUser(UserPageQuery query) {
+        query.setIsBindRole(false);
+        return sysInfraUserApplicationService.queryUnAssignUser(query);
+    }
+
+    @Operation(
             summary = "查询用户详情",
             description = "查询用户详情",
             method = "GET"

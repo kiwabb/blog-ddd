@@ -19,11 +19,14 @@ public interface SystemUserRepository {
 
     PageResult<User> findPage(UserPageQuerySpec query);
 
+    PageResult<User> findAssignPage(UserPageQuerySpec userPageQuerySpec);
+
     Optional<User> findById(UserId userId);
 
     void save(User user);
 
     void remove(List<User> user);
+
 
 
 }

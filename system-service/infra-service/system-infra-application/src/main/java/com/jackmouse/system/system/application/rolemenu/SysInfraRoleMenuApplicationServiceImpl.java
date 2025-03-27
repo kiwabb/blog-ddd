@@ -1,6 +1,7 @@
 package com.jackmouse.system.system.application.rolemenu;
 
 import com.jackmouse.system.response.PageResult;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignMenuCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.MenuCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.RoleCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.query.*;
@@ -9,6 +10,7 @@ import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCom
 import com.jackmouse.system.system.application.rolemenu.dto.update.MenuUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.ports.input.service.SysInfraRoleMenuApplicationService;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignUserCommand;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
@@ -92,5 +94,15 @@ public class SysInfraRoleMenuApplicationServiceImpl implements SysInfraRoleMenuA
     @Override
     public List<MenuBindRoleResponse> queryMenuBindRole(Long roleId) {
         return sysInfraRoleMenuQueryCommandHandler.queryMenuBindRole(roleId);
+    }
+
+    @Override
+    public void assignMenu(AssignMenuCommand command) {
+        sysInfraRoleMenuModifyCommandHandler.assignMenu(command);
+    }
+
+    @Override
+    public void assignUser(AssignUserCommand command) {
+        sysInfraRoleMenuModifyCommandHandler.assignUser(command);
     }
 }

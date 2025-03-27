@@ -52,6 +52,10 @@ public class Menu extends BaseEntity<MenuId> {
     public static Builder builder() {
         return new Builder();
     }
+    public void setChecked() {
+        menuChecked = new Checked(true);
+    }
+
     public Checked getMenuChecked() {
         return menuChecked;
     }
@@ -123,7 +127,7 @@ public class Menu extends BaseEntity<MenuId> {
         private UpdatedAt updatedAt;
         private UpdatedBy updatedBy;
         private MenuHidden hidden;
-        private Checked menuChecked;
+        private Checked menuChecked = new Checked(false);
 
         private Builder() {
         }

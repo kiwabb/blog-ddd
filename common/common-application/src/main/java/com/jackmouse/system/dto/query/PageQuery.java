@@ -12,13 +12,20 @@ import lombok.Data;
  **/
 @Data
 public class PageQuery implements SortSpec {
-    int page = 1;
-    int size = 10;
+    int current = 1;
+    int pageSize = 10;
     String sortField;
     String sortType = "DESC";
 
     @Override
     public Direction getDirection() {
         return Direction.valueOf(sortType);
+    }
+
+    public int getPage() {
+        return current;
+    }
+    public int getSize() {
+        return pageSize;
     }
 }

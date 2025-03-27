@@ -1,8 +1,11 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
 import com.jackmouse.system.entity.BaseEntity;
+import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 /**
  * @ClassName SysRoleMenu
@@ -29,20 +32,25 @@ public class SysRoleMenuEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumns({
-//            @JoinColumn(name = "role_id", referencedColumnName = "id"),
-//            @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id")
-//    })
-//    private SysRoleEntity role;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumns(value = {
-//            @JoinColumn(name = "menu_id", referencedColumnName = "id"),
-//            @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id", insertable=false, updatable=false)
-//    })
-//    private SysMenuEntity menu;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private SysRoleEntity role;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id", nullable = false) // 外键列
+    private SysMenuEntity menu;  //
+
+    @Column(name = "tenant_id", nullable = false)
+    @Builder.Default
+    private Long tenantId = 0L;
 
     @Version
     private Long version;
+
+    public SysRoleMenuEntity(SysRoleEntity sysRoleEntity, SysMenuEntity byId) {
+        this.role = sysRoleEntity;
+        this.menu = byId;
+        this.tenantId = 1L;
+    }
+
 }

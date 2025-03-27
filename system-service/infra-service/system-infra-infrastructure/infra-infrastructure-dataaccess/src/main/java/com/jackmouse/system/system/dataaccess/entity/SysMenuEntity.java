@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
+import java.util.Set;
+
 /**
  * @ClassName SysMenu
  * @Description
@@ -56,8 +58,9 @@ public class SysMenuEntity extends BaseEntity {
     @Column(name = "component_name", length = 100)
     private String componentName;
 
-//    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<SysRoleMenuEntity> roles = new HashSet<>();
+    @OneToMany(mappedBy = "menu")
+    private Set<SysRoleMenuEntity> roleMenus;
+
     @Version
     private Long version;
 }

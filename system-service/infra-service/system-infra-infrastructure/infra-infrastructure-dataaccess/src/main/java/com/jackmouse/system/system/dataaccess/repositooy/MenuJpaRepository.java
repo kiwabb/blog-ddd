@@ -20,4 +20,6 @@ import java.util.List;
 public interface MenuJpaRepository extends JpaRepository<SysMenuEntity, Long>,
         JpaSpecificationExecutor<SysMenuEntity> {
     List<SysMenuEntity> findByType(MenuType menuType);
+
+    List<SysMenuEntity> findByRoleMenus_RoleId(Long value);
 }

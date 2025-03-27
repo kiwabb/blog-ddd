@@ -3,6 +3,7 @@ package com.jackmouse.system.system.infra.domain.rolemenu.entity;
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.*;
+import com.jackmouse.system.system.infra.domain.user.entity.User;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Role extends AggregateRoot<RoleId> {
     private final UpdatedAt updatedAt;
     private final UpdatedBy updatedBy;
     private final List<Menu> menus;
+    private final List<User> users;
 
     private Role(Builder builder) {
         setId(builder.roleId);
@@ -38,10 +40,15 @@ public class Role extends AggregateRoot<RoleId> {
         updatedAt = builder.updatedAt;
         updatedBy = builder.updatedBy;
         menus = builder.menus;
+        users = builder.users;
     }
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 
     public List<Menu> getMenus() {
@@ -96,6 +103,7 @@ public class Role extends AggregateRoot<RoleId> {
         private UpdatedAt updatedAt;
         private UpdatedBy updatedBy;
         private List<Menu> menus;
+        private List<User> users;
 
         private Builder() {
         }
@@ -152,6 +160,11 @@ public class Role extends AggregateRoot<RoleId> {
 
         public Builder menus(List<Menu> val) {
             menus = val;
+            return this;
+        }
+
+        public Builder users(List<User> val) {
+            users = val;
             return this;
         }
 

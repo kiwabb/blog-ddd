@@ -9,6 +9,9 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @ClassName User
  * @Description
@@ -64,9 +67,9 @@ public class SysUserEntity extends BaseEntity {
 
     @Column(name = "tenant_id", nullable = false)
     private Long tenantId = 1L;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<SysRoleUserEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<SysRoleUserEntity> userRoles = new HashSet<>();
 
     @Version
     private Long version;

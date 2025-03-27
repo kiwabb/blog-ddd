@@ -1,11 +1,13 @@
 package com.jackmouse.system.system.application.rolemenu;
 
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignMenuCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.MenuCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.RoleCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.remove.MenuRemoveCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.MenuUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignUserCommand;
 import com.jackmouse.system.system.infra.domain.rolemenu.repository.SystemMenuRepository;
 import com.jackmouse.system.system.infra.domain.rolemenu.repository.SystemRoleRepository;
 import org.springframework.stereotype.Component;
@@ -52,5 +54,14 @@ public class SysInfraRoleModifyCommandHandler {
     @Transactional
     public void createRole(RoleCreateCommand command) {
         systemRoleRepository.save(command.toRole());
+    }
+
+    @Transactional
+    public void assignMenu(AssignMenuCommand command) {
+        systemRoleRepository.assignMenu(command.toRole());
+    }
+    @Transactional
+    public void assignUser(AssignUserCommand command) {
+        systemRoleRepository.assignUser(command.toRole());
     }
 }

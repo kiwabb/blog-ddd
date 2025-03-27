@@ -17,7 +17,8 @@ import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand
  **/
 public interface SysInfraUserApplicationService {
     PageResult<UserResponse> queryUserPage(UserPageQuery query);
-
+    PageResult<UserResponse> queryAssignUser(UserPageQuery query);
+    PageResult<UserResponse> queryUnAssignUser(UserPageQuery query);
     void createUser(UserCreateCommand command);
 
     void updateUser(UserUpdateCommand command);
@@ -25,4 +26,7 @@ public interface SysInfraUserApplicationService {
     void removeUser(UserRemoveCommand commands);
 
     UserDetailResponse queryUserById(Long id);
+
+
+
 }

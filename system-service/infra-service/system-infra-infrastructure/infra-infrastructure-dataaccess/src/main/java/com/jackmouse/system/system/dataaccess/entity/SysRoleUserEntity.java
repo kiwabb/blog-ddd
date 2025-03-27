@@ -1,10 +1,13 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
 import com.jackmouse.system.entity.BaseEntity;
+import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
 import jakarta.persistence.*;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import lombok.*;
+
+import java.util.List;
 
 /**
  * @ClassName SysRoleUser
@@ -31,20 +34,26 @@ public class SysRoleUserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumns({
-//            @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id")
-//    })
-//    private SysUserEntity user;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumns({
-//            @JoinColumn(name = "role_id", referencedColumnName = "id"),
-//            @JoinColumn(name = "tenant_id", referencedColumnName = "tenant_id")
-//    })
-//    private SysRoleEntity role;
+    @Column(name = "user_id", nullable = false, updatable = false)
+    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private SysUserEntity user;
+
+    @Column(name = "role_id")
+    private Long roleId;
+
+    @Column(name = "tenant_id", nullable = false)
+    @Builder.Default
+    private Long tenantId = 0L;
 
     @Version
     private Long version;
+
+    public static List<SysRoleUserEntity> from(Role role) {
+        return role.getUsers().stream().map(m -> SysRoleUserEntity.builder()
+                .userId(m.getId().getValue())
+                .roleId(role.getId().getValue())
+                .build()).toList();
+    }
 }

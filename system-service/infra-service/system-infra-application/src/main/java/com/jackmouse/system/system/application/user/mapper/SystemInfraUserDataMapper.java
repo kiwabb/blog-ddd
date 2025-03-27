@@ -5,6 +5,7 @@ import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand
 import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
 import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
 import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
@@ -31,7 +32,9 @@ public class SystemInfraUserDataMapper {
                 .email(new Email(query.getEmail()))
                 .status(query.getStatus() == null ? null : UserStatus.valueOf(query.getStatus()))
                 .userType(query.getUserType() == null ? null : UserType.valueOf(query.getUserType()))
-                .pageParam(new PageParam(query.getPage(), query.getSize(), query))
+                .pageParam(new PageParam(query.getCurrent(), query.getPageSize(), query))
+                .roleId(new RoleId(query.getRoleId()))
+                .isBindRole(query.getIsBindRole())
                 .build();
     }
 

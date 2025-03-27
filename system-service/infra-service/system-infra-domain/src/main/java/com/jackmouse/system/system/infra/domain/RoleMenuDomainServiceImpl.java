@@ -19,6 +19,10 @@ public class RoleMenuDomainServiceImpl implements RoleMenuDomainService {
     @Override
     public List<Menu> generateMenuCheckList(List<Menu> menuList, List<Menu> checkedMenu) {
         Set<MenuId> ids = checkedMenu.stream().map(Menu::getId).collect(Collectors.toSet());
-        return List.of();
+        return menuList.stream().peek(menu -> {
+            if (ids.contains(menu.getId())) {
+                menu.setChecked();
+            }
+        }).toList();
     }
 }

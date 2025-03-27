@@ -30,7 +30,7 @@ public class MenuPageQuery extends PageQuery {
     private final String menuType;
 
     public MenuPageQuerySpec toMenuPageQuery() {
-        this.setSize(Integer.MAX_VALUE);
+        this.setPageSize(Integer.MAX_VALUE);
         return MenuPageQuerySpec.builder()
                 .menuName(new MenuName(menuName))
                 .menuType(menuType == null ? null : MenuType.valueOf(menuType))

@@ -83,11 +83,14 @@ public class SystemMenuRepositoryImpl implements SystemMenuRepository {
 
     @Override
     public List<Menu> findByRoleId(RoleId roleId) {
-        return List.of();
+        return menuJpaRepository.findByRoleMenus_RoleId(roleId.getValue())
+                .stream()
+                .map(roleDataAccessMapper::menuEntityToMenu)
+                .toList();
     }
 
     @Override
     public List<Menu> findAll() {
-        return List.of();
+        return menuJpaRepository.findAll().stream().map(roleDataAccessMapper::menuEntityToMenu).toList();
     }
 }

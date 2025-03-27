@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.domain.specification.SortSpec;
 import com.jackmouse.system.blog.domain.valueobject.Email;
 import com.jackmouse.system.blog.domain.valueobject.Mobile;
 import com.jackmouse.system.blog.domain.valueobject.PageParam;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
 import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
 import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
@@ -26,7 +27,17 @@ public class UserPageQuerySpec implements PageSpec<User> {
     private final Email email;
     private final UserStatus status;
     private final UserType userType;
+    private final RoleId roleId;
     private final PageParam pageParam;
+    private final Boolean isBindRole;
+
+    public Boolean getBindRole() {
+        return isBindRole;
+    }
+
+    public RoleId getRoleId() {
+        return roleId;
+    }
 
     public Username getUsername() {
         return username;
@@ -58,7 +69,9 @@ public class UserPageQuerySpec implements PageSpec<User> {
         email = builder.email;
         status = builder.status;
         userType = builder.userType;
+        roleId = builder.roleId;
         pageParam = builder.pageParam;
+        isBindRole = builder.isBindRole;
     }
 
 
@@ -93,7 +106,9 @@ public class UserPageQuerySpec implements PageSpec<User> {
         private Email email;
         private UserStatus status;
         private UserType userType;
+        private RoleId roleId;
         private PageParam pageParam;
+        private Boolean isBindRole;
 
         private Builder() {
         }
@@ -123,8 +138,18 @@ public class UserPageQuerySpec implements PageSpec<User> {
             return this;
         }
 
+        public Builder roleId(RoleId val) {
+            roleId = val;
+            return this;
+        }
+
         public Builder pageParam(PageParam val) {
             pageParam = val;
+            return this;
+        }
+
+        public Builder isBindRole(Boolean val) {
+            isBindRole = val;
             return this;
         }
 

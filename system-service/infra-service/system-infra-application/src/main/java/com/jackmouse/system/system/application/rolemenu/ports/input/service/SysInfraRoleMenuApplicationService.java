@@ -1,6 +1,7 @@
 package com.jackmouse.system.system.application.rolemenu.ports.input.service;
 
 import com.jackmouse.system.response.PageResult;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignMenuCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.MenuCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.create.RoleCreateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.query.*;
@@ -8,12 +9,7 @@ import com.jackmouse.system.system.application.rolemenu.dto.remove.MenuRemoveCom
 import com.jackmouse.system.system.application.rolemenu.dto.remove.RoleRemoveCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.MenuUpdateCommand;
 import com.jackmouse.system.system.application.rolemenu.dto.update.RoleUpdateCommand;
-import com.jackmouse.system.system.application.user.dto.create.UserCreateCommand;
-import com.jackmouse.system.system.application.user.dto.query.UserDetailResponse;
-import com.jackmouse.system.system.application.user.dto.query.UserPageQuery;
-import com.jackmouse.system.system.application.user.dto.query.UserResponse;
-import com.jackmouse.system.system.application.user.dto.remove.UserRemoveCommand;
-import com.jackmouse.system.system.application.user.dto.update.UserUpdateCommand;
+import com.jackmouse.system.system.application.rolemenu.dto.create.AssignUserCommand;
 
 import java.util.List;
 
@@ -48,4 +44,8 @@ public interface SysInfraRoleMenuApplicationService {
     List<MenuResponse> queryMenuByType(String type);
 
     List<MenuBindRoleResponse> queryMenuBindRole(Long roleId);
+
+    void assignMenu(AssignMenuCommand command);
+
+    void assignUser(AssignUserCommand command);
 }

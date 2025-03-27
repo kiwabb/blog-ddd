@@ -31,6 +31,17 @@ public class SysInfraUserApplicationServiceImpl implements SysInfraUserApplicati
     public PageResult<UserResponse> queryUserPage(UserPageQuery query) {
         return sysInfraUserQueryCommandHandler.queryUserPage(query);
     }
+
+    @Override
+    public PageResult<UserResponse> queryAssignUser(UserPageQuery query) {
+        return sysInfraUserQueryCommandHandler.queryRoleUser(query);
+    }
+
+    @Override
+    public PageResult<UserResponse> queryUnAssignUser(UserPageQuery query) {
+        return sysInfraUserQueryCommandHandler.queryRoleUser(query);
+    }
+
     @Override
     public UserDetailResponse queryUserById(Long id) {
         return sysInfraUserQueryCommandHandler.queryUserById(id);
