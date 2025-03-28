@@ -5,6 +5,7 @@ import com.jackmouse.system.blog.application.comment.dto.query.CommentNodeRespon
 import com.jackmouse.system.blog.application.comment.dto.query.CommentResponse;
 import com.jackmouse.system.blog.domain.comment.entity.Comment;
 import com.jackmouse.system.blog.domain.interaction.valueobject.CommentInteraction;
+import com.jackmouse.system.dto.query.UserInfoResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -33,9 +34,10 @@ public class CommentApplicationMapper {
                 .createTime(secondLevelComment.getCreatedAt())
                 .path(secondLevelComment.getPath().getPath())
                 .depth(secondLevelComment.getDepth().value())
-                .userId(secondLevelComment.getUserId().getValue())
-                .username("")
-                .avatar("")
+                .author(new UserInfoResponse(secondLevelComment.getUserId().getValue(),"kiwa", "kiwa", "Lv100", "公主"))
+//                .userId(secondLevelComment.getUserId().getValue())
+//                .username("")
+//                .avatar("")
                 .likeCount(likeCount)
                 .replyCount(replyCount)
                 .replies(new ArrayList<>())

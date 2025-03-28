@@ -32,7 +32,7 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .id(comment.getId().getValue())
                 .content(comment.getContent().value())
-                .author(new UserInfoResponse(comment.getUserId().getValue(),"kiwa", "kiwa"))
+                .author(new UserInfoResponse(comment.getUserId().getValue(),"kiwa", "kiwa", "Lv100", "公主"))
                 .createTime(comment.getCreatedAt())
                 .path(comment.getPath().getPath())
                 .depth(comment.getDepth().value())

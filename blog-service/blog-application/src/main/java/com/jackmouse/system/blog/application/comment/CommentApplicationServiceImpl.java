@@ -20,6 +20,7 @@ import com.jackmouse.system.blog.domain.exception.CommentNotFoundException;
 import com.jackmouse.system.blog.domain.interaction.cache.InteractionCacheService;
 import com.jackmouse.system.blog.domain.interaction.valueobject.CommentInteraction;
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
+import com.jackmouse.system.dto.query.UserInfoResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,9 +126,10 @@ public class CommentApplicationServiceImpl implements CommentApplicationService 
                             .createTime(rootComment.getCreatedAt())
                             .path(rootComment.getPath().getPath())
                             .depth(rootComment.getDepth().value())
-                            .userId(rootComment.getUserId().getValue())
-                            .username("kiwa")
-                            .avatar("kiwa")
+                            .author(new UserInfoResponse(rootComment.getUserId().getValue(),"kiwa", "kiwa", "Lv100", "公主"))
+//                            .userId(rootComment.getUserId().getValue())
+//                            .username("kiwa")
+//                            .avatar("kiwa")
                             .likeCount(commentInteractionResponse.getLikeCount())
                             .replyCount(commentInteractionResponse.getReplyCount())
                             .replies(secondLevelMapOrDefault

@@ -7,6 +7,7 @@ import com.jackmouse.system.blog.domain.comment.repository.CommentRepository;
 import com.jackmouse.system.blog.domain.comment.specification.query.CommentPageQuerySpec;
 import com.jackmouse.system.blog.domain.comment.valueobject.CommentId;
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
+import com.jackmouse.system.utils.RepositoryUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +48,8 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public PageResult<Comment> findByTargetId(CommentPageQuerySpec query) {
-        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+
+        Pageable pageable = RepositoryUtil.toPageable(query);
         Specification<CommentEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("targetId"), query.getTargetId().value()));
@@ -55,11 +57,8 @@ public class CommentRepositoryImpl implements CommentRepository {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
         Page<CommentEntity> commentEntityPage = commentJpaRepository.findAll(specification, pageable);
-        return new PageResult<>(
-                commentEntityPage.getContent().stream().map(CommentEntity::toComment).toList(),
-                commentEntityPage.getTotalElements(),
-                commentEntityPage.getNumber() + 1,
-                commentEntityPage.getTotalPages());
+
+        return RepositoryUtil.toPageData(commentEntityPage);
     }
 
     @Override
