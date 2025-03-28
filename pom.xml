@@ -19,6 +19,7 @@
         <module>blog-service</module>
         <module>common</module>
         <module>system-service</module>
+        <module>iot-service</module>
     </modules>
 
     <properties>
