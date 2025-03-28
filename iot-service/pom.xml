@@ -20,5 +20,15 @@
         <module>iot-interface</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>iot-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 
 </project>
