@@ -16,23 +16,6 @@ import org.springframework.stereotype.Component;
  **/
 @Component
 public class UserDataAccessMapper {
-    public User userEntityToUser(SysUserEntity sysUserEntity) {
-        return User.builder()
-                .id(new UserId(sysUserEntity.getId()))
-                .username(new Username(sysUserEntity.getUsername()))
-                .userType(sysUserEntity.getUserType())
-                .status(sysUserEntity.getStatus())
-                .avatar(new ImageUrl(sysUserEntity.getAvatar()))
-                .email(new Email(sysUserEntity.getEmail()))
-                .mobile(new Mobile(sysUserEntity.getPhone()))
-                .sex(sysUserEntity.getSex())
-                .version(new Version(sysUserEntity.getVersion()))
-                .createdBy(new CreatedBy(sysUserEntity.getCreatedBy()))
-                .updatedBy(new UpdatedBy(sysUserEntity.getUpdatedBy()))
-                .createdAt(new CreatedAt(sysUserEntity.getCreatedAt()))
-                .updatedAt(new UpdatedAt(sysUserEntity.getUpdatedAt()))
-                .build();
-    }
 
     public SysUserEntity userToUpdateUserEntity(User user) {
         SysUserEntity.SysUserEntityBuilder builder = SysUserEntity.builder()

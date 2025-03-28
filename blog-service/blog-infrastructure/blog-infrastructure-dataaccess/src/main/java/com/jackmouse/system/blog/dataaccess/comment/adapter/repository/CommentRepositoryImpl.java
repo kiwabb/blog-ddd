@@ -37,13 +37,13 @@ public class CommentRepositoryImpl implements CommentRepository {
 
     @Override
     public Comment save(Comment comment) {
-        return commentJpaRepository.save(CommentEntity.from(comment)).toComment();
+        return commentJpaRepository.save(CommentEntity.from(comment)).toData();
     }
 
     @Override
     public Optional<Comment> findById(CommentId commentId) {
         return commentJpaRepository.findById(commentId.getValue())
-                .map(CommentEntity::toComment);
+                .map(CommentEntity::toData);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CommentRepositoryImpl implements CommentRepository {
         return commentEntities.stream()
                 .collect(Collectors.groupingBy(
                         entity -> new CommentId(entity.getParentCommentId()),
-                        Collectors.mapping(CommentEntity::toComment, Collectors.toList())
+                        Collectors.mapping(CommentEntity::toData, Collectors.toList())
                 ));
     }
 

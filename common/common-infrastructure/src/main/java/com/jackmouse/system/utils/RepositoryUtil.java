@@ -24,7 +24,7 @@ public class RepositoryUtil {
     private static final Sort DEFAULT_SORT = Sort.by(Sort.Direction.ASC, DEFAULT_SORT_PROPERTY);
     public static <T> PageResult<T> toPageData(Page<? extends ToData<T>> page) {
         List<T> data = convertDataList(page.getContent());
-        return new PageResult<>(data, page.getTotalElements(), page.getTotalPages(), page.getTotalPages());
+        return new PageResult<>(data, page.getTotalElements(), page.getNumber() + 1, page.getTotalPages());
     }
 
     public static <T> List<T> convertDataList(Collection<? extends ToData<T>> toDataList) {
@@ -50,7 +50,7 @@ public class RepositoryUtil {
 
     public static Pageable toPageable(PageSpec spec, Map<String, String> columnMap, boolean addDefaultSorting) {
 
-        return PageRequest.of(spec.getPage(), spec.getSize(),
+        return PageRequest.of(spec.getPage() - 1, spec.getSize(),
                 spec.getSort().getSortField() == null ? DEFAULT_SORT :
                         Sort.by(spec.getSort().getSortField(), spec.getSort().getDirection().name())
                 );

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName ArticleRespositoryImpl
@@ -60,9 +61,8 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public Article findById(ArticleId id) {
-        ArticleEntity articleEntity = articleJpaRepository.findById(id.getValue()).orElse(null);
-        return articleEntity == null ? null : articleDataAccessMapper.articleEntityToArticle(articleEntity);
+    public Optional<Article> findById(ArticleId id) {
+        return articleJpaRepository.findById(id.getValue()).map(ArticleEntity::toData);
     }
 
     @Override
@@ -78,11 +78,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
     @Override
     public List<Category> findCategories() {
-        return categoryJpaRepository.findAll().stream().map(CategoryEntity::toCategory).toList();
+        return categoryJpaRepository.findAll().stream().map(CategoryEntity::toData).toList();
     }
 
     @Override
     public List<Tag> findTags() {
-        return tagJpaRepository.findAll().stream().map(TagEntity::toTag).toList();
+        return tagJpaRepository.findAll().stream().map(TagEntity::toData).toList();
     }
 }

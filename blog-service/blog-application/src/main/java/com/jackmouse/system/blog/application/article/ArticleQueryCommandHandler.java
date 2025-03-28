@@ -43,11 +43,8 @@ public class ArticleQueryCommandHandler {
 
     @Transactional(readOnly = true)
     public ArticleResponse queryArticleById(ArticleIdQuery articleIdQuery) {
-        Article article = articleRepository.findById(new ArticleId(articleIdQuery.getArticleId()));
-        if (article == null) {
-            log.warn("Article not found id = {}.", articleIdQuery.getArticleId());
-            throw new BlogNotFoundException("Article not found id = " + articleIdQuery.getArticleId() + ".");
-        }
+        Article article = articleRepository.findById(new ArticleId(articleIdQuery.getArticleId()))
+                .orElseThrow(() -> new BlogNotFoundException("Article not found id = " + articleIdQuery.getArticleId() + "."));
         article.generateHotScore();
         return articleDataMapper.articleToArticleResponse(article);
     }

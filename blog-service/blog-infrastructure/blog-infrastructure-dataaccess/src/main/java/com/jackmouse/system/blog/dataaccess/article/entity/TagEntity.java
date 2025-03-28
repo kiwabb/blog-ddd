@@ -3,6 +3,7 @@ package com.jackmouse.system.blog.dataaccess.article.entity;
 import com.jackmouse.system.blog.domain.article.entity.Tag;
 import com.jackmouse.system.blog.domain.article.valueobject.TagId;
 import com.jackmouse.system.blog.domain.article.valueobject.TagName;
+import com.jackmouse.system.entity.ToData;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tag", schema = "blog")
-public class TagEntity {
+public class TagEntity implements ToData<Tag> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,7 +52,9 @@ public class TagEntity {
         updatedAt = LocalDateTime.now();
     }
 
-    public Tag toTag() {
+
+    @Override
+    public Tag toData() {
         return Tag.builder()
                 .id(new TagId(id))
                 .name(new TagName(name))

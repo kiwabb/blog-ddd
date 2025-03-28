@@ -1,7 +1,13 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
+import com.jackmouse.system.blog.domain.valueobject.CreatedAt;
+import com.jackmouse.system.blog.domain.valueobject.CreatedBy;
+import com.jackmouse.system.blog.domain.valueobject.UpdatedAt;
+import com.jackmouse.system.blog.domain.valueobject.UpdatedBy;
 import com.jackmouse.system.entity.BaseEntity;
-import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
+import com.jackmouse.system.entity.ToData;
+import com.jackmouse.system.system.infra.domain.rolemenu.entity.Menu;
+import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -23,7 +29,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SysMenuEntity extends BaseEntity {
+public class SysMenuEntity extends BaseEntity implements ToData<Menu> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -63,4 +69,25 @@ public class SysMenuEntity extends BaseEntity {
 
     @Version
     private Long version;
+
+    @Override
+    public Menu toData() {
+        return Menu.builder()
+                .id(new MenuId(getId()))
+                .parentId(new MenuId(getParentId()))
+                .name(new MenuName(getName()))
+                .path(new MenuPath(getPath()))
+                .component(new MenuComponent(getComponent(), getComponentName()))
+                .hidden(new MenuHidden(getHidden()))
+                .icon(new MenuIcon(getIcon()))
+                .sort(new MenuSort(getSort()))
+                .hidden(new MenuHidden(getHidden()))
+                .version(new com.jackmouse.system.blog.domain.valueobject.Version(getVersion()))
+                .createdAt(new CreatedAt(getCreatedAt()))
+                .createdBy(new CreatedBy(getCreatedBy()))
+                .updatedAt(new UpdatedAt(getUpdatedAt()))
+                .updatedBy(new UpdatedBy(getUpdatedBy()))
+                .type(getType())
+                .build();
+    }
 }

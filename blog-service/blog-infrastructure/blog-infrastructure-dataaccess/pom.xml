@@ -25,6 +25,10 @@
             <artifactId>jackmouse-common-redis</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.jackmouse.system.blog</groupId>
+            <artifactId>common-infrastructure</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>

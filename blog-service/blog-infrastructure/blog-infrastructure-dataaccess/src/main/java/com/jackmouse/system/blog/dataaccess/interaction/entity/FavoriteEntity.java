@@ -4,6 +4,7 @@ import com.jackmouse.system.blog.domain.interaction.entity.Favorite;
 import com.jackmouse.system.blog.domain.interaction.entity.Like;
 import com.jackmouse.system.blog.domain.interaction.valueobject.*;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
+import com.jackmouse.system.entity.ToData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "favorite", schema = "blog")
-public class FavoriteEntity {
+public class FavoriteEntity implements ToData<Favorite> {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id", updatable = false, nullable = false)
@@ -74,16 +75,6 @@ public class FavoriteEntity {
         updatedAt = OffsetDateTime.now();
     }
 
-    public Favorite toFavorite() {
-        return Favorite.builder()
-                .id(new FavoriteId(id))
-                .targetId(new TargetId(targetId))
-                .userId(new UserId(userId))
-                .favoriteType(targetType)
-                .interactionStatus(new InteractionStatus(active, lastModified))
-                .version(new com.jackmouse.system.blog.domain.valueobject.Version(version))
-                .build();
-    }
     public static FavoriteEntity from(Favorite favorite) {
         return FavoriteEntity.builder()
                 .id(favorite.getId() == null ? null : favorite.getId().getValue())
@@ -93,6 +84,18 @@ public class FavoriteEntity {
                 .active(favorite.getInteractionStatus().isActive())
                 .version(favorite.getVersion() == null ? null : favorite.getVersion().getValue())
                 .lastModified(favorite.getInteractionStatus().getLastModified())
+                .build();
+    }
+
+    @Override
+    public Favorite toData() {
+        return Favorite.builder()
+                .id(new FavoriteId(id))
+                .targetId(new TargetId(targetId))
+                .userId(new UserId(userId))
+                .favoriteType(targetType)
+                .interactionStatus(new InteractionStatus(active, lastModified))
+                .version(new com.jackmouse.system.blog.domain.valueobject.Version(version))
                 .build();
     }
 }

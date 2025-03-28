@@ -10,6 +10,7 @@ import com.jackmouse.system.system.infra.domain.rolemenu.specification.query.Men
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuId;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.MenuType;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
+import com.jackmouse.system.utils.RepositoryUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +41,7 @@ public class SystemMenuRepositoryImpl implements SystemMenuRepository {
 
     @Override
     public PageResult<Menu> findPage(MenuPageQuerySpec query) {
-        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Pageable pageable = RepositoryUtil.toPageable(query);
         Specification<SysMenuEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(query.getMenuName().value())) {
@@ -51,16 +52,12 @@ public class SystemMenuRepositoryImpl implements SystemMenuRepository {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        Page<SysMenuEntity> rolePage = menuJpaRepository.findAll(specification, pageable);
-        return new PageResult<>(rolePage.getContent().stream().map(roleDataAccessMapper::menuEntityToMenu).toList(),
-                rolePage.getTotalElements(),
-                rolePage.getNumber() + 1,
-                rolePage.getTotalPages());
+        return RepositoryUtil.toPageData(menuJpaRepository.findAll(specification, pageable));
     }
 
     @Override
     public Optional<Menu> findById(MenuId roleId) {
-        return menuJpaRepository.findById(roleId.getValue()).map(roleDataAccessMapper::menuEntityToMenu);
+        return menuJpaRepository.findById(roleId.getValue()).map(SysMenuEntity::toData);
     }
 
     @Override
@@ -78,19 +75,19 @@ public class SystemMenuRepositoryImpl implements SystemMenuRepository {
 
     @Override
     public List<Menu> findByType(MenuType menuType) {
-        return menuJpaRepository.findByType(menuType).stream().map(roleDataAccessMapper::menuEntityToMenu).toList();
+        return menuJpaRepository.findByType(menuType).stream().map(SysMenuEntity::toData).toList();
     }
 
     @Override
     public List<Menu> findByRoleId(RoleId roleId) {
         return menuJpaRepository.findByRoleMenus_RoleId(roleId.getValue())
                 .stream()
-                .map(roleDataAccessMapper::menuEntityToMenu)
+                .map(SysMenuEntity::toData)
                 .toList();
     }
 
     @Override
     public List<Menu> findAll() {
-        return menuJpaRepository.findAll().stream().map(roleDataAccessMapper::menuEntityToMenu).toList();
+        return menuJpaRepository.findAll().stream().map(SysMenuEntity::toData).toList();
     }
 }

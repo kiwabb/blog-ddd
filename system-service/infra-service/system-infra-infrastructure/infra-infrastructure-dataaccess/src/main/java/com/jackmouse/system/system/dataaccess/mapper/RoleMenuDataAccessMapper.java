@@ -20,21 +20,6 @@ import java.awt.*;
  **/
 @Component
 public class RoleMenuDataAccessMapper {
-    public Role roleEntityToRole(SysRoleEntity sysRoleEntity) {
-        return Role.builder()
-                .id(new RoleId(sysRoleEntity.getId()))
-                .code(new RoleCode(sysRoleEntity.getCode()))
-                .name(new RoleName(sysRoleEntity.getName()))
-                .enabled(new Enabled(sysRoleEntity.getEnabled()))
-                .dataScope(new RoleDataScope(sysRoleEntity.getDataScope()))
-                .version(new Version(sysRoleEntity.getVersion()))
-                .createdAt(new CreatedAt(sysRoleEntity.getCreatedAt()))
-                .createdBy(new CreatedBy(sysRoleEntity.getCreatedBy()))
-                .updatedAt(new UpdatedAt(sysRoleEntity.getUpdatedAt()))
-                .updatedBy(new UpdatedBy(sysRoleEntity.getUpdatedBy()))
-                .build();
-    }
-
     public SysRoleEntity roleToRoleEntity(Role role) {
         return SysRoleEntity.builder()
                 .id(role.getId() == null ? null : role.getId().getValue())
@@ -47,25 +32,6 @@ public class RoleMenuDataAccessMapper {
                 .build();
     }
 
-    public Menu menuEntityToMenu(SysMenuEntity sysMenuEntity) {
-        return Menu.builder()
-                .id(new MenuId(sysMenuEntity.getId()))
-                .parentId(new MenuId(sysMenuEntity.getParentId()))
-                .name(new MenuName(sysMenuEntity.getName()))
-                .path(new MenuPath(sysMenuEntity.getPath()))
-                .component(new MenuComponent(sysMenuEntity.getComponent(), sysMenuEntity.getComponentName()))
-                .hidden(new MenuHidden(sysMenuEntity.getHidden()))
-                .icon(new MenuIcon(sysMenuEntity.getIcon()))
-                .sort(new MenuSort(sysMenuEntity.getSort()))
-                .hidden(new MenuHidden(sysMenuEntity.getHidden()))
-                .version(new Version(sysMenuEntity.getVersion()))
-                .createdAt(new CreatedAt(sysMenuEntity.getCreatedAt()))
-                .createdBy(new CreatedBy(sysMenuEntity.getCreatedBy()))
-                .updatedAt(new UpdatedAt(sysMenuEntity.getUpdatedAt()))
-                .updatedBy(new UpdatedBy(sysMenuEntity.getUpdatedBy()))
-                .type(sysMenuEntity.getType())
-                .build();
-    }
 
     public SysMenuEntity menuToMenuEntity(Menu menu) {
         return SysMenuEntity.builder()

@@ -6,6 +6,7 @@ import com.jackmouse.system.blog.domain.interaction.valueobject.LikeId;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.blog.domain.interaction.valueobject.TargetType;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
+import com.jackmouse.system.entity.ToData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +28,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "`like`", schema = "blog")
-public class LikeEntity {
+public class LikeEntity implements ToData<Like> {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id", updatable = false, nullable = false)
@@ -75,16 +76,6 @@ public class LikeEntity {
         updatedAt = OffsetDateTime.now();
     }
 
-    public Like toLike() {
-        return Like.builder()
-                .likeId(new LikeId(id))
-                .targetId(new TargetId(targetId))
-                .userId(new UserId(userId))
-                .targetType(targetType)
-                .interactionStatus(new InteractionStatus(active, lastModified))
-                .version(new com.jackmouse.system.blog.domain.valueobject.Version(version))
-                .build();
-    }
     public static LikeEntity from(Like like) {
         return LikeEntity.builder()
                 .id(like.getId() == null ? null : like.getId().getValue())
@@ -94,6 +85,18 @@ public class LikeEntity {
                 .active(like.getInteractionStatus().isActive())
                 .version(like.getVersion() == null ? null : like.getVersion().getValue())
                 .lastModified(like.getInteractionStatus().getLastModified())
+                .build();
+    }
+
+    @Override
+    public Like toData() {
+        return Like.builder()
+                .likeId(new LikeId(id))
+                .targetId(new TargetId(targetId))
+                .userId(new UserId(userId))
+                .targetType(targetType)
+                .interactionStatus(new InteractionStatus(active, lastModified))
+                .version(new com.jackmouse.system.blog.domain.valueobject.Version(version))
                 .build();
     }
 }

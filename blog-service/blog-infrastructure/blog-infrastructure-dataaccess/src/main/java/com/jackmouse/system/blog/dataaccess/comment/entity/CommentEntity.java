@@ -8,6 +8,7 @@ import com.jackmouse.system.blog.domain.valueobject.Content;
 import com.jackmouse.system.blog.domain.valueobject.Depth;
 import com.jackmouse.system.blog.domain.valueobject.Path;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
+import com.jackmouse.system.entity.ToData;
 import jakarta.persistence.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Table;
@@ -37,7 +38,7 @@ import java.util.UUID;
 @Where(clause = "is_deleted = false") // 软删除过滤
 @Table(name = "comment", schema = "blog")
 @SQLDelete(sql = "UPDATE 'blog'.comment SET is_deleted = true WHERE id = ?") // 软删除处理
-public class CommentEntity {
+public class CommentEntity implements ToData<Comment> {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id", updatable = false, nullable = false)
@@ -90,7 +91,8 @@ public class CommentEntity {
                 .build();
     }
 
-    public Comment toComment() {
+    @Override
+    public Comment toData() {
         return Comment.builder()
                 .id(new CommentId(id))
                 .targetId(new TargetId(targetId))

@@ -9,6 +9,7 @@ import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.repository.SystemUserRepository;
 import com.jackmouse.system.system.infra.domain.user.specification.query.UserPageQuerySpec;
 import com.jackmouse.system.blog.domain.valueobject.UserId;
+import com.jackmouse.system.utils.RepositoryUtil;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
@@ -42,7 +43,7 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
 
     @Override
     public PageResult<User> findPage(UserPageQuerySpec query) {
-        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Pageable pageable = RepositoryUtil.toPageable(query);
         Specification<SysUserEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(query.getUsername().value())) {
@@ -62,17 +63,13 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        Page<SysUserEntity> userPage = userJpaRepository.findAll(specification, pageable);
 
-        return new PageResult<>(userPage.getContent().stream().map(userDataAccessMapper::userEntityToUser).toList(),
-                userPage.getTotalElements(),
-                userPage.getNumber() + 1,
-                userPage.getTotalPages());
+        return RepositoryUtil.toPageData(userJpaRepository.findAll(specification, pageable));
     }
 
     @Override
     public PageResult<User> findAssignPage(UserPageQuerySpec query) {
-        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Pageable pageable = RepositoryUtil.toPageable(query);
         Specification<SysUserEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             // 关联用户角色中间表
@@ -84,17 +81,13 @@ public class SystemUserRepositoryImpl implements SystemUserRepository {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        Page<SysUserEntity> userPage = userJpaRepository.findAll(specification, pageable);
 
-        return new PageResult<>(userPage.getContent().stream().map(userDataAccessMapper::userEntityToUser).toList(),
-                userPage.getTotalElements(),
-                userPage.getNumber() + 1,
-                userPage.getTotalPages());
+        return RepositoryUtil.toPageData(userJpaRepository.findAll(specification, pageable));
     }
 
     @Override
     public Optional<User> findById(UserId userId) {
-        return userJpaRepository.findById(userId.getValue()).map(userDataAccessMapper::userEntityToUser);
+        return userJpaRepository.findById(userId.getValue()).map(SysUserEntity::toData);
     }
 
     @Override

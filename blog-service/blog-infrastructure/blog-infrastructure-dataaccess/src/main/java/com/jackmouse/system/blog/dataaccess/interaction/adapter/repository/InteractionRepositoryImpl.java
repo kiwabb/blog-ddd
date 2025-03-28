@@ -36,22 +36,22 @@ public class InteractionRepositoryImpl implements InteractionRepository {
     @Override
     public Optional<Like> findLikeByTargetIdAndUserId(TargetId targetId, UserId userId) {
         Optional<LikeEntity> likeEntity = likeJpaRepository.findByTargetIdAndUserId(targetId.value(), userId.getValue());
-        return likeEntity.map(LikeEntity::toLike);
+        return likeEntity.map(LikeEntity::toData);
     }
 
     @Override
     public Like saveLike(Like like) {
-        return likeJpaRepository.save(LikeEntity.from(like)).toLike();
+        return likeJpaRepository.save(LikeEntity.from(like)).toData();
     }
 
     @Override
     public Optional<Favorite> findFavoriteByArticleAndUserId(FavoriteId favoriteId, UserId userId) {
         Optional<FavoriteEntity> favorite = favoriteJpaRepository.findByTargetIdAndUserId(favoriteId.getValue(), userId.getValue());
-        return favorite.map(FavoriteEntity::toFavorite);
+        return favorite.map(FavoriteEntity::toData);
     }
 
     @Override
     public Favorite saveFavorite(Favorite favorite) {
-        return favoriteJpaRepository.save(FavoriteEntity.from(favorite)).toFavorite();
+        return favoriteJpaRepository.save(FavoriteEntity.from(favorite)).toData();
     }
 }

@@ -1,11 +1,15 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
-import com.jackmouse.system.blog.domain.valueobject.Sex;
+import com.jackmouse.system.blog.domain.valueobject.*;
 import com.jackmouse.system.entity.BaseEntity;
+import com.jackmouse.system.entity.ToData;
+import com.jackmouse.system.system.infra.domain.user.entity.User;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserStatus;
 import com.jackmouse.system.system.infra.domain.user.valueobject.UserType;
+import com.jackmouse.system.system.infra.domain.user.valueobject.Username;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.*;
 import org.hibernate.annotations.*;
 
@@ -29,7 +33,7 @@ import java.util.Set;
 @Where(clause = "is_deleted = false")
 @DynamicUpdate
 @Table(name = "sys_user", schema = "system")
-public class SysUserEntity extends BaseEntity {
+public class SysUserEntity extends BaseEntity implements ToData<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -73,4 +77,23 @@ public class SysUserEntity extends BaseEntity {
 
     @Version
     private Long version;
+
+    @Override
+    public User toData() {
+        return User.builder()
+                .id(new UserId(getId()))
+                .username(new Username(getUsername()))
+                .userType(getUserType())
+                .status(getStatus())
+                .avatar(new ImageUrl(getAvatar()))
+                .email(new Email(getEmail()))
+                .mobile(new Mobile(getPhone()))
+                .sex(getSex())
+                .version(new com.jackmouse.system.blog.domain.valueobject.Version(getVersion()))
+                .createdBy(new CreatedBy(getCreatedBy()))
+                .updatedBy(new UpdatedBy(getUpdatedBy()))
+                .createdAt(new CreatedAt(getCreatedAt()))
+                .updatedAt(new UpdatedAt(getUpdatedAt()))
+                .build();
+    }
 }

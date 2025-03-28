@@ -1,6 +1,12 @@
 package com.jackmouse.system.blog.dataaccess.article.entity;
 
-import com.jackmouse.system.blog.domain.article.valueobject.ArticleStatus;
+import com.jackmouse.system.blog.domain.article.entity.Article;
+import com.jackmouse.system.blog.domain.article.entity.Category;
+import com.jackmouse.system.blog.domain.article.entity.Tag;
+import com.jackmouse.system.blog.domain.article.valueobject.*;
+import com.jackmouse.system.blog.domain.valueobject.Content;
+import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
+import com.jackmouse.system.entity.ToData;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +27,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "article", schema = "blog")
-public class ArticleEntity {
+public class ArticleEntity implements ToData<Article> {
     @Id
     @Column(columnDefinition = "UUID")
     private UUID id;
@@ -88,5 +94,30 @@ public class ArticleEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    @Override
+    public Article toData() {
+        return Article.builder()
+                .id(new ArticleId(getId()))
+                .author(new AuthorInfo(getAuthorId(), getAuthorName()))
+                .title(new ArticleTitle(getTitle()))
+                .content(new Content(getContent()))
+                .cover(new ImageUrl(getCoverUrl()))
+                .category(Category.builder()
+                        .id(new CategoryId(getCategoryEntity().getId()))
+                        .name(new CategoryName(getCategoryEntity().getName()))
+                        .build()
+                )                .publishTime(getPublishTime())
+                .stats(new ArticleStats(getViewCount(),
+                        0, 0, getViewCount()))
+                .tags(getTagEntities().stream().map(tagEntity ->
+                                Tag.builder()
+                                        .id(new TagId(tagEntity.getId()))
+                                        .name(new TagName(tagEntity.getName()))
+                                        .build()
+                        )
+                        .toList())
+                .build();
     }
 }

@@ -1,11 +1,8 @@
 package com.jackmouse.system.system.dataaccess.entity;
 
 import com.jackmouse.system.entity.BaseEntity;
-import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 /**
  * @ClassName SysRoleMenu

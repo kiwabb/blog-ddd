@@ -38,3 +38,4 @@ build/
 .DS_Store
 /common/common-interface/nataapp/
 /.idea/
+/system-service/nataapp/

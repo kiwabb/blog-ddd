@@ -15,6 +15,7 @@ import com.jackmouse.system.system.infra.domain.rolemenu.entity.Role;
 import com.jackmouse.system.system.infra.domain.rolemenu.repository.SystemRoleRepository;
 import com.jackmouse.system.system.infra.domain.rolemenu.specification.query.RolePageQuerySpec;
 import com.jackmouse.system.system.infra.domain.rolemenu.valueobject.RoleId;
+import com.jackmouse.system.utils.RepositoryUtil;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -56,7 +57,7 @@ public class SystemRoleRepositoryImpl implements SystemRoleRepository {
 
     @Override
     public PageResult<Role> findPage(RolePageQuerySpec query) {
-        Pageable pageable = PageRequest.of(query.getPage() - 1, query.getSize());
+        Pageable pageable = RepositoryUtil.toPageable(query);
         Specification<SysRoleEntity> specification = (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(query.getName().value())) {
@@ -70,16 +71,12 @@ public class SystemRoleRepositoryImpl implements SystemRoleRepository {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        Page<SysRoleEntity> rolePage = roleJpaRepository.findAll(specification, pageable);
-        return new PageResult<>(rolePage.getContent().stream().map(roleDataAccessMapper::roleEntityToRole).toList(),
-                rolePage.getTotalElements(),
-                rolePage.getNumber() + 1,
-                rolePage.getTotalPages());
+        return RepositoryUtil.toPageData(roleJpaRepository.findAll(specification, pageable));
     }
 
     @Override
     public Optional<Role> findById(RoleId roleId) {
-        return roleJpaRepository.findById(roleId.getValue()).map(roleDataAccessMapper::roleEntityToRole);
+        return roleJpaRepository.findById(roleId.getValue()).map(SysRoleEntity::toData);
     }
 
     @Override
