@@ -27,12 +27,22 @@ public class CommentApplicationMapper {
             replyCount = commentInteraction.replyCount();
         }
         return CommentNodeResponse.builder()
-                .comment(CommentResponse.fromComment(secondLevelComment))
+                //.comment(CommentResponse.fromComment(secondLevelComment))
+                .id(secondLevelComment.getId().getValue())
+                .content(secondLevelComment.getContent().value())
+                .createTime(secondLevelComment.getCreatedAt())
+                .path(secondLevelComment.getPath().getPath())
+                .depth(secondLevelComment.getDepth().value())
+                .userId(secondLevelComment.getUserId().getValue())
+                .username("")
+                .avatar("")
+                .likeCount(likeCount)
+                .replyCount(replyCount)
                 .replies(new ArrayList<>())
-                .interaction(CommentInteractionResponse.builder()
-                        .likeCount(likeCount)
-                        .replyCount(replyCount)
-                        .build())
+//                .interaction(CommentInteractionResponse.builder()
+//                        .likeCount(likeCount)
+//                        .replyCount(replyCount)
+//                        .build())
                 .hasMoreReply(replyCount > 0)
                 .build();
     }

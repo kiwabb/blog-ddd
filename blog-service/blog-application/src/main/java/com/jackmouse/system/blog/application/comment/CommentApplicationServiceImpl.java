@@ -119,14 +119,24 @@ public class CommentApplicationServiceImpl implements CommentApplicationService 
                     List<Comment> secondLevelMapOrDefault = secondLevelMap
                             .getOrDefault(rootComment.getId(), Collections.emptyList());
                     return CommentNodeResponse.builder()
-                            .comment(CommentResponse.fromComment(rootComment))
+                            //.comment(CommentResponse.fromComment(rootComment))
+                            .id(rootComment.getId().getValue())
+                            .content(rootComment.getContent().value())
+                            .createTime(rootComment.getCreatedAt())
+                            .path(rootComment.getPath().getPath())
+                            .depth(rootComment.getDepth().value())
+                            .userId(rootComment.getUserId().getValue())
+                            .username("kiwa")
+                            .avatar("kiwa")
+                            .likeCount(commentInteractionResponse.getLikeCount())
+                            .replyCount(commentInteractionResponse.getReplyCount())
                             .replies(secondLevelMapOrDefault
                                     .stream()
                                     .map(secondLevelComment ->
                                             commentApplicationMapper.toCommentNodeResponse(secondLevelComment, commentInteractions.get(secondLevelComment.getId())))
                                     .collect(Collectors.toList())
                             )
-                            .interaction(commentInteractionResponse)
+                            //.interaction(commentInteractionResponse)
                             .hasMoreReply(commentInteractionResponse.getReplyCount() > secondLevelMapOrDefault.size())
                             .build();
                 }).collect(Collectors.toList());
