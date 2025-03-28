@@ -18,6 +18,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.jackmouse.system.blog</groupId>
+            <artifactId>common-domain</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <scope>provided</scope>

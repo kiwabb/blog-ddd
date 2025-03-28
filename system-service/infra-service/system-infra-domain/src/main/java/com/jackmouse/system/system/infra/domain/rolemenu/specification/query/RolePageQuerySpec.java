@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  * @Date 2025/3/14 09:19
  * @Version 1.0
  **/
-public class RolePageQuerySpec implements PageSpec<Role> {
+public class RolePageQuerySpec implements PageSpec {
 
     private final RoleCode code;
     private final RoleName name;
@@ -69,10 +69,7 @@ public class RolePageQuerySpec implements PageSpec<Role> {
         return pageParam.sort();
     }
 
-    @Override
-    public Predicate<Role> getPredicate() {
-        return null;
-    }
+
 
     public static final class Builder {
 

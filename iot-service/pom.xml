@@ -27,6 +27,21 @@
                 <artifactId>iot-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>iot-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>iot-infrastructure-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>iot-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

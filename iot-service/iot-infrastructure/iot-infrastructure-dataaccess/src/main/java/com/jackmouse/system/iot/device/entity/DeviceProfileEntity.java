@@ -1,12 +1,13 @@
 package com.jackmouse.system.iot.device.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
+import com.jackmouse.system.blog.domain.valueobject.RuleChainId;
 import com.jackmouse.system.converter.JsonConverter;
 import com.jackmouse.system.entity.BaseEntity;
-import com.jackmouse.system.iot.device.constant.ModelConstants;
-import com.jackmouse.system.iot.device.valueobject.DeviceProfileProvisionType;
-import com.jackmouse.system.iot.device.valueobject.DeviceProfileType;
-import com.jackmouse.system.iot.device.valueobject.DeviceTransportType;
+import com.jackmouse.system.entity.ToData;
+import com.jackmouse.system.iot.constant.ModelConstants;
+import com.jackmouse.system.iot.device.valueobject.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,7 +29,7 @@ import java.util.UUID;
 @Entity
 @Table(name = ModelConstants.DEVICE_PROFILE_TABLE_NAME)
 @ToString(callSuper = true)
-public class DeviceProfileEntity extends BaseEntity {
+public class DeviceProfileEntity extends BaseEntity implements ToData<DeviceProfile> {
 
     @Id
     @Column(name = ModelConstants.ID_PROPERTY, columnDefinition = "uuid")
@@ -89,4 +90,30 @@ public class DeviceProfileEntity extends BaseEntity {
 
     @Column(name = ModelConstants.EXTERNAL_ID_PROPERTY)
     private UUID externalId;
+
+    @Column(name = ModelConstants.VERSION_PROPERTY)
+    private Long version;
+
+    @Override
+    public DeviceProfile toData() {
+        return DeviceProfile.builder()
+                .deviceProfileId(new DeviceProfileId(id))
+                .name(name)
+                .type(type)
+                .image(image)
+                .transportType(transportType)
+                .provisionType(provisionType)
+                .description(description)
+                .isDefault(isDefault)
+                .defaultRuleChainId(new DefaultRuleChainId(defaultRuleChainId))
+                .defaultDashboardId(new DefaultDashboardId(defaultDashboardId))
+                .defaultQueueName(defaultQueueName)
+                .profileData(new DeviceProfileData(""))
+                .provisionDeviceKey(provisionDeviceKey)
+                .firmwareId(new OtaPackageId(firmwareId))
+                .softwareId(new OtaPackageId(softwareId))
+                .defaultEdgeRuleChainId(new RuleChainId(defaultEdgeRuleChainId))
+                .version(version)
+                .build();
+    }
 }

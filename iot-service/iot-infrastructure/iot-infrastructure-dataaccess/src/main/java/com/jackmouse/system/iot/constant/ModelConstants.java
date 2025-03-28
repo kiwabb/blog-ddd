@@ -1,4 +1,4 @@
-package com.jackmouse.system.iot.device.constant;
+package com.jackmouse.system.iot.constant;
 
 /**
  * @ClassName ModelConstans
@@ -16,6 +16,7 @@ public class ModelConstants {
      */
     public static final String ID_PROPERTY = "id";
     public static final String TENANT_ID_PROPERTY = "tenant_id";
+    public static final String VERSION_PROPERTY = "version";
 
 
     /**

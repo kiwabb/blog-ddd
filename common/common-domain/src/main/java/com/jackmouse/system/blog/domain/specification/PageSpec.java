@@ -1,5 +1,6 @@
 package com.jackmouse.system.blog.domain.specification;
 
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -9,9 +10,8 @@ import java.util.function.Predicate;
  * @Date 2025/3/14 09:11
  * @Version 1.0
  **/
-public interface PageSpec<T> {
+public interface PageSpec {
     int getPage();
     int getSize();
     SortSpec getSort();
-    Predicate<T> getPredicate();
 }

@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS device_profile (
               default_edge_rule_chain_id UUID,  -- 默认边缘规则链
               external_id UUID,  -- 外部 ID
               is_default BOOLEAN,  -- 是否为默认配置
+              is_deleted BOOLEAN DEFAULT false,
               tenant_id BIGINT,  -- 租户 ID
               version BIGINT DEFAULT 1,  -- 版本号
               created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

@@ -20,7 +20,7 @@ import java.util.function.Predicate;
  * @Date 2025/3/14 09:19
  * @Version 1.0
  **/
-public class UserPageQuerySpec implements PageSpec<User> {
+public class UserPageQuerySpec implements PageSpec {
 
     private final Username username;
     private final Mobile mobile;
@@ -95,10 +95,6 @@ public class UserPageQuerySpec implements PageSpec<User> {
         return pageParam.sort();
     }
 
-    @Override
-    public Predicate<User> getPredicate() {
-        return null;
-    }
 
     public static final class Builder {
         private Username username;

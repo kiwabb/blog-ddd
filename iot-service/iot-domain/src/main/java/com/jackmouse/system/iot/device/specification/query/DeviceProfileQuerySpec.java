@@ -1,13 +1,12 @@
-package com.jackmouse.system.blog.domain.comment.specification.query;
+package com.jackmouse.system.iot.device.specification.query;
 
-import com.jackmouse.system.blog.domain.comment.entity.Comment;
-import com.jackmouse.system.blog.domain.interaction.valueobject.TargetId;
 import com.jackmouse.system.blog.domain.specification.PageSpec;
 import com.jackmouse.system.blog.domain.specification.SortSpec;
-import com.jackmouse.system.blog.domain.valueobject.Depth;
 import com.jackmouse.system.blog.domain.valueobject.Email;
 import com.jackmouse.system.blog.domain.valueobject.Mobile;
 import com.jackmouse.system.blog.domain.valueobject.PageParam;
+import com.jackmouse.system.iot.device.entity.DeviceProfile;
+import com.jackmouse.system.iot.device.valueobject.DeviceProfileName;
 
 import java.util.function.Predicate;
 
@@ -18,26 +17,22 @@ import java.util.function.Predicate;
  * @Date 2025/3/14 09:19
  * @Version 1.0
  **/
-public class CommentPageQuerySpec implements PageSpec {
-    private final TargetId targetId;
-    private final Depth depth;
+public class DeviceProfileQuerySpec implements PageSpec {
+
+    private final DeviceProfileName name;
     private final PageParam pageParam;
 
-    public TargetId getTargetId() {
-        return targetId;
-    }
 
-    public Depth getDepth() {
-        return depth;
+    public DeviceProfileName getName() {
+        return name;
     }
 
     public PageParam getPageParam() {
         return pageParam;
     }
 
-    private CommentPageQuerySpec(Builder builder) {
-        targetId = builder.targetId;
-        depth = builder.depth;
+    private DeviceProfileQuerySpec(Builder builder) {
+        name = builder.name;
         pageParam = builder.pageParam;
     }
 
@@ -45,6 +40,7 @@ public class CommentPageQuerySpec implements PageSpec {
     public static Builder builder() {
         return new Builder();
     }
+
 
     @Override
     public int getPage() {
@@ -62,32 +58,25 @@ public class CommentPageQuerySpec implements PageSpec {
     }
 
 
-
     public static final class Builder {
         private PageParam pageParam;
-        private TargetId targetId;
-        private Depth depth;
+        private DeviceProfileName name;
 
         private Builder() {
         }
-
 
         public Builder pageParam(PageParam val) {
             pageParam = val;
             return this;
         }
 
-        public CommentPageQuerySpec build() {
-            return new CommentPageQuerySpec(this);
+        public DeviceProfileQuerySpec build() {
+            return new DeviceProfileQuerySpec(this);
         }
 
-        public Builder targetId(TargetId val) {
-            targetId = val;
-            return this;
-        }
 
-        public Builder depth(Depth val) {
-            depth = val;
+        public Builder name(DeviceProfileName val) {
+            name = val;
             return this;
         }
     }

@@ -22,7 +22,7 @@ import java.util.function.Predicate;
  * @Date 2025/3/14 09:19
  * @Version 1.0
  **/
-public class MenuPageQuerySpec implements PageSpec<Menu> {
+public class MenuPageQuerySpec implements PageSpec {
 
     private final MenuName menuName;
     private final MenuType menuType;
@@ -67,10 +67,6 @@ public class MenuPageQuerySpec implements PageSpec<Menu> {
         return pageParam.sort();
     }
 
-    @Override
-    public Predicate<Menu> getPredicate() {
-        return null;
-    }
 
     public static final class Builder {
         private PageParam pageParam;
