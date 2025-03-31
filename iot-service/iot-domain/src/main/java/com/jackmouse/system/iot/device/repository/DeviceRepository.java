@@ -5,7 +5,10 @@ import com.jackmouse.system.iot.device.entity.Device;
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
 import com.jackmouse.system.iot.device.specification.query.DeviceProfileQuerySpec;
 import com.jackmouse.system.iot.device.specification.query.DeviceQuerySpec;
+import com.jackmouse.system.iot.device.valueobject.DeviceId;
 import com.jackmouse.system.iot.device.valueobject.DeviceInfo;
+
+import java.util.Optional;
 
 /**
  * @ClassName DeviceProfileRepository
@@ -17,4 +20,8 @@ import com.jackmouse.system.iot.device.valueobject.DeviceInfo;
 public interface DeviceRepository {
     PageResult<Device> findDevices(DeviceQuerySpec spec);
     PageResult<DeviceInfo> findDeviceInfos(DeviceQuerySpec spec);
+
+    Optional<Device> findById(DeviceId deviceId);
+
+    Device saveAndFlush(Device device);
 }

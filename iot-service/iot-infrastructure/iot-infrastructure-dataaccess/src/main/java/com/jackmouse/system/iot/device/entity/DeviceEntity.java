@@ -2,6 +2,7 @@ package com.jackmouse.system.iot.device.entity;
 
 import com.jackmouse.system.iot.constant.ModelConstants;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,8 +16,16 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@Builder
 @Table(name = ModelConstants.DEVICE_TABLE_NAME)
 public class DeviceEntity extends AbstractDeviceEntity<Device> {
+    public DeviceEntity() {
+        super();
+    }
+
+    public DeviceEntity(Device device) {
+        super(device);
+    }
 
     @Override
     public Device toData() {

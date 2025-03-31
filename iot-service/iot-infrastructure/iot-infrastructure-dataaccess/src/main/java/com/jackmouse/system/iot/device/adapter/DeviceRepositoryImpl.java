@@ -2,13 +2,17 @@ package com.jackmouse.system.iot.device.adapter;
 
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
 import com.jackmouse.system.iot.device.entity.Device;
+import com.jackmouse.system.iot.device.entity.DeviceEntity;
 import com.jackmouse.system.iot.device.repository.DeviceInfoJpaRepository;
 import com.jackmouse.system.iot.device.repository.DeviceJpaRepository;
 import com.jackmouse.system.iot.device.repository.DeviceRepository;
 import com.jackmouse.system.iot.device.specification.query.DeviceQuerySpec;
+import com.jackmouse.system.iot.device.valueobject.DeviceId;
 import com.jackmouse.system.iot.device.valueobject.DeviceInfo;
 import com.jackmouse.system.utils.RepositoryUtil;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @ClassName DeviceRepositoryImpl
@@ -38,5 +42,15 @@ public class DeviceRepositoryImpl implements DeviceRepository {
     public PageResult<DeviceInfo> findDeviceInfos(DeviceQuerySpec spec) {
         return RepositoryUtil.toPageData(deviceInfoJpaRepository.findByNameLike(spec.getName(),
                 RepositoryUtil.toPageable(spec)));
+    }
+
+    @Override
+    public Optional<Device> findById(DeviceId deviceId) {
+        return deviceJpaRepository.findById(deviceId.getValue()).map(DeviceEntity::toData);
+    }
+
+    @Override
+    public Device saveAndFlush(Device device) {
+        return deviceJpaRepository.saveAndFlush(new  DeviceEntity(device)).toData();
     }
 }

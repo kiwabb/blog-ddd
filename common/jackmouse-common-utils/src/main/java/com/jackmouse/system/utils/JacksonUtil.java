@@ -1,9 +1,11 @@
 package com.jackmouse.system.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import java.io.IOException;
@@ -41,6 +43,21 @@ public class JacksonUtil {
             return mapper.readTree(value);
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
+        }
+    }
+    public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
+        try {
+            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueType) : null;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The given object value cannot be converted to " + toValueType + ": " + fromValue, e);
+        }
+    }
+
+    public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
+        try {
+            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueTypeRef) : null;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The given object value cannot be converted to " + toValueTypeRef + ": " + fromValue, e);
         }
     }
 }

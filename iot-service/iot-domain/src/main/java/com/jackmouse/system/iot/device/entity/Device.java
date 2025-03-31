@@ -2,7 +2,9 @@ package com.jackmouse.system.iot.device.entity;
 
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
 import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
+import com.jackmouse.system.iot.device.DeviceDataFactory;
 import com.jackmouse.system.iot.device.valueobject.CustomerId;
+import com.jackmouse.system.iot.device.valueobject.DeviceData;
 import com.jackmouse.system.iot.device.valueobject.DeviceId;
 import com.jackmouse.system.iot.device.valueobject.DeviceProfileId;
 
@@ -18,15 +20,21 @@ import java.time.ZonedDateTime;
 public class Device extends AggregateRoot<DeviceId> {
     private final CustomerId customerId;
     private final String name;
-    private final String type;
+    private String type;
     private final String label;
     private final DeviceProfileId deviceProfileId;
     private final byte[] deviceDataBytes;
     private final OtaPackageId firmwareId;
     private final OtaPackageId softwareId;
     private final DeviceId externalId;
+    private transient DeviceData deviceData;
+    private final String additionalInfo;
     private final Long version;
     private final ZonedDateTime createdAt;
+
+    public DeviceData getDeviceData() {
+        return deviceData;
+    }
 
     public CustomerId getCustomerId() {
         return customerId;
@@ -72,8 +80,12 @@ public class Device extends AggregateRoot<DeviceId> {
         return version;
     }
 
+    public String getAdditionalInfo() {
+        return additionalInfo;
+    }
+
     private Device(Builder builder) {
-        setId(builder.id);
+        super.setId(builder.id);
         customerId = builder.customerId;
         name = builder.name;
         type = builder.type;
@@ -83,6 +95,8 @@ public class Device extends AggregateRoot<DeviceId> {
         firmwareId = builder.firmwareId;
         softwareId = builder.softwareId;
         externalId = builder.externalId;
+        deviceData = builder.deviceData;
+        additionalInfo = builder.additionalInfo;
         version = builder.version;
         createdAt = builder.createdAt;
     }
@@ -91,6 +105,13 @@ public class Device extends AggregateRoot<DeviceId> {
         return new Builder();
     }
 
+    public void updateType(String type) {
+        this.type = type;
+    }
+
+    public void syncConfiguration(DeviceProfile profile) {
+        this.deviceData = DeviceDataFactory.createBaseOnProfile(profile, this.deviceData);
+    }
 
     public static final class Builder {
         private DeviceId id;
@@ -103,6 +124,8 @@ public class Device extends AggregateRoot<DeviceId> {
         private OtaPackageId firmwareId;
         private OtaPackageId softwareId;
         private DeviceId externalId;
+        private DeviceData deviceData;
+        private String additionalInfo;
         private Long version;
         private ZonedDateTime createdAt;
 
@@ -156,6 +179,16 @@ public class Device extends AggregateRoot<DeviceId> {
 
         public Builder externalId(DeviceId val) {
             externalId = val;
+            return this;
+        }
+
+        public Builder deviceData(DeviceData val) {
+            deviceData = val;
+            return this;
+        }
+
+        public Builder additionalInfo(String val) {
+            additionalInfo = val;
             return this;
         }
 

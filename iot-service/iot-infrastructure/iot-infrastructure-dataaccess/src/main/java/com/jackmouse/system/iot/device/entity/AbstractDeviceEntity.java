@@ -1,6 +1,7 @@
 package com.jackmouse.system.iot.device.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
 import com.jackmouse.system.converter.JsonConverter;
 import com.jackmouse.system.entity.BaseEntity;
@@ -9,9 +10,12 @@ import com.jackmouse.system.iot.constant.ModelConstants;
 import com.jackmouse.system.iot.device.valueobject.CustomerId;
 import com.jackmouse.system.iot.device.valueobject.DeviceId;
 import com.jackmouse.system.iot.device.valueobject.DeviceProfileId;
+import com.jackmouse.system.utils.JacksonUtil;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLJsonPGObjectJsonbType;
 
@@ -27,6 +31,7 @@ import java.util.UUID;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
+@NoArgsConstructor
 public abstract class AbstractDeviceEntity<T> extends BaseEntity implements ToData<T> {
     @Id
     @Column(name = ModelConstants.ID_PROPERTY, columnDefinition = "uuid")
@@ -47,9 +52,8 @@ public abstract class AbstractDeviceEntity<T> extends BaseEntity implements ToDa
     @Column(name = ModelConstants.DEVICE_LABEL_PROPERTY)
     private String label;
 
-    @Convert(converter = JsonConverter.class)
     @Column(name = ModelConstants.DEVICE_ADDITIONAL_INFO_PROPERTY)
-    private JsonNode additionalInfo;
+    private String additionalInfo;
 
     @Column(name = ModelConstants.DEVICE_DEVICE_PROFILE_ID_PROPERTY, columnDefinition = "uuid")
     private UUID deviceProfileId;
@@ -71,6 +75,14 @@ public abstract class AbstractDeviceEntity<T> extends BaseEntity implements ToDa
     @Column(name = ModelConstants.VERSION_PROPERTY)
     private Long version;
 
+    public AbstractDeviceEntity(Device device) {
+        this.deviceData = JacksonUtil.convertValue(device.getDeviceData(), ObjectNode.class);
+        this.name = device.getName();
+        this.type = device.getType();
+        this.label = device.getLabel();
+        this.additionalInfo = device.getAdditionalInfo();
+    }
+
     protected Device toDevice() {
         return Device.builder()
                 .id(new DeviceId(id))
@@ -86,5 +98,7 @@ public abstract class AbstractDeviceEntity<T> extends BaseEntity implements ToDa
                 .version(version)
                 .build();
     }
+
+
 
 }

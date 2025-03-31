@@ -1,6 +1,7 @@
 package com.jackmouse.system.iot.divice.ports.input.service;
 
 import com.jackmouse.system.iot.divice.dto.query.*;
+import com.jackmouse.system.iot.divice.dto.save.SaveDeviceCommand;
 import com.jackmouse.system.response.PageResult;
 
 /**
@@ -13,4 +14,6 @@ import com.jackmouse.system.response.PageResult;
 public interface DeviceApplicationService {
     PageResult<DeviceResponse> getDevices(DeviceQuery query);
     PageResult<DeviceInfoResponse> getDeviceInfos(DeviceQuery query);
+
+    void saveDevice(SaveDeviceCommand command, String accessToken);
 }

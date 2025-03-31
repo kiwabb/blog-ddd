@@ -2,11 +2,15 @@ package com.jackmouse.system.iot.device.adapter;
 
 import com.jackmouse.system.blog.domain.valueobject.PageResult;
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
+import com.jackmouse.system.iot.device.entity.DeviceProfileEntity;
 import com.jackmouse.system.iot.device.repository.DeviceProfileJpaRepository;
 import com.jackmouse.system.iot.device.repository.DeviceProfileRepository;
 import com.jackmouse.system.iot.device.specification.query.DeviceProfileQuerySpec;
+import com.jackmouse.system.iot.device.valueobject.DeviceProfileId;
 import com.jackmouse.system.utils.RepositoryUtil;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @ClassName DeviceProfileRepositoryImpl
@@ -27,5 +31,10 @@ public class DeviceProfileRepositoryImpl implements DeviceProfileRepository {
     public PageResult<DeviceProfile> findDeviceProfiles(DeviceProfileQuerySpec spec) {
         return RepositoryUtil.toPageData(deviceProfileJpaRepository.findByNameLike(spec.getName().value(),
                 RepositoryUtil.toPageable(spec)));
+    }
+
+    @Override
+    public Optional<DeviceProfile> findDeviceProfileById(DeviceProfileId deviceProfileId) {
+        return deviceProfileJpaRepository.findById(deviceProfileId.getValue()).map(DeviceProfileEntity::toData);
     }
 }

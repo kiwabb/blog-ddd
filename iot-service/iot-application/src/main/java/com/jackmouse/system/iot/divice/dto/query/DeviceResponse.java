@@ -1,10 +1,12 @@
 package com.jackmouse.system.iot.divice.dto.query;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.jackmouse.system.iot.device.entity.Device;
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
 import com.jackmouse.system.iot.device.valueobject.DeviceProfileProvisionType;
 import com.jackmouse.system.iot.device.valueobject.DeviceProfileType;
 import com.jackmouse.system.iot.device.valueobject.DeviceTransportType;
+import com.jackmouse.system.utils.JacksonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +32,7 @@ public class DeviceResponse {
     private final UUID deviceProfileId;
     private final Long version;
     private final UUID customerId;
+    private final JsonNode additionalInfo;
     private final ZonedDateTime createdAt;
     public static DeviceResponse from(Device device) {
 
@@ -41,6 +44,7 @@ public class DeviceResponse {
                 .deviceProfileId(device.getDeviceProfileId().getValue())
                 .version(device.getVersion())
                 .customerId(device.getCustomerId().getValue())
+                .additionalInfo(JacksonUtil.toJsonNode(device.getAdditionalInfo()))
                 .createdAt(device.getCreatedAt())
                 .build();
     }
