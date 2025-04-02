@@ -1,6 +1,7 @@
 package com.jackmouse.system.iot.device.entity;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
 import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
 import com.jackmouse.system.blog.domain.valueobject.RuleChainId;
 import com.jackmouse.system.converter.JsonConverter;
@@ -105,7 +106,7 @@ public class DeviceProfileEntity extends BaseEntity implements ToData<DeviceProf
                 .provisionType(provisionType)
                 .description(description)
                 .isDefault(isDefault)
-                .defaultRuleChainId(new DefaultRuleChainId(defaultRuleChainId))
+                .defaultRuleChainId(new RuleChainId(defaultRuleChainId))
                 .defaultDashboardId(new DefaultDashboardId(defaultDashboardId))
                 .defaultQueueName(defaultQueueName)
                 .profileData(new DeviceProfileData(""))

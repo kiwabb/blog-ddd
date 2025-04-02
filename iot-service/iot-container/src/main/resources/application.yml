@@ -26,3 +26,20 @@ springdoc:
       enabled: true
   packagesToScan: com.jackmouse.system.blog
 
+queue:
+  transport_api:
+    requests_topic: jm_transport.api.requests
+    responses_topic: jm_transport.api.responses
+    max_pending_requests: 10000
+    max_requests_timeout: 10000
+    max_callback_threads: 100
+    request_poll_interval: 25
+    response_poll_interval: 25
+
+transport:
+  http:
+    request_timeout: 60000
+    max_request_timeout: 300000
+
+service:
+  id: "${JM_SERVICE_ID:}"

@@ -2,7 +2,7 @@ package com.jackmouse.system.iot.device;
 
 import com.jackmouse.system.iot.device.specification.DeviceTransportConfiguration;
 import com.jackmouse.system.iot.device.valueobject.DefaultDeviceTransportConfiguration;
-import com.jackmouse.system.iot.device.valueobject.DeviceTransportType;
+import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
 
 /**
  * @ClassName DeviceTransportConfigurationFactory

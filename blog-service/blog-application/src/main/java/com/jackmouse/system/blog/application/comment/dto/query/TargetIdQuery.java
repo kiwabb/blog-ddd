@@ -24,7 +24,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TargetIdQuery extends PageQuery {
     private UUID targetId;
+    @Builder.Default
     private int depth = 0;
+    @Builder.Default
     private int previewReplyCount = 3;
 
     public CommentPageQuerySpec toCommentQuerySpec() {

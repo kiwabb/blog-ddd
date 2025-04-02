@@ -34,7 +34,7 @@ public class CommentApplicationMapper {
                 .createTime(secondLevelComment.getCreatedAt())
                 .path(secondLevelComment.getPath().getPath())
                 .depth(secondLevelComment.getDepth().value())
-                .author(new UserInfoResponse(secondLevelComment.getUserId().getValue(),"kiwa", "kiwa", "Lv100", "公主"))
+                .author(new UserInfoResponse(secondLevelComment.getUserId().getValue(),"kiwa", "https://avatars.githubusercontent.com/u/74864696", "Lv100", "公主"))
 //                .userId(secondLevelComment.getUserId().getValue())
 //                .username("")
 //                .avatar("")

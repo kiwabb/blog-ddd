@@ -18,6 +18,7 @@
         <module>iot-infrastructure</module>
         <module>iot-application</module>
         <module>iot-interface</module>
+        <module>iot-transport</module>
     </modules>
 
     <dependencyManagement>
@@ -42,6 +43,42 @@
                 <artifactId>iot-interface</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>queue</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>iot-transport-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>proto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>message</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>cluster-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>stats</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>http</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

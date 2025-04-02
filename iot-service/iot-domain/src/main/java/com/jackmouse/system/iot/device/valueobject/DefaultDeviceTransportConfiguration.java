@@ -1,5 +1,6 @@
 package com.jackmouse.system.iot.device.valueobject;
 
+import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
 import com.jackmouse.system.iot.device.specification.DeviceTransportConfiguration;
 
 /**

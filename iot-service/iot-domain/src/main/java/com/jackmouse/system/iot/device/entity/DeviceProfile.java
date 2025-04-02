@@ -1,12 +1,12 @@
 package com.jackmouse.system.iot.device.entity;
 
 import com.jackmouse.system.blog.domain.entity.AggregateRoot;
-import com.jackmouse.system.blog.domain.valueobject.ImageUrl;
+import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
 import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
 import com.jackmouse.system.blog.domain.valueobject.RuleChainId;
 import com.jackmouse.system.iot.device.valueobject.*;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 
 /**
@@ -16,7 +16,7 @@ import java.util.UUID;
  * @Date 2025/3/28 14:02
  * @Version 1.0
  **/
-public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
+public class DeviceProfile extends AggregateRoot<DeviceProfileId> implements Serializable {
     private final String name;
     private final DeviceProfileType type;
     private final String image;
@@ -24,7 +24,7 @@ public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
     private final DeviceProfileProvisionType provisionType;
     private final String description;
     private final boolean isDefault;
-    private final DefaultRuleChainId defaultRuleChainId;
+    private final RuleChainId defaultRuleChainId;
     private final DefaultDashboardId defaultDashboardId;
     private final String defaultQueueName;
     private final DeviceProfileData profileData;
@@ -62,7 +62,7 @@ public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
         return isDefault;
     }
 
-    public DefaultRuleChainId getDefaultRuleChainId() {
+    public RuleChainId getDefaultRuleChainId() {
         return defaultRuleChainId;
     }
 
@@ -98,6 +98,7 @@ public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
         return version;
     }
 
+
     private DeviceProfile(Builder builder) {
         setId(builder.deviceProfileId);
         name = builder.name;
@@ -132,7 +133,7 @@ public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
         private DeviceProfileProvisionType provisionType;
         private String description;
         private boolean isDefault;
-        private DefaultRuleChainId defaultRuleChainId;
+        private RuleChainId defaultRuleChainId;
         private DefaultDashboardId defaultDashboardId;
         private String defaultQueueName;
         private DeviceProfileData profileData;
@@ -185,7 +186,7 @@ public class DeviceProfile extends AggregateRoot<DeviceProfileId> {
             return this;
         }
 
-        public Builder defaultRuleChainId(DefaultRuleChainId val) {
+        public Builder defaultRuleChainId(RuleChainId val) {
             defaultRuleChainId = val;
             return this;
         }

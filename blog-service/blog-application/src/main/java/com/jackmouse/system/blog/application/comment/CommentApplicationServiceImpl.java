@@ -126,7 +126,7 @@ public class CommentApplicationServiceImpl implements CommentApplicationService 
                             .createTime(rootComment.getCreatedAt())
                             .path(rootComment.getPath().getPath())
                             .depth(rootComment.getDepth().value())
-                            .author(new UserInfoResponse(rootComment.getUserId().getValue(),"kiwa", "kiwa", "Lv100", "公主"))
+                            .author(new UserInfoResponse(rootComment.getUserId().getValue(),"kiwa", "https://avatars.githubusercontent.com/u/74864696", "Lv100", "公主"))
 //                            .userId(rootComment.getUserId().getValue())
 //                            .username("kiwa")
 //                            .avatar("kiwa")

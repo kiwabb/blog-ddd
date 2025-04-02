@@ -2,10 +2,6 @@ package com.jackmouse.system.iot.divice.dto.query;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.jackmouse.system.iot.device.entity.Device;
-import com.jackmouse.system.iot.device.entity.DeviceProfile;
-import com.jackmouse.system.iot.device.valueobject.DeviceProfileProvisionType;
-import com.jackmouse.system.iot.device.valueobject.DeviceProfileType;
-import com.jackmouse.system.iot.device.valueobject.DeviceTransportType;
 import com.jackmouse.system.utils.JacksonUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

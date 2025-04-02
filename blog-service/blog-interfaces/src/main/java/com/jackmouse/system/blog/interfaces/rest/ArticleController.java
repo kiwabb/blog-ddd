@@ -31,6 +31,7 @@ import java.util.UUID;
 @Tag(name = "文章管理接口", description = "提供文章相关的所有操作接口")
 @Slf4j
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping( value = "/article", produces = "application/json")
 public class ArticleController {
     private final ArticleApplicationService articleApplicationService;

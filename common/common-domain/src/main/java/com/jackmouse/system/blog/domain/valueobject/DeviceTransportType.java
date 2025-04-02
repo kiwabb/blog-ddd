@@ -1,4 +1,4 @@
-package com.jackmouse.system.iot.device.valueobject;
+package com.jackmouse.system.blog.domain.valueobject;
 
 /**
  * @ClassName DeviceTransportType

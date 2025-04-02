@@ -1,7 +1,6 @@
 package com.jackmouse.system.iot.divice.dto.query;
 
-import com.jackmouse.system.blog.domain.valueobject.OtaPackageId;
-import com.jackmouse.system.blog.domain.valueobject.RuleChainId;
+import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
 import com.jackmouse.system.iot.device.valueobject.*;
 import lombok.AllArgsConstructor;

@@ -23,6 +23,10 @@
             <artifactId>jackson-datatype-jdk8</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
