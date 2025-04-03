@@ -57,6 +57,7 @@ public class DefaultTransportService implements TransportService {
     public void init() {
         this.transportCallbackExecutor = JackmouseExecutor.newWorkStealingPool(20, getClass());
         transportApiRequestTemplate = queueProvider.createTransportApiRequestTemplate();
+        transportApiRequestTemplate.init();
     }
 
     @Override
@@ -145,6 +146,7 @@ public class DefaultTransportService implements TransportService {
     private void sendToRuleEngine(Object tenantId, DeviceId deviceId, CustomerId customerId, TransportProtos.SessionInfoProto sessionInfo, JsonObject json,
                                   JmMsgMetaData metaData, JmMsgType jmMsgType, MsgPackCallback packCallback) {
         DeviceProfileId deviceProfileId = new DeviceProfileId(new UUID(sessionInfo.getDeviceProfileIdMSB(), sessionInfo.getDeviceProfileIdLSB()));
+        packCallback.onSuccess(null);
 
     }
 

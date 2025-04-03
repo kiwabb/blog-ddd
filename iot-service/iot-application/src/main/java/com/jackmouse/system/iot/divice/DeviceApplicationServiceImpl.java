@@ -79,11 +79,10 @@ public class DeviceApplicationServiceImpl implements DeviceApplicationService {
 
 
 
-    private Device findDeviceById(DeviceId deviceId) {
+    @Override
+    public Device findDeviceById(DeviceId deviceId) {
         log.trace("Executing findDeviceById [{}]", deviceId);
-        return deviceRepository.findById(deviceId).orElseThrow(
-                () -> new DeviceNotFoundException(deviceId.getValue())
-        );
+        return deviceRepository.findById(deviceId).orElse(null);
     }
 
     private DeviceData syncDeviceData(DeviceProfile deviceProfile, DeviceData deviceData) {

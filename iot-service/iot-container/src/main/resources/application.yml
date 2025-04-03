@@ -31,10 +31,11 @@ queue:
     requests_topic: jm_transport.api.requests
     responses_topic: jm_transport.api.responses
     max_pending_requests: 10000
-    max_requests_timeout: 10000
+    max_requests_timeout: 1000000
     max_callback_threads: 100
     request_poll_interval: 25
     response_poll_interval: 25
+    max_core_handler_threads: 16
 
 transport:
   http:

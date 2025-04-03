@@ -32,6 +32,15 @@
             <groupId>com.jackmouse.system</groupId>
             <artifactId>jackmouse-common-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jackmouse.system.iot</groupId>
+            <artifactId>http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -1,4 +1,4 @@
-package com.jackmouse.system.iot.queue.state;
+package com.jackmouse.system.iot.queue.common;
 
 import com.jackmouse.system.iot.message.queue.TopicPartitionInfo;
 import com.jackmouse.system.iot.queue.JmQueueConsumer;

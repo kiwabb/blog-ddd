@@ -61,8 +61,9 @@ public class DefaultInMemoryStorage implements InMemoryStorage<JmQueueMsg>{
                     queue.drainTo(entities);
                     return entities;
                 }
+                return Collections.singletonList(first);
             }
-            return Collections.singletonList(first);
+
         }
         return Collections.emptyList();
     }

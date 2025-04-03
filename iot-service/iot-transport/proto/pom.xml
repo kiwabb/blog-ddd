@@ -34,6 +34,11 @@
             <groupId>com.jackmouse.system.iot</groupId>
             <artifactId>iot-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jackmouse.system</groupId>
+            <artifactId>jackmouse-common-utils</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

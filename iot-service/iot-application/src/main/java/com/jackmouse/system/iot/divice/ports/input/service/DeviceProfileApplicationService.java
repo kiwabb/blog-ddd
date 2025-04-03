@@ -1,5 +1,7 @@
 package com.jackmouse.system.iot.divice.ports.input.service;
 
+import com.jackmouse.system.iot.device.entity.DeviceProfile;
+import com.jackmouse.system.iot.device.valueobject.DeviceProfileId;
 import com.jackmouse.system.iot.divice.dto.query.DeviceProfileQuery;
 import com.jackmouse.system.iot.divice.dto.query.DeviceProfileResponse;
 import com.jackmouse.system.response.PageResult;
@@ -13,4 +15,6 @@ import com.jackmouse.system.response.PageResult;
  **/
 public interface DeviceProfileApplicationService {
     PageResult<DeviceProfileResponse> getDeviceProfiles(DeviceProfileQuery query);
+
+    DeviceProfile findDeviceProfileById(DeviceProfileId deviceProfileId);
 }

@@ -1,7 +1,10 @@
 package com.jackmouse.system.iot.divice;
 
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
+import com.jackmouse.system.iot.device.exception.DeviceNotFoundException;
+import com.jackmouse.system.iot.device.exception.DeviceProfileNotFoundException;
 import com.jackmouse.system.iot.device.repository.DeviceProfileRepository;
+import com.jackmouse.system.iot.device.valueobject.DeviceProfileId;
 import com.jackmouse.system.iot.divice.dto.query.DeviceProfileQuery;
 import com.jackmouse.system.iot.divice.dto.query.DeviceProfileResponse;
 import com.jackmouse.system.iot.divice.ports.input.service.DeviceProfileApplicationService;
@@ -30,5 +33,10 @@ public class DeviceProfileApplicationServiceImpl implements DeviceProfileApplica
         com.jackmouse.system.blog.domain.valueobject.PageResult<DeviceProfile> page = deviceProfileRepository.findDeviceProfiles(query.toSpec());
         return new PageResult<>(page.total(), page.currentPage(), page.data().stream().map(DeviceProfileResponse::from).toList());
 
+    }
+
+    @Override
+    public DeviceProfile findDeviceProfileById(DeviceProfileId deviceProfileId) {
+        return deviceProfileRepository.findDeviceProfileById(deviceProfileId).orElse(null);
     }
 }
