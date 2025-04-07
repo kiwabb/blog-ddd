@@ -12,7 +12,162 @@ enum SessionType {
   SYNC = 0;
   ASYNC = 1;
 }
+message SessionCloseNotificationProto {
+  string message = 1;
+  SessionCloseReason reason = 2;
+}
+enum SessionCloseReason {
+  UNKNOWN_REASON = 0;
+  CREDENTIALS_UPDATED = 1;
+  MAX_CONCURRENT_SESSIONS_LIMIT_REACHED = 2;
+  SESSION_TIMEOUT = 3;
+  RPC_DELIVERY_TIMEOUT = 4;
+}
+message GetAttributeResponseMsg {
+  int32 requestId = 1;
+  repeated TsKvProto clientAttributeList = 2;
+  repeated TsKvProto sharedAttributeList = 3;
+  bool isMultipleAttributesRequest = 4;
+  string error = 5;
+  bool sharedStateMsg = 6;
+}
+message TsKvProto {
+  int64 ts = 1;
+  KeyValueProto kv = 2;
+  optional int64 version = 3;
+}
+message AttributeUpdateNotificationMsg {
+  repeated TsKvProto sharedUpdated = 1;
+  repeated string sharedDeleted = 2;
+}
+message ToDeviceRpcRequestMsg {
+  int32 requestId = 1;
+  string methodName = 2;
+  string params = 3;
+  int64 expirationTime = 4;
+  int64 requestIdMSB = 5;
+  int64 requestIdLSB = 6;
+  bool oneway = 7;
+  bool persisted = 8;
+}
+message ToServerRpcResponseMsg {
+  int32 requestId = 1;
+  string payload = 2;
+  string error = 3;
+}
+message TenantProto {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  int64 createdTime = 3;
+  string title = 4;
+  optional string region = 5;
+  int64 tenantProfileIdMSB = 6;
+  int64 tenantProfileIdLSB = 7;
+  optional string country = 8;
+  optional string state = 9;
+  optional string city = 10;
+  optional string address = 11;
+  optional string address2 = 12;
+  optional string zip = 13;
+  optional string phone = 14;
+  optional string email = 15;
+  optional string additionalInfo = 16;
+  optional int64 version = 17;
+}
+message DeviceProto {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  int64 deviceIdMSB = 3;
+  int64 deviceIdLSB = 4;
+  int64 createdTime = 5;
+  string deviceName = 6;
+  optional string deviceLabel = 7;
+  string deviceType = 8;
+  optional string additionalInfo = 9;
+  int64 deviceProfileIdMSB = 10;
+  int64 deviceProfileIdLSB = 11;
+  optional int64 customerIdMSB = 12;
+  optional int64 customerIdLSB = 13;
+  optional bytes deviceData = 14;
+  optional int64 firmwareIdMSB = 15;
+  optional int64 firmwareIdLSB = 16;
+  optional int64 softwareIdMSB = 17;
+  optional int64 softwareIdLSB = 18;
+  optional int64 externalIdMSB = 19;
+  optional int64 externalIdLSB = 20;
+  optional int64 version = 21;
+}
+message EntityUpdateMsg {
+  oneof entityUpdate {
+    TenantProto tenant = 1;
+    TenantProfileProto tenantProfile = 2;
+    DeviceProto device = 3;
+    DeviceProfileProto deviceProfile = 4;
+    ApiUsageStateProto apiUsageState = 5;
+  }
+}
 
+message EntityDeleteMsg {
+  string entityType = 1;
+  int64 entityIdMSB = 2;
+  int64 entityIdLSB = 3;
+}
+message ToTransportUpdateCredentialsProto {
+  repeated string credentialsId = 1;
+  repeated string credentialsValue = 2;
+}
+message ResourceUpdateMsg {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  string resourceType = 3;
+  string resourceKey = 4;
+}
+
+message ResourceDeleteMsg {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  string resourceType = 3;
+  string resourceKey = 4;
+}
+message ToTransportMsg {
+  int64 sessionIdMSB = 1;
+  int64 sessionIdLSB = 2;
+  SessionCloseNotificationProto sessionCloseNotification = 3;
+  GetAttributeResponseMsg getAttributesResponse = 4;
+  AttributeUpdateNotificationMsg attributeUpdateNotification = 5;
+  ToDeviceRpcRequestMsg toDeviceRequest = 6;
+  ToServerRpcResponseMsg toServerResponse = 7;
+  EntityUpdateMsg entityUpdateMsg = 8;
+  EntityDeleteMsg entityDeleteMsg = 9;
+  ProvisionDeviceResponseMsg provisionResponse = 10;
+  ToTransportUpdateCredentialsProto toTransportUpdateCredentialsNotification = 11;
+  ResourceUpdateMsg resourceUpdateMsg = 12;
+  ResourceDeleteMsg resourceDeleteMsg = 13;
+  UplinkNotificationMsg uplinkNotificationMsg = 14;
+  repeated QueueUpdateMsg queueUpdateMsgs = 15;
+  repeated QueueDeleteMsg queueDeleteMsgs = 16;
+}
+message UplinkNotificationMsg {
+  int64 uplinkTs = 1;
+}
+message QueueUpdateMsg {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  int64 queueIdMSB = 3;
+  int64 queueIdLSB = 4;
+  string queueName = 5;
+  string queueTopic = 6;
+  int32 partitions = 7;
+  optional bool duplicateMsgToAllPartitions = 8;
+}
+
+message QueueDeleteMsg {
+  int64 tenantIdMSB = 1;
+  int64 tenantIdLSB = 2;
+  int64 queueIdMSB = 3;
+  int64 queueIdLSB = 4;
+  string queueName = 5;
+}
 /**
  * Transport Service Data Structures;
  */

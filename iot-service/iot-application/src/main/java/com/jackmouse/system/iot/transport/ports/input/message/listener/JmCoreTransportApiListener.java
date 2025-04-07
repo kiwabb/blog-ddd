@@ -39,7 +39,7 @@ public class JmCoreTransportApiListener {
     private int maxPendingRequests;
     @Value("${queue.transport_api.max_requests_timeout:10000}")
     private long requestTimeout;
-    @Value("${queue.transport_api.request_poll_interval:25}")
+    @Value("${queue.transport_api.request_poll_interval:50}")
     private int responsePollDuration;
     @Value("${queue.transport_api.max_callback_threads:100}")
     private int maxCallbackThreads;

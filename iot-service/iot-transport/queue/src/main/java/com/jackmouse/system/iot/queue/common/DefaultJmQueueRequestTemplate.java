@@ -30,7 +30,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class DefaultJmQueueRequestTemplate<Request extends JmQueueMsg, Response extends JmQueueMsg>
         extends AbstractJmQueueTemplate implements JmQueueRequestTemplate<Request, Response> {
     final ConcurrentHashMap<UUID, DefaultJmQueueRequestTemplate.ResponseMetaData<Response>> pendingRequests = new ConcurrentHashMap<>();
-    private final TbQueueAdmin queueAdmin;
+    private final JmQueueAdmin queueAdmin;
     private final JmQueueProducer<Request> requestTemplate;
     private final JmQueueConsumer<Response> responseTemplate;
     volatile boolean stopped = false;
@@ -47,7 +47,7 @@ public class DefaultJmQueueRequestTemplate<Request extends JmQueueMsg, Response 
     private MessagesStats messagesStats;
 
     @Builder
-    public DefaultJmQueueRequestTemplate(TbQueueAdmin queueAdmin,
+    public DefaultJmQueueRequestTemplate(JmQueueAdmin queueAdmin,
                                          JmQueueProducer<Request> requestTemplate,
                                          JmQueueConsumer<Response> responseTemplate,
                                          long maxRequestTimeout,

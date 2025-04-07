@@ -27,7 +27,7 @@ public abstract class AbstractJmQueueConsumerTemplate<R, T extends JmQueueMsg> i
     public static final long ONE_MILLISECOND_IN_NANOS = TimeUnit.MILLISECONDS.toNanos(1);
     private volatile boolean subscribed;
     private volatile boolean stopped;
-    private volatile Set<TopicPartitionInfo> partitions;
+    protected volatile Set<TopicPartitionInfo> partitions;
     protected final ReentrantLock consumerLock = new ReentrantLock();
     final Queue<Set<TopicPartitionInfo>> subscribeQueue = new ConcurrentLinkedDeque<>();
 
@@ -66,7 +66,7 @@ public abstract class AbstractJmQueueConsumerTemplate<R, T extends JmQueueMsg> i
             log.error("poll invoked but consumer stopped for topic {}", topic, new RuntimeException("stacktrace"));
             return emptyList();
         }
-        if (!subscribed && partitions.isEmpty() && subscribeQueue.isEmpty()) {
+        if (!subscribed && partitions == null && subscribeQueue.isEmpty()) {
             return sleepAndReturnEmpty(durationInMillis, startNanos);
         }
         if (consumerLock.isLocked()) {
@@ -156,7 +156,7 @@ public abstract class AbstractJmQueueConsumerTemplate<R, T extends JmQueueMsg> i
         long duration = TimeUnit.MILLISECONDS.toNanos(durationInMillis);
         long spendNanos = System.nanoTime() - startNanos;
         long nanosLeft = duration - spendNanos;
-        if (nanosLeft < ONE_MILLISECOND_IN_NANOS) {
+        if (nanosLeft >= ONE_MILLISECOND_IN_NANOS) {
             try {
                 long sleepMs = TimeUnit.NANOSECONDS.toMillis(nanosLeft);
                 log.trace("Going to sleep after poll: topic {} for {}ms", topic, sleepMs);

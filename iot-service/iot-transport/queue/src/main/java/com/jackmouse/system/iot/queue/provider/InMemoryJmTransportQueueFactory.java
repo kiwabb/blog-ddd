@@ -3,7 +3,7 @@ package com.jackmouse.system.iot.queue.provider;
 import com.jackmouse.server.gen.transport.TransportProtos;
 import com.jackmouse.system.iot.queue.JmQueueMsg;
 import com.jackmouse.system.iot.queue.JmQueueRequestTemplate;
-import com.jackmouse.system.iot.queue.TbQueueAdmin;
+import com.jackmouse.system.iot.queue.JmQueueAdmin;
 import com.jackmouse.system.iot.queue.common.DefaultJmQueueRequestTemplate;
 import com.jackmouse.system.iot.queue.common.JmProtoQueueMsg;
 import com.jackmouse.system.iot.queue.discovery.TopicService;
@@ -11,6 +11,7 @@ import com.jackmouse.system.iot.queue.memory.InMemoryJmQueueConsumer;
 import com.jackmouse.system.iot.queue.memory.InMemoryJmQueueProducer;
 import com.jackmouse.system.iot.queue.memory.InMemoryStorage;
 import com.jackmouse.system.iot.queue.settings.JmQueueTransportApiSettings;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
  * @Date 2025/4/2 08:47
  * @Version 1.0
  **/
+@ConditionalOnExpression("'${queue.type:null}'=='in-memory' && (('${service.type:null}'=='monolith' && '${transport.api_enabled:true}'=='true') || '${service.type:null}'=='tb-transport')")
 @Component
 public class InMemoryJmTransportQueueFactory implements JmTransportQueueFactory{
 
@@ -47,7 +49,7 @@ public class InMemoryJmTransportQueueFactory implements JmTransportQueueFactory{
                 JmProtoQueueMsg<TransportProtos.TransportApiRequestMsg>,
                 JmProtoQueueMsg<TransportProtos.TransportApiResponseMsg>> templateBuilder =
                 DefaultJmQueueRequestTemplate.builder();
-        templateBuilder.queueAdmin(new TbQueueAdmin() {
+        templateBuilder.queueAdmin(new JmQueueAdmin() {
             @Override
             public void createTopicIfNotExists(String topic, String properties) {
             }

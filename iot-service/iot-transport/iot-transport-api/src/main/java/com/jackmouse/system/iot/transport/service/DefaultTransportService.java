@@ -146,6 +146,7 @@ public class DefaultTransportService implements TransportService {
     private void sendToRuleEngine(Object tenantId, DeviceId deviceId, CustomerId customerId, TransportProtos.SessionInfoProto sessionInfo, JsonObject json,
                                   JmMsgMetaData metaData, JmMsgType jmMsgType, MsgPackCallback packCallback) {
         DeviceProfileId deviceProfileId = new DeviceProfileId(new UUID(sessionInfo.getDeviceProfileIdMSB(), sessionInfo.getDeviceProfileIdLSB()));
+        log.info("[{}] Sending msg to rule engine: {}", deviceId, json);
         packCallback.onSuccess(null);
 
     }

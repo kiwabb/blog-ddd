@@ -7,7 +7,7 @@ package com.jackmouse.system.iot.queue;
  * @Date 2025/4/2 11:04
  * @Version 1.0
  **/
-public interface TbQueueAdmin {
+public interface JmQueueAdmin {
     default void createTopicIfNotExists(String topic) {
         createTopicIfNotExists(topic, null);
     }

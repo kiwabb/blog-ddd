@@ -9,6 +9,7 @@ import com.jackmouse.system.iot.queue.memory.InMemoryJmQueueConsumer;
 import com.jackmouse.system.iot.queue.memory.InMemoryJmQueueProducer;
 import com.jackmouse.system.iot.queue.memory.InMemoryStorage;
 import com.jackmouse.system.iot.queue.settings.JmQueueTransportApiSettings;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  **/
 @Component
+@ConditionalOnExpression("'${queue.type}'=='in-memory' && '${service.type:null}' == 'monolith'")
 public class InMemoryMonolithQueueFactory implements JmCoreQueueFactory{
 
     private final InMemoryStorage storage;

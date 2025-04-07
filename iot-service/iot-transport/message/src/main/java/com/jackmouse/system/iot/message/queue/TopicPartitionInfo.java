@@ -20,6 +20,7 @@ public class TopicPartitionInfo {
     private final String topic;
     private final Object tenantId;
     private final Integer partition;
+    @Getter
     private final boolean useInternalPartition;
     @Getter
     private final String fullTopicName;

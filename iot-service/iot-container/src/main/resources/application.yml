@@ -26,7 +26,9 @@ springdoc:
       enabled: true
   packagesToScan: com.jackmouse.system.blog
 
+
 queue:
+  type: kafka
   transport_api:
     requests_topic: jm_transport.api.requests
     responses_topic: jm_transport.api.responses
@@ -36,6 +38,39 @@ queue:
     request_poll_interval: 25
     response_poll_interval: 25
     max_core_handler_threads: 16
+  kafka:
+    bootstrap-servers: localhost:9092
+#    ssl-enabled: false
+#    ssl-truststore-location: classpath:truststore.jks
+#    ssl-truststore-password: 12345678
+#    ssl-keystore-location: classpath:keystore.jks
+#    ssl-keystore-password: 12345678
+#    ssl-key-password: 12345678
+    acks: all
+    compression-type: none
+    batch-size: 16384
+    linger-ms: 1
+    max-request-size: 1048576
+    max-in-flight-requests-per-connection: 5
+    buffer-memory: 33554432
+    replication-factor: 1
+    max-poll-records: 8192
+    max-partition-fetch-bytes: 16777216
+    max-poll-interval-ms: 300000
+    fetch-max-bytes: 134217728
+    request-timeout-ms: 30000
+    session-timeout-ms: 10000
+    auto-offset-reset: earliest
+    use-confluent: false
+    retries: 1
+    topic-properties:
+      transport-api: "${TB_QUEUE_KAFKA_TA_TOPIC_PROPERTIES:retention.ms:604800000;segment.bytes:52428800;retention.bytes:1048576000;partitions:10;min.insync.replicas:1}"
+
+#    ssl-algorithm: 1
+#    sasl-mechanism: PLAIN
+#    security-protocol: PLAINTEXT
+#    other-inline: ""
+
 
 transport:
   http:
@@ -43,4 +78,5 @@ transport:
     max_request_timeout: 300000
 
 service:
+  type: monolith
   id: "${JM_SERVICE_ID:}"
