@@ -54,5 +54,9 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jackmouse.system.iot</groupId>
+            <artifactId>constant</artifactId>
+        </dependency>
     </dependencies>
 </project>

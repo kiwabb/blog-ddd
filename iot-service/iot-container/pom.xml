@@ -30,6 +30,11 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.jackmouse.system.iot</groupId>
+            <artifactId>mqtt</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

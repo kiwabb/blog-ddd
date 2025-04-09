@@ -74,7 +74,7 @@ public class JmKafkaConsumerTemplate<T extends JmQueueMsg>
     protected List<ConsumerRecord<String, byte[]>> doPoll(long durationInMillis) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        log.trace("poll topic {} maxDuration {}", getTopic(), durationInMillis);
+        //log.trace("poll topic {} maxDuration {}", getTopic(), durationInMillis);
         ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(durationInMillis));
         stopWatch.stop();
         log.trace("poll topic {} took {}ms", getTopic(), stopWatch.getTotalTimeMillis());

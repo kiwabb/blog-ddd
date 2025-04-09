@@ -566,3 +566,8 @@ message TransportApiResponseMsg {
   GetDeviceCredentialsResponseMsg deviceCredentialsResponseMsg = 10;
   repeated GetQueueRoutingInfoResponseMsg getQueueRoutingInfoResponseMsgs = 11;
 }
+
+message SubscribeToAttributeUpdatesMsg {
+  bool unsubscribe = 1;
+  SessionType sessionType = 2;
+}

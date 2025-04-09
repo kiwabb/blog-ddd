@@ -11,4 +11,6 @@ import com.jackmouse.system.iot.device.entity.DeviceCredentials;
  **/
 public interface DeviceCredentialsApplicationService {
     DeviceCredentials findDeviceCredentialByCredentialsId(String token);
+
+    DeviceCredentials findDeviceCredentialsByCredentialsId(String credId);
 }

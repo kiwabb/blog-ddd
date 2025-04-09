@@ -19,6 +19,8 @@
         <module>message</module>
         <module>cluster-api</module>
         <module>stats</module>
+        <module>constant</module>
+        <module>mqtt</module>
     </modules>
 
 

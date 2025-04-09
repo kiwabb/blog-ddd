@@ -6,6 +6,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.JsonObject;
 import com.jackmouse.server.gen.transport.TransportProtos;
 import com.jackmouse.system.blog.domain.valueobject.DeviceTransportType;
+import com.jackmouse.system.iot.common.rpc.RpcStatus;
 import com.jackmouse.system.iot.device.entity.DeviceProfile;
 import com.jackmouse.system.iot.device.valueobject.*;
 import com.jackmouse.system.iot.message.JmMsgMetaData;
@@ -15,6 +16,7 @@ import com.jackmouse.system.iot.queue.JmQueueRequestTemplate;
 import com.jackmouse.system.iot.queue.common.AsyncCallbackTemplate;
 import com.jackmouse.system.iot.queue.common.JmProtoQueueMsg;
 import com.jackmouse.system.iot.queue.provider.JmTransportQueueFactory;
+import com.jackmouse.system.iot.transport.SessionMsgLister;
 import com.jackmouse.system.iot.transport.TransportDeviceProfileCache;
 import com.jackmouse.system.iot.transport.TransportService;
 import com.jackmouse.system.iot.transport.TransportServiceCallback;
@@ -44,6 +46,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 public class DefaultTransportService implements TransportService {
 
+    public static final TransportProtos.SessionEventMsg SESSION_EVENT_MSG_OPEN = TransportProtos.SessionEventMsg.newBuilder()
+            .setSessionType(TransportProtos.SessionType.ASYNC)
+            .setEvent(TransportProtos.SessionEvent.OPEN).build();
+
+
     private final TransportDeviceProfileCache deviceProfileCache;
     private final JmTransportQueueFactory queueProvider;
 
@@ -62,7 +69,15 @@ public class DefaultTransportService implements TransportService {
 
     @Override
     public void process(TransportProtos.SessionInfoProto sessionInfo, TransportProtos.SessionEventMsg msg, TransportServiceCallback<Void> callback) {
+        if (checkLimits(sessionInfo, msg, callback)) {
+            recordActivityInternal(sessionInfo);
+            // TODO sendToDeviceActor
+        }
+        callback.onSuccess(null);
+    }
 
+    private boolean checkLimits(TransportProtos.SessionInfoProto sessionInfo, Object msg, TransportServiceCallback<Void> callback) {
+        return checkLimits(sessionInfo, msg, callback, 0);
     }
 
     @Override
@@ -99,6 +114,39 @@ public class DefaultTransportService implements TransportService {
             }
         }
     }
+
+    @Override
+    public void process(DeviceTransportType deviceTransportType, TransportProtos.ValidateBasicMqttCredRequestMsg msg, TransportServiceCallback<ValidateDeviceCredentialsResponse> transportServiceCallback) {
+        JmProtoQueueMsg<TransportProtos.TransportApiRequestMsg> protoMsg = new JmProtoQueueMsg<>(UUID.randomUUID(),
+                TransportProtos.TransportApiRequestMsg.newBuilder().setValidateBasicMqttCredRequestMsg(msg).build());
+        doProcess(deviceTransportType, protoMsg, transportServiceCallback);
+    }
+
+    @Override
+    public SessionMetaData registerAsyncSession(TransportProtos.SessionInfoProto sessionInfo, SessionMsgLister mqttTransportHandler) {
+        return null;
+    }
+
+    @Override
+    public ExecutorService getCallbackExecutor() {
+        return transportCallbackExecutor;
+    }
+
+    @Override
+    public void recordActivity(TransportProtos.SessionInfoProto sessionInfo) {
+
+    }
+
+    @Override
+    public void process(TransportProtos.SessionInfoProto sessionInfo, TransportProtos.ToDeviceRpcRequestMsg rpcRequestMsg, RpcStatus rpcStatus, boolean reportActivity, TransportServiceCallback<Void> callback) {
+
+    }
+
+    @Override
+    public void process(TransportProtos.SessionInfoProto sessionInfo, TransportProtos.SubscribeToAttributeUpdatesMsg msg, TransportServiceCallback<Void> callback) {
+
+    }
+
     private void doProcess(DeviceTransportType transportType, JmProtoQueueMsg<TransportProtos.TransportApiRequestMsg> protoMsg,
                            TransportServiceCallback<ValidateDeviceCredentialsResponse> callback) {
         ListenableFuture<ValidateDeviceCredentialsResponse> response = Futures.transform(
@@ -154,12 +202,13 @@ public class DefaultTransportService implements TransportService {
     private void recordActivityInternal(TransportProtos.SessionInfoProto sessionInfo) {
         if (sessionInfo != null) {
             log.info("[{}][{}] Session activity", toSessionId(sessionInfo), sessionInfo.getDeviceName());
+            // TODO onActivity
         } else {
             log.warn("Session info is missing, unable to record activity");
         }
     }
 
-    private boolean checkLimits(TransportProtos.SessionInfoProto sessionInfo, TransportProtos.PostTelemetryMsg msg, TransportServiceCallback<Void> callback, int dataPoints) {
+    private boolean checkLimits(TransportProtos.SessionInfoProto sessionInfo, Object msg, TransportServiceCallback<Void> callback, int dataPoints) {
         if (log.isTraceEnabled()) {
             log.trace("[{}] Processing msg: {}", toSessionId(sessionInfo), msg);
         }
@@ -174,6 +223,7 @@ public class DefaultTransportService implements TransportService {
         if (log.isTraceEnabled()) {
             log.trace("[{}][{}] Processing msg: {}", tenantId, deviceName, msg);
         }
+        // TODO device limits
         return true;
     }
     protected UUID toSessionId(TransportProtos.SessionInfoProto sessionInfo) {

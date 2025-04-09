@@ -2,6 +2,7 @@ package com.jackmouse.system.iot.transport;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jackmouse.system.iot.queue.discovery.JmServiceInfoProvider;
+import com.jackmouse.system.iot.queue.scheduler.SchedulerComponent;
 import com.jackmouse.system.utils.JackmouseExecutor;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -21,6 +22,11 @@ public abstract class TransportContext {
     ObjectMapper objectMapper = new ObjectMapper();
 
     private ExecutorService executor;
+
+    @Getter
+    @Autowired
+    private SchedulerComponent scheduler;
+
 
     @Autowired
     @Getter

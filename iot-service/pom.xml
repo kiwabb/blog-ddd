@@ -78,7 +78,16 @@
                 <artifactId>http</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>constant</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jackmouse.system.iot</groupId>
+                <artifactId>mqtt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

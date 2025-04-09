@@ -76,7 +76,22 @@ transport:
   http:
     request_timeout: 60000
     max_request_timeout: 300000
+  mqtt:
+    bind_address: 0.0.0.0
+    bind_port: 1883
+    ssl:
+      enabled: false
+      bind_address: 0.0.0.0
+      bind_port: 8883
+    netty:
+      leak_detector_level: DISABLED
+      boss_group_thread_count: 1
+      worker_group_thread_count: 12
+      so_keep_alive: false
 
 service:
   type: monolith
   id: "${JM_SERVICE_ID:}"
+logging:
+  level:
+    com.jackmouse.system.iot: trace

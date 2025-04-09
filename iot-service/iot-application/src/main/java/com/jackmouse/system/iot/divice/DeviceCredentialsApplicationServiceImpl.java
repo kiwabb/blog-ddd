@@ -27,4 +27,15 @@ public class DeviceCredentialsApplicationServiceImpl implements DeviceCredential
                 .deviceId(new DeviceId(UUID.fromString("00000000-0000-0000-0000-000000000002")))
                 .build();
     }
+
+    @Override
+    public DeviceCredentials findDeviceCredentialsByCredentialsId(String credId) {
+        // TODO: 2025/4/3 模拟数据库查询
+        return DeviceCredentials.builder()
+                .credentialsId(credId)
+                .credentialsType(DeviceCredentialsType.MQTT_BASIC)
+                .credentialsValue(credId)
+                .deviceId(new DeviceId(UUID.fromString("00000000-0000-0000-0000-000000000002")))
+                .build();
+    }
 }
